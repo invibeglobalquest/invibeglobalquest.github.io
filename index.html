@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tarihi Yarımada Quest</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="ust" class="ust gizli">
+  <span id="takimAd" class="takim"></span>
+  <span id="sayac" class="sayac">150:00</span>
+</div>
+<main>
+  <section id="secim">
+    <h1 id="etkinlikAd">Quest</h1>
+    <p class="soluk">Başlangıç ve bitiş: <b id="nokta"></b></p>
+    <h2>Takımınızı seçin</h2>
+    <div id="takimlar" class="takimlar"></div>
+    <p><a href="skor.html">📊 Puan tablosu</a></p>
+  </section>
+
+  <section id="hazir" class="gizli">
+    <div class="kart">
+      <h1 id="hazirTakim"></h1>
+      <p>Toplam süre: <b><span id="hazirSure"></span> dakika</b>.<br>
+      Başlangıç ve bitiş noktası: <b id="hazirNokta"></b>.</p>
+      <p class="soluk">Takımın tamamı hazır olunca butona basın. Sayaç hemen başlar.</p>
+      <button id="baslat" class="btn">▶ Başla</button>
+    </div>
+    <button class="btn ikincil kucuk degistir">Takımı değiştir</button>
+  </section>
+
+  <section id="oyun" class="gizli">
+    <p id="ilerleme" class="soluk"></p>
+    <div id="sureDoldu" class="kart hata gizli">⏰ Süre doldu! Binbirdirek Sarnıcı'na dönün.</div>
+    <div id="liste"></div>
+    <p><a href="skor.html">📊 Puan tablosu</a></p>
+    <button class="btn ikincil kucuk degistir">Takımı değiştir</button>
+  </section>
+
+  <section id="bitis" class="gizli">
+    <div class="kart">
+      <div class="buyuk">🎉</div>
+      <h1>Tüm istasyonlar tamam!</h1>
+      <p>Şimdi <b id="bitisNokta"></b> noktasına dönün ve yetkiliye haber verin.</p>
+      <p class="soluk">Geçen süre: <span id="bitisSure"></span></p>
+    </div>
+    <p><a href="skor.html">📊 Puan tablosu</a></p>
+  </section>
+</main>
+<script src="common.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
