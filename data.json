@@ -4,7 +4,7 @@
     "baslangic_bitis_noktasi": "Binbirdirek Sarnıcı",
     "sure_dakika": 150,
     "senkron_url": "",
-    "baslangic_bitis_konum": ""
+    "baslangic_bitis_konum": "https://maps.app.goo.gl/AGjtzgTzQmCXvTLaA?g_st=ic"
   },
   "istasyonlar": {
     "dondurma": {
@@ -21,13 +21,13 @@
     },
     "kahve": {
       "ad": "Kahve",
-      "konum": "",
+      "konum": "https://maps.app.goo.gl/3VzLatyWzMbvWhu16?g_st=ic",
       "gorev": "Kahve durağında takımdan bir kişi kahveyi hazırlasın. Yetkiliden kodu alın.",
       "kod": "KAH789"
     },
     "arasta": {
       "ad": "Arasta Çarşısı Malzeme Seçimi",
-      "konum": "",
+      "konum": "https://maps.app.goo.gl/7DE2xeGn8GpDmfBn9?g_st=ic",
       "gorev": "Arasta Çarşısı'nda yetkilinin verdiği listedeki malzemeleri seçin ve gösterin. Doğruysa kodu verir.",
       "kod": "ARA321"
     }
