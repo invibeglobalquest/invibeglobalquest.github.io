@@ -9,13 +9,13 @@
   "istasyonlar": {
     "dondurma": {
       "ad": "Dondurma",
-      "konum": "",
+      "konum": "https://maps.app.goo.gl/C7rzooettGuvDBrr7?g_st=ic",
       "gorev": "Dondurmacıyı bulun. Tüm takım dondurmasını alsın; dondurmacıdan kodu isteyin.",
       "kod": "DON123"
     },
     "simit": {
       "ad": "Simit Tekerlemesi",
-      "konum": "",
+      "konum": "https://maps.app.goo.gl/sQHBdv88TEsSxNyp6?g_st=ic",
       "gorev": "Simitçiye tekerlemeyi hep bir ağızdan, hatasız söyleyin. Başarırsanız kodu verir.",
       "kod": "SIM456"
     },
