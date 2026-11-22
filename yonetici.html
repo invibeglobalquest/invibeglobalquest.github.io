@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#16121f">
+<title>Yönetici · 1001 Direk Quest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="yonetici">
+<section id="pinEkran" class="pin-ekran">
+  <div class="hero">
+    <div class="dil" id="dilKutuPin"></div>
+    <p class="hero-ust" id="pinAlt"></p>
+    <h1 class="hero-baslik" id="pinBaslik"></h1>
+    <div class="altin-cizgi"></div>
+  </div>
+  <form id="pinForm" class="kart pin-kart">
+    <label class="alan"><span>PIN</span><input id="pinGir" type="password" inputmode="numeric" autocomplete="current-password" required></label>
+    <p id="pinHata" class="hata" role="alert"></p>
+    <button class="btn ana" id="pinBtn" type="submit"></button>
+    <p class="alt-link"><a href="index.html" id="pinGeri"></a></p>
+  </form>
+</section>
+
+<div id="panel" class="gizli">
+  <header class="y-ust">
+    <div class="y-ust-sol">
+      <b id="yBaslik"></b>
+      <span id="baglanti" class="baglanti"><i></i><span></span></span>
+    </div>
+    <nav class="sekmeler" role="tablist">
+      <button type="button" class="sekme secili" data-sekme="canli"></button>
+      <button type="button" class="sekme" data-sekme="siralama"></button>
+      <button type="button" class="sekme" data-sekme="ayarlar"></button>
+    </nav>
+    <div class="y-ust-sag"><span id="saatSimdi" class="saat-simdi"></span><div class="dil" id="dilKutu"></div><button type="button" id="cikisBtn" class="metin-btn acik"></button></div>
+  </header>
+  <div id="dbUyari" class="uyari gizli"></div>
+
+  <main class="y-ana">
+    <section id="s-canli" class="sekme-ic">
+      <div class="istatistik" id="istatistik"></div>
+      <div class="y-izgara">
+        <div class="harita-kutu"><div id="harita"></div></div>
+        <div class="takim-kartlari" id="takimKartlari"></div>
+      </div>
+      <h2 class="bolum-baslik" id="akisBaslik"></h2>
+      <ol class="akis" id="akis"></ol>
+    </section>
+    <section id="s-siralama" class="sekme-ic gizli">
+      <div class="kart tablo-kart"><table class="tablo" id="siraTablo"></table></div>
+    </section>
+    <section id="s-ayarlar" class="sekme-ic gizli">
+      <h2 class="bolum-baslik" id="konumBaslik"></h2>
+      <p class="soluk" id="konumAciklama"></p>
+      <label class="onay"><input type="checkbox" id="tasiKutu"> <span id="tasiEtiket"></span></label>
+      <div id="konumListe" class="konum-liste"></div>
+      <div class="kart tehlike">
+        <p class="soluk" id="pinNot"></p>
+        <button type="button" class="btn kirmizi kucuk" id="tumunuSilBtn"></button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="detay" class="cekmece" aria-hidden="true">
+  <div class="cekmece-ic" role="dialog" aria-modal="true" aria-labelledby="detayBaslik">
+    <div class="cekmece-ust"><h2 id="detayBaslik"></h2><button type="button" class="lb-kapat koyu" id="detayKapat" aria-label="×">×</button></div>
+    <div id="detayIc"></div>
+  </div>
+</div>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="common.js"></script>
+<script src="yonetici.js"></script>
+</body>
+</html>

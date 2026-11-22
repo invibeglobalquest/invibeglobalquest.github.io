@@ -1,42 +1,321 @@
 {
   "etkinlik": {
-    "ad": "Tarihi Yarımada Quest",
-    "baslangic_bitis_noktasi": "Binbirdirek Sarnıcı",
-    "sure_dakika": 150,
+    "ad": { "ru": "Проклятье 1001 колонны", "tr": "1001 Direğin Laneti" },
+    "alt": { "ru": "Квест для 10 команд · Султанахмет", "tr": "10 takımlık quest · Sultanahmet" },
+    "yol_dk": 10,
+    "gorev_dk": 10,
+    "yonetici_pin": "1001",
     "senkron_url": ""
   },
+
+  "giris_hikaye": {
+    "ru": "Над Цистерной 1001 колонны когда-то стоял особняк Гевхерли Ханым — красавицы, которая заманивала богатых гостей, а внизу, в холодной тишине цистерны, исчезали её жертвы. Её зеркальное ожерелье утрачено, вещи разбросаны по Султанахмету, а дух не находит покоя. Пройдите по её следам, соберите артефакты и верните их в цистерну, чтобы навсегда снять проклятие.",
+    "tr": "Binbirdirek Sarnıcı'nın üstünde bir zamanlar Gevherli Hanım'ın konağı vardı. Zengin misafirleri tuzağa düşüren bu güzel kadının kurbanları aşağıdaki sarnıcın soğuk sessizliğinde kaybolurdu. Aynalı kolyesi kayıp, eşyaları Sultanahmet'e dağılmış ve ruhu huzur bulamıyor. İzini sürün, artefaktları toplayın ve laneti sonsuza dek kaldırmak için onları sarnıca geri getirin."
+  },
+
+  "final": {
+    "ru": "В финале команды собираются в Цистерне. Там вас встречает Гевхерли Ханым со старинным сундуком. Верните найденные артефакты в сундук — и дух навсегда покинет Стамбул.",
+    "tr": "Finalde takımlar Sarnıç'ta toplanır. Gevherli Hanım sizi eski bir sandıkla karşılar. Bulduğunuz artefaktları sandığa koyun; ruh İstanbul'u sonsuza dek terk etsin."
+  },
+
+  "baslangic": {
+    "id": "sarnic",
+    "ad": { "ru": "Цистерна 1001 колонны (Binbirdirek)", "tr": "Binbirdirek Sarnıcı" },
+    "lat": 41.00757,
+    "lng": 28.97433
+  },
+
   "istasyonlar": {
+    "amfi": {
+      "emoji": "📜",
+      "lat": 41.00861, "lng": 28.97472,
+      "baslik": { "ru": "Мудрость старого Стамбула", "tr": "Eski İstanbul'un Bilgeliği" },
+      "yer": { "ru": "Амфитеатр недалеко от цистерны", "tr": "Sarnıç yakınındaki amfitiyatro" },
+      "hikaye": {
+        "ru": "Гевхерли любила турецкую народную мудрость и часто отвечала на вопросы пословицами. Докажите, что понимаете не только слова, но и скрытый смысл.",
+        "tr": "Gevherli Türk halk bilgeliğini severdi; sorulara çoğu zaman atasözleriyle cevap verirdi. Sadece kelimeleri değil, gizli anlamı da anladığınızı kanıtlayın."
+      },
+      "gorev": {
+        "ru": [
+          "Ведущий зачитывает начало турецкой пословицы — продолжите её и, если сможете, объясните смысл.",
+          "На обсуждение каждой пословицы — 15 секунд.",
+          "Правильное продолжение — 1 балл, верное объяснение смысла — ещё 1 балл."
+        ],
+        "tr": [
+          "Sunucu bir Türk atasözünün başını okur — devamını getirin ve yapabilirseniz anlamını açıklayın.",
+          "Her atasözü için 15 saniye düşünme süresi.",
+          "Doğru devam 1 puan, doğru anlam ek 1 puan."
+        ]
+      },
+      "kosul": { "ru": "Например: «Aç ayı…» — «oynamaz» (голодный медведь не танцует).", "tr": "Örnek: «Aç ayı…» — «oynamaz»." },
+      "artefakt": { "ru": "Фрагмент артефакта", "tr": "Artefakt parçası" }
+    },
+
+    "gulhane": {
+      "emoji": "🌳",
+      "lat": 41.01270, "lng": 28.98040,
+      "baslik": { "ru": "Последнее воспоминание", "tr": "Son Hatıra" },
+      "yer": { "ru": "Парк Гюльхане", "tr": "Gülhane Parkı" },
+      "hikaye": {
+        "ru": "Память духа угасает. Он оставил вам изображение места, где Гевхерли бывала незадолго до гибели, но время исказило его. Найдите это место в парке и заметьте, что изменилось.",
+        "tr": "Ruhun hafızası soluyor. Gevherli'nin ölümünden kısa süre önce gittiği yerin resmini bıraktı ama zaman onu bozdu. O yeri parkta bulun ve neyin değiştiğini fark edin."
+      },
+      "gorev": {
+        "ru": [
+          "Получите старинную фотографию определённого места в парке Гюльхане.",
+          "Самостоятельно найдите эту точку в реальности.",
+          "Сравните фото с окружением и найдите подготовленные отличия (например, 5): скамейка, фонарь, лестница, арка, дерево необычной формы."
+        ],
+        "tr": [
+          "Gülhane Parkı'ndaki belirli bir yerin eski fotoğrafını alın.",
+          "Bu noktayı gerçekte kendiniz bulun.",
+          "Fotoğrafı çevreyle karşılaştırıp hazırlanmış farkları bulun (örn. 5): bank, fener, merdiven, kemer, ilginç şekilli ağaç."
+        ]
+      },
+      "kosul": { "ru": "За каждое найденное отличие — балл. Это задание на внимательность, а не на знания.", "tr": "Bulunan her fark 1 puan. Bu bilgi değil, dikkat görevi." },
+      "artefakt": { "ru": "Фрагмент воспоминания", "tr": "Hatıra parçası" }
+    },
+
     "dondurma": {
-      "ad": "Dondurma",
-      "gorev": "Dondurmacıyı bulun. Tüm takım dondurmasını alsın; dondurmacıdan kodu isteyin.",
-      "kod": "DON123"
+      "emoji": "🍦",
+      "lat": 41.00800, "lng": 28.97600,
+      "baslik": { "ru": "Украденное украшение", "tr": "Çalınan Mücevher" },
+      "yer": { "ru": "Мороженщик", "tr": "Dondurmacı" },
+      "hikaye": {
+        "ru": "После разрушения особняка вещи Гевхерли попали на рынки и в лавки. Мороженщик хранит старинный золотой перстень, но просто так его не отдаст — придётся его перехитрить.",
+        "tr": "Konak yıkılınca Gevherli'nin eşyaları pazarlara ve dükkânlara dağıldı. Dondurmacı eski bir altın yüzük saklıyor ama kolay kolay vermez — onu alt etmeniz gerekecek."
+      },
+      "gorev": {
+        "ru": [
+          "Получите мороженое у мастера — он ускользает с рожком, меняет его местами и делает вид, что отдаёт.",
+          "За 60 секунд мороженое должно оказаться у вас в руках.",
+          "У команды 5 попыток. Минимум 3 успешные — перстень ваш."
+        ],
+        "tr": [
+          "Ustadan dondurmayı alın — külahı kaçırır, yer değiştirir, veriyormuş gibi yapar.",
+          "60 saniye içinde dondurma elinizde olmalı.",
+          "Takımın 5 denemesi var. En az 3 başarı — yüzük sizin."
+        ]
+      },
+      "kosul": { "ru": "Доп. баллы: повторите три движения мороженщика в правильной последовательности.", "tr": "Ek puan: dondurmacının üç hareketini doğru sırayla tekrarlayın." },
+      "artefakt": { "ru": "Золотой перстень", "tr": "Altın yüzük" }
     },
+
     "simit": {
-      "ad": "Simit Tekerlemesi",
-      "gorev": "Simitçiye tekerlemeyi hep bir ağızdan, hatasız söyleyin. Başarırsanız kodu verir.",
-      "kod": "SIM456"
+      "emoji": "🥯",
+      "lat": 41.00700, "lng": 28.97650,
+      "baslik": { "ru": "Язык Гевхерли", "tr": "Gevherli'nin Dili" },
+      "yer": { "ru": "Продавец симитов", "tr": "Simitçi" },
+      "hikaye": {
+        "ru": "Старый продавец симитов хранит одно из писем хозяйки. Он отдаст его только тем, у кого язык не заплетается даже в самых сложных обстоятельствах.",
+        "tr": "Yaşlı simitçi, hanımın mektuplarından birini saklıyor. Onu yalnızca en zor durumda bile dili dolaşmayanlara verecek."
+      },
+      "gorev": {
+        "ru": [
+          "Каждый участник произносит турецкую скороговорку (минимум 5 на команду).",
+          "На каждую скороговорку — три попытки."
+        ],
+        "tr": [
+          "Her katılımcı bir Türkçe tekerleme söyler (takım başına en az 5).",
+          "Her tekerleme için üç deneme hakkı var."
+        ]
+      },
+      "kosul": { "ru": "Каждая дополнительная скороговорка — балл.", "tr": "Her ek tekerleme 1 puan." },
+      "artefakt": { "ru": "Запечатанное письмо", "tr": "Mühürlü mektup" }
     },
-    "kahve": {
-      "ad": "Kahve",
-      "gorev": "Kahve durağında takımdan bir kişi kahveyi hazırlasın. Yetkiliden kodu alın.",
-      "kod": "KAH789"
+
+    "baharat": {
+      "emoji": "🌶️",
+      "lat": 41.00445, "lng": 28.97700,
+      "baslik": { "ru": "Последний рецепт Гевхерли", "tr": "Gevherli'nin Son Tarifi" },
+      "yer": { "ru": "Лавка специй", "tr": "Baharatçı" },
+      "hikaye": {
+        "ru": "Гевхерли пользовалась особыми ароматическими смесями. Рецепт нашли в её покоях, но лист повреждён. Возможно, именно по этому аромату её дух узнает свои вещи.",
+        "tr": "Gevherli kendine özel baharat karışımları kullanırdı. Tarif odasında bulundu ama sayfa hasarlı. Ruhu eşyalarını belki de bu kokudan tanıyacak."
+      },
+      "gorev": {
+        "ru": [
+          "Команда получает список из десяти специй и нужное количество каждой.",
+          "Отмерьте их на механических весах так, чтобы общий вес составил ровно 30 граммов."
+        ],
+        "tr": [
+          "Takım on baharatlık bir liste ve her birinin miktarını alır.",
+          "Baharatları mekanik terazide tartın; toplam ağırlık tam 30 gram olmalı."
+        ]
+      },
+      "kosul": { "ru": "Точный вес — мешочек с ароматической смесью ваш.", "tr": "Tam ağırlık tutarsa baharat kesesi sizin." },
+      "artefakt": { "ru": "Мешочек с ароматической смесью", "tr": "Baharat kesesi" }
     },
-    "arasta": {
-      "ad": "Arasta Çarşısı Malzeme Seçimi",
-      "gorev": "Arasta Çarşısı'nda yetkilinin verdiği listedeki malzemeleri seçin ve gösterin. Doğruysa kodu verir.",
-      "kod": "ARA321"
+
+    "canta": {
+      "emoji": "👜",
+      "lat": 41.00415, "lng": 28.97735,
+      "baslik": { "ru": "Сумка с тайной", "tr": "Sırlı Çanta" },
+      "yer": { "ru": "Лавка продавца сумок", "tr": "Çantacı dükkânı" },
+      "hikaye": {
+        "ru": "Зеркальный кулон Гевхерли выкупил на блошином рынке галантерейщик. Он верит, что кулон приносит удачу, и прячет его в одной из сумок своей лавки.",
+        "tr": "Gevherli'nin aynalı kolyesini bitpazarında bir tuhafiyeci satın aldı. Kolyenin şans getirdiğine inanıyor ve dükkânındaki çantalardan birine saklıyor."
+      },
+      "gorev": {
+        "ru": [
+          "Перед вами ряды сумок — только в одной спрятан кулон.",
+          "У вас три попытки, чтобы найти нужную сумку.",
+          "После каждой неудачи координатор даёт подсказку: общая характеристика → конкретная деталь → почти прямое указание."
+        ],
+        "tr": [
+          "Önünüzde sıra sıra çanta var — kolye yalnızca birinde.",
+          "Doğru çantayı bulmak için üç hakkınız var.",
+          "Her başarısız denemede koordinatör ipucu verir: genel özellik → belirgin detay → neredeyse doğrudan işaret."
+        ]
+      },
+      "kosul": { "ru": "Нашли сумку с первой подсказки — дополнительный балл.", "tr": "Çantayı ilk ipucuyla bulursanız ek puan." },
+      "artefakt": { "ru": "Зеркальный кулон", "tr": "Aynalı kolye" }
+    },
+
+    "pazar": {
+      "emoji": "🧿",
+      "lat": 41.00390, "lng": 28.97765,
+      "baslik": { "ru": "Торг с судьбой", "tr": "Kaderle Pazarlık" },
+      "yer": { "ru": "Небольшой рынок рядом с площадью Султанахмет", "tr": "Sultanahmet Meydanı yanındaki küçük çarşı" },
+      "hikaye": {
+        "ru": "Чтобы успокоить дух, нужно собрать пять небольших, но важных предметов-символов. Денег и времени мало — без умения договариваться с торговцами не обойтись.",
+        "tr": "Ruhu yatıştırmak için beş küçük ama önemli sembol eşya toplanmalı. Para ve zaman kısıtlı — esnafla pazarlık etmeden olmaz."
+      },
+      "gorev": {
+        "ru": [
+          "Купите 5 предметов: что-нибудь сладкое, красивое, от сглаза, с изображением котиков и приятное на ощупь.",
+          "Бюджет команды: 500–1000 TL. Торговаться можно и нужно.",
+          "После покупки объясните, почему каждый предмет подходит под категорию."
+        ],
+        "tr": [
+          "5 eşya alın: tatlı bir şey, güzel bir şey, nazarlık, kedi resimli bir şey ve dokunması hoş bir şey.",
+          "Takım bütçesi: 500–1000 TL. Pazarlık serbest, hatta teşvik edilir.",
+          "Satın aldıktan sonra her eşyanın kategoriye neden uyduğunu açıklayın."
+        ]
+      },
+      "kosul": { "ru": "Пять символов участвуют в финальном ритуале и оцениваются вместе.", "tr": "Beş sembol final ritüelinde birlikte değerlendirilir." },
+      "artefakt": { "ru": "Пять символов", "tr": "Beş sembol" }
+    },
+
+    "dikilitas": {
+      "emoji": "🗿",
+      "lat": 41.00575, "lng": 28.97520,
+      "baslik": { "ru": "Послание из прошлого", "tr": "Geçmişten Mesaj" },
+      "yer": { "ru": "Египетский обелиск (Ипподром)", "tr": "Dikilitaş (Sultanahmet Meydanı)" },
+      "hikaye": {
+        "ru": "Гевхерли оставляла важные сообщения в виде загадок и шифров. Её последнюю фразу доверенный человек зашифровал древними символами. Разгадайте её — она понадобится в финале.",
+        "tr": "Gevherli önemli mesajlarını bilmece ve şifrelerle bırakırdı. Son sözünü güvendiği biri eski simgelerle şifreledi. Çözün — finalde gerekecek."
+      },
+      "gorev": {
+        "ru": [
+          "Найдите конверт с условным алфавитом.",
+          "Сопоставьте загадочные символы с буквами русского алфавита.",
+          "Найдите те же символы на обелиске и расшифруйте слово или фразу."
+        ],
+        "tr": [
+          "Şifre alfabesinin bulunduğu zarfı bulun.",
+          "Gizemli simgeleri Rus alfabesindeki harflerle eşleştirin.",
+          "Aynı simgeleri dikilitaşın üzerinde bulun ve kelimeyi veya cümleyi çözün."
+        ]
+      },
+      "kosul": { "ru": "Расшифрованная фраза — это артефакт, она потребуется в финале.", "tr": "Çözülen cümle artefakttır; finalde gerekecek." },
+      "artefakt": { "ru": "Заклинание", "tr": "Büyü sözü" }
+    },
+
+    "ziyafet": {
+      "emoji": "🍽️",
+      "lat": 41.00660, "lng": 28.97380,
+      "dogrula": true,
+      "baslik": { "ru": "Последний пир Гевхерли", "tr": "Gevherli'nin Son Ziyafeti" },
+      "yer": { "ru": "Ресторан Palude", "tr": "Palude Restoran" },
+      "hikaye": {
+        "ru": "Гевхерли Ханым славилась роскошными приёмами. Однажды на пиру она потеряла жемчужину со своего браслета. Чтобы получить её, докажите, что узнаёте изысканные угощения с закрытыми глазами.",
+        "tr": "Gevherli Hanım görkemli sofralarıyla ünlüydü. Bir ziyafette bileziğindeki inciyi kaybetti. İnciyi almak için en seçkin lezzetleri gözü kapalı tanıyabildiğinizi kanıtlayın."
+      },
+      "gorev": {
+        "ru": [
+          "Участникам завязывают глаза.",
+          "Ведущий по очереди даёт попробовать 8–10 продуктов турецкого завтрака (серпме кахвалты).",
+          "Назовите продукт или ингредиент — 30 секунд на человека. Аллергикам лучше воздержаться."
+        ],
+        "tr": [
+          "Katılımcıların gözleri bağlanır.",
+          "Sunucu sırayla serpme kahvaltıdan 8–10 ürün tattırır.",
+          "Ürünün veya malzemenin adını söyleyin — kişi başı 30 saniye. Alerjisi olanlar katılmasın."
+        ]
+      },
+      "kosul": { "ru": "Не менее 5 верных ответов — жемчужина ваша. За каждое блюдо после пятого — доп. баллы.", "tr": "En az 5 doğru cevap — inci sizin. Beşinciden sonraki her doğru cevap ek puan." },
+      "artefakt": { "ru": "Жемчужина из ожерелья", "tr": "Kolyeden inci" }
+    },
+
+    "oyun": {
+      "emoji": "⏳",
+      "lat": 41.00757, "lng": 28.97433,
+      "dogrula": true,
+      "baslik": { "ru": "Игра хозяйки", "tr": "Hanımın Oyunu" },
+      "yer": { "ru": "Цистерна или кафе «Каппадокия»", "tr": "Sarnıç veya Kapadokya Kafe" },
+      "hikaye": {
+        "ru": "Гевхерли обожала игры: ни один гость не покидал её дом, не сыграв хотя бы в одну. Серебряную шкатулку с её символом откроет лишь тот, кто пройдёт испытание хозяйки.",
+        "tr": "Gevherli oyunlara bayılırdı; hiçbir misafir en az bir oyun oynamadan evinden ayrılamazdı. Üzerinde onun simgesi olan gümüş kutuyu yalnızca hanımın sınavını geçen açabilir."
+      },
+      "gorev": {
+        "ru": [
+          "За столом сидит Мастер с песочными часами. К нему подходит один представитель команды.",
+          "Мастер предлагает случайную игру: палочки, напёрстки, башня, весы, спички или память.",
+          "На каждую игру — до 60 секунд; на каждую новую игру выходит новый игрок."
+        ],
+        "tr": [
+          "Masada kum saatiyle Usta oturur. Takımdan bir kişi yanına gelir.",
+          "Usta rastgele bir oyun seçer: çubuklar, bardak oyunu, kule, terazi, kibrit veya hafıza.",
+          "Her oyun en fazla 60 saniye; her yeni oyuna takımdan yeni bir kişi çıkar."
+        ]
+      },
+      "kosul": { "ru": "Больше 5 побед — дополнительные баллы.", "tr": "5'ten fazla galibiyet ek puan getirir." },
+      "artefakt": { "ru": "Серебряная шкатулка", "tr": "Gümüş kutu" }
     }
   },
+
+  "yol_gorevleri": {
+    "iz": {
+      "emoji": "📸",
+      "artefakt_var": true,
+      "baslik": { "ru": "Следы исчезнувшей хозяйки", "tr": "Kaybolan Hanımın İzleri" },
+      "aciklama": {
+        "ru": "Повторите заранее подготовленную фотографию максимально точно и загрузите её сюда.",
+        "tr": "Önceden hazırlanmış fotoğrafı olabildiğince aynı şekilde yeniden çekin ve buraya yükleyin."
+      },
+      "artefakt": { "ru": "Фрагмент старинной карты", "tr": "Eski harita parçası" }
+    },
+    "kubbe": {
+      "emoji": "🕌",
+      "baslik": { "ru": "Взгляд сверху", "tr": "Yukarıdan Bakış" },
+      "aciklama": {
+        "ru": "Сфотографируйте Голубую мечеть с высоты птичьего полёта — с высокой точки, террасы или необычного ракурса.",
+        "tr": "Sultanahmet Camii'ni kuş bakışı fotoğraflayın — yüksek bir noktadan, terastan ya da ilginç bir açıdan."
+      },
+      "artefakt": { "ru": "Бонусные баллы", "tr": "Bonus puan" }
+    },
+    "kedi": {
+      "emoji": "🐈",
+      "baslik": { "ru": "Стражи квартала", "tr": "Mahallenin Bekçileri" },
+      "aciklama": {
+        "ru": "Сфотографируйте как можно больше стамбульских котиков. Каждый котик — отдельное фото.",
+        "tr": "Olabildiğince çok İstanbul kedisi fotoğraflayın. Her kedi ayrı bir fotoğraf."
+      },
+      "artefakt": { "ru": "Бонусные баллы", "tr": "Bonus puan" }
+    }
+  },
+
   "rotalar": {
-    "1":  ["dondurma", "simit", "kahve", "arasta"],
-    "2":  ["simit", "kahve", "arasta", "dondurma"],
-    "3":  ["kahve", "arasta", "dondurma", "simit"],
-    "4":  ["arasta", "dondurma", "simit", "kahve"],
-    "5":  ["dondurma", "kahve", "arasta", "simit"],
-    "6":  ["simit", "arasta", "dondurma", "kahve"],
-    "7":  ["kahve", "simit", "arasta", "dondurma"],
-    "8":  ["arasta", "kahve", "simit", "dondurma"],
-    "9":  ["dondurma", "arasta", "simit", "kahve"],
-    "10": ["simit", "dondurma", "arasta", "kahve"]
+    "1":  ["amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "oyun"],
+    "2":  ["gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "oyun", "amfi"],
+    "3":  ["dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "oyun", "amfi", "gulhane"],
+    "4":  ["simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "oyun", "amfi", "gulhane", "dondurma"],
+    "5":  ["baharat", "canta", "pazar", "dikilitas", "ziyafet", "oyun", "amfi", "gulhane", "dondurma", "simit"],
+    "6":  ["canta", "pazar", "dikilitas", "ziyafet", "oyun", "amfi", "gulhane", "dondurma", "simit", "baharat"],
+    "7":  ["pazar", "dikilitas", "ziyafet", "oyun", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta"],
+    "8":  ["dikilitas", "ziyafet", "oyun", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar"],
+    "9":  ["ziyafet", "oyun", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas"],
+    "10": ["oyun", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet"]
   }
 }
