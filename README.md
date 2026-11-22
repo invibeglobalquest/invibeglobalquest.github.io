@@ -8,7 +8,30 @@
 | Takım lideri | Kendi lider linki `…/?t=3&k=KOD` (veya ortak linkte "Lider kodunu gir") | Başlatır, fotoğraf yükler, **Görev tamamlandı**'ya basar |
 | Ana yönetici | Ortak linkin altındaki **🔒 Yönetici paneli** (PIN) | Tüm takımları canlı izler, puan verir, konumları düzeltir |
 
-Lider linkleri ve QR kodları yönetici panelinde **Linkler** sekmesinde; oradan yazdırılabilir.
+Lider linkleri ve QR kodları yönetici panelinde **Linkler** sekmesinde. Etkinliğin bütün basılı malzemesi **Baskı paketi**nde: https://invibeglobalquest.github.io/baski.html (yönetici PIN'i).
+
+## Baskı paketi (`baski.html`)
+A4, 76 sayfa; bölüm bölüm seçilip yazdırılır (Yazdır penceresi: kenar boşluğu «Yok», arka plan grafikleri açık, üstbilgi/altbilgi kapalı).
+
+| Bölüm | Adet | Kime |
+|---|---|---|
+| Ortak link afişi | 1 | Toplanma yeri |
+| Takım zarfı kartı (lider QR + kod, rota, kurallar, üyeler için izleme QR'ı) | 10 | Liderler |
+| Yol görevi fotoğrafı | 10 | Takım zarfları |
+| Başlangıç sunucusu metni (RU + TR) | 1 | Sunucu |
+| Görevli kartı + puan çizelgesi (takımlar beklenen varış sırasıyla) | 10 + 10 | Nokta görevlileri |
+| Tekerleme kartları (Kiril okunuşu + Rusça anlam) | 2 takım | Simitçi |
+| Atasözü kartları (Rusça başı/devamı + anlamı) | 20 | Amfitiyatro |
+| Hanımın Oyunu kartları (6 oyun, kibrit cevapları) | 6 | Usta |
+| Şifre zarfı (hiyeroglif alfabe + cevap kutuları) + dikilitaş afişi | 10 + 1 | Dikilitaş |
+| Baharat listesi (10 baharat, toplam 30 g) | 10 | Baharatçı |
+| Alışveriş listesi | 10 | Pazarlık |
+| Gülhane fark kartı | 10 | Gülhane |
+| Kâğıt artefaktlar (büyü sözü, hatıra, artefakt ve harita parçası) | 12'şer | İlgili noktalar |
+| Gevherli'nin mühürlü mektubu | 10 | Simitçi |
+| Final metni (RU + TR) | 1 | Gevherli oyuncusu |
+
+Metinler `materyal.json` dosyasındadır (tekerlemeler, atasözleri, oyunlar, şifre cümlesi ve alfabesi, baharatlar, alışveriş listesi, mektup, sunucu ve final metni, görevlilerin puanlama kuralları). Gülhane ve yol görevi fotoğrafları sayfada seçilir; organizatör telefonu sayfadaki kutuya yazılınca takım zarflarına basılır.
 
 Site Rusça ve Türkçe çalışır (sağ üstteki RU / TR). Derleme gerekmez; HTML/CSS/JS ve `data.json`'dan oluşur.
 
@@ -72,6 +95,8 @@ Depo → **Settings → Pages → Deploy from a branch → main / (root)**. `mai
 | `data.json` | **Düzenlenecek dosya:** noktalar (metinler RU/TR, koordinat, artefakt), rotalar, süreler, PIN, veritabanı adresi |
 | `vendor/leaflet/` | Harita kütüphanesi (Leaflet 1.9.4, BSD lisansı) |
 | `vendor/qrcode/` | QR kod üretici (qrcode-generator 1.4.4, MIT lisansı) |
+| `vendor/fonts/` | Baskı yazı tipleri: Nunito, Cormorant Garamond, Noto Sans Egyptian Hieroglyphs (Fontsource, OFL-1.1) |
+| `baski.html`, `baski.js`, `baski.css`, `materyal.json` | Baskı paketi |
 
 ### Lider kodları
 `data.json → lider_kodlari`: her takımın 6 haneli kodu. Kod değişirse o takımın eski lider linki/QR'ı çalışmaz; yeni kartı yazdırın.

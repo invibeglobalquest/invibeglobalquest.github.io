@@ -87,10 +87,10 @@ function ekranAc() {
 }
 function yenidenCiz() { ekranAc(); }
 
-function heroHTML(baslik) {
+function heroHTML(baslik, sayi) {
   return '<div class="hero"><div class="dil" id="dilKutu"></div>' +
     '<p class="hero-ust">' + esc(TL(VERI.etkinlik.alt)) + "</p>" +
-    '<h1 class="hero-baslik">' + esc(baslik) + '</h1><div class="altin-cizgi"></div></div>';
+    '<h1 class="hero-baslik">' + esc(baslik) + (sayi ? ' <span class="sayi">' + esc(sayi) + "</span>" : "") + '</h1><div class="altin-cizgi"></div></div>';
 }
 
 function girisCiz() {
@@ -162,7 +162,7 @@ async function sunucudanAl(n, k) {
 
 function hazirCiz() {
   const s = $("hazir"), r = rota();
-  let h = heroHTML(t("takim") + " " + durum.takim);
+  let h = heroHTML(t("takim"), durum.takim);
   h += '<div class="kart hikaye-kart"><p>' + esc(TL(VERI.giris_hikaye)) + "</p></div>";
   h += '<h2 class="bolum-baslik">' + esc(t("rota")) + '</h2><ol class="rota-liste">';
   h += '<li class="uc"><span class="no">◆</span><span>' + esc(t("baslangicN")) + ": " + esc(TL(VERI.baslangic.ad)) + "</span></li>";

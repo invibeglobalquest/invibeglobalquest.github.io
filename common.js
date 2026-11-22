@@ -75,7 +75,8 @@ const METIN = {
     linkler: "Ссылки", ortakLink: "Общая ссылка для всех участников", ortakAcik: "Участники выбирают свою команду и только смотрят маршрут, задания и таймер.",
     liderLinkleri: "Личные ссылки лидеров", liderUyari: "Давайте каждую ссылку только лидеру этой команды: кто её откроет, сможет отмечать точки.",
     kopyala: "Копировать", kopyalandi: "Скопировано ✓", yazdir: "🖨 Печать", liderLink: "лидер",
-    linkAcik: "Распечатайте или отправьте: общую ссылку — всем, личную ссылку — только лидеру своей команды."
+    linkAcik: "Распечатайте или отправьте: общую ссылку — всем, личную ссылку — только лидеру своей команды.",
+    baskiPaketi: "📄 Все карточки для печати"
   },
   tr: {
     takimSec: "Takımınızı seçin", takim: "Takım", ilkNokta: "İlk nokta: {x}",
@@ -132,7 +133,8 @@ const METIN = {
     linkler: "Linkler", ortakLink: "Tüm katılımcılar için ortak link", ortakAcik: "Katılımcılar takımını seçer; rotayı, görevleri ve sayacı yalnızca izler.",
     liderLinkleri: "Lider linkleri", liderUyari: "Her linki yalnızca o takımın liderine verin: linki açan herkes noktaları işaretleyebilir.",
     kopyala: "Kopyala", kopyalandi: "Kopyalandı ✓", yazdir: "🖨 Yazdır", liderLink: "lider",
-    linkAcik: "Yazdırın veya gönderin: ortak linki herkese, lider linkini yalnızca o takımın liderine."
+    linkAcik: "Yazdırın veya gönderin: ortak linki herkese, lider linkini yalnızca o takımın liderine.",
+    baskiPaketi: "📄 Tüm baskı kartları"
   }
 };
 function t(k, v) {

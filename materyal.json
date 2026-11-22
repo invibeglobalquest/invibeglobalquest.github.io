@@ -1,0 +1,204 @@
+{
+  "renkler": [
+    { "hex": "#b3261e", "ru": "Красный", "tr": "Kırmızı" },
+    { "hex": "#c25a00", "ru": "Оранжевый", "tr": "Turuncu" },
+    { "hex": "#8d7200", "ru": "Горчичный", "tr": "Hardal" },
+    { "hex": "#2f7d52", "ru": "Зелёный", "tr": "Yeşil" },
+    { "hex": "#0f7c7c", "ru": "Бирюзовый", "tr": "Turkuaz" },
+    { "hex": "#2364aa", "ru": "Синий", "tr": "Mavi" },
+    { "hex": "#6f3bb0", "ru": "Фиолетовый", "tr": "Mor" },
+    { "hex": "#b0306d", "ru": "Розовый", "tr": "Pembe" },
+    { "hex": "#6d4c3d", "ru": "Коричневый", "tr": "Kahverengi" },
+    { "hex": "#44546a", "ru": "Серый", "tr": "Gri" }
+  ],
+
+  "sunucu": {
+    "ru": [
+      "Добро пожаловать под своды Цистерны 1001 колонны!",
+      "Здесь, в холодной тишине, исчезали гости Гевхерли Ханым. Её зеркальное ожерелье утрачено, вещи разбросаны по Султанахмету, а дух до сих пор не находит покоя. Сегодня у вас есть последняя возможность остановить её.",
+      "Как играем:",
+      "• У каждой команды есть лидер с личной ссылкой. Только он отмечает точки на телефоне.",
+      "• Остальные открывают общую ссылку и выбирают свою команду: там маршрут, задания и таймер.",
+      "• На дорогу до точки — до 10 минут, на задание — до 10 минут. Таймер покажет, если вы опаздываете.",
+      "• На каждой точке лидер загружает фото точки, а после задания нажимает «Задание выполнено».",
+      "• За каждое задание — артефакт, за успехи — бонусные баллы. Побеждает команда, которая соберёт больше всех артефактов и баллов.",
+      "• Финал — здесь, в цистерне. Гевхерли будет ждать вас.",
+      "Лидеры, откройте свои ссылки. По команде — нажимаем «Начать квест»!"
+    ],
+    "tr": [
+      "Binbirdirek Sarnıcı'na hoş geldiniz!",
+      "Gevherli Hanım'ın misafirleri bu soğuk sessizlikte kaybolurdu. Aynalı kolyesi kayıp, eşyaları Sultanahmet'e dağılmış ve ruhu hâlâ huzur bulamıyor. Bugün onu durdurmak için son şansınız.",
+      "Nasıl oynuyoruz:",
+      "• Her takımın kişisel linki olan bir lideri var. Noktaları telefonda yalnızca o işaretler.",
+      "• Diğerleri ortak linki açıp takımını seçer: rota, görevler ve sayaç oradadır.",
+      "• Noktaya yol en fazla 10 dakika, görev en fazla 10 dakika. Geç kalırsanız sayaç gösterir.",
+      "• Her noktada lider noktanın fotoğrafını yükler, görev bitince «Görev tamamlandı»ya basar.",
+      "• Her görev bir artefakt, başarılar bonus puan kazandırır. En çok artefakt ve puanı toplayan takım kazanır.",
+      "• Final burada, sarnıçta. Gevherli sizi bekliyor olacak.",
+      "Liderler linklerinizi açın. İşaretle birlikte «Questi başlat»a basıyoruz!"
+    ]
+  },
+
+  "gorevli": {
+    "ziyafet": {
+      "malzeme": { "ru": "Повязки на глаза ×15, 8–10 тарелочек серпме кахвалты на команду, зубочистки, салфетки, секундомер, жемчужины ×12", "tr": "Göz bağı ×15, takım başı 8–10 tabak serpme kahvaltı, kürdan, peçete, kronometre, inci ×12" },
+      "puan": { "ru": "Не менее 5 верных ответов → жемчужина. Каждый верный ответ после пятого: +1 балл. 30 секунд на человека.", "tr": "En az 5 doğru → inci. Beşinciden sonraki her doğru: +1 puan. Kişi başı 30 saniye." }
+    },
+    "oyun": {
+      "malzeme": { "ru": "Песочные часы 60 с, 20 палочек, 3 стаканчика и шарик, дженга, весы с грузиками, крупные спички, 8–10 цветных фишек и ткань, карточки игр, шкатулки ×12", "tr": "60 sn kum saati, 20 çubuk, 3 bardak ve top, jenga, terazi ve ağırlıklar, iri kibrit, 8–10 renkli fiş ve bez, oyun kartları, gümüş kutu ×12" },
+      "puan": { "ru": "Каждую игру играет новый участник, до 60 секунд. Минимум 3 победы → шкатулка. Каждая победа сверх пяти: +1 балл.", "tr": "Her oyuna yeni bir kişi çıkar, en fazla 60 saniye. En az 3 galibiyet → gümüş kutu. Beşten sonraki her galibiyet: +1 puan." }
+    },
+    "dondurma": {
+      "malzeme": { "ru": "Секундомер, золотые перстни ×12; договорённость с мороженщиком (около 50 порций)", "tr": "Kronometre, altın yüzük ×12; dondurmacıyla anlaşma (yaklaşık 50 porsiyon)" },
+      "puan": { "ru": "5 попыток по 60 секунд. Минимум 3 успешные → золотой перстень. Повторили 3 движения мороженщика в правильном порядке: +1 балл.", "tr": "60 saniyelik 5 deneme. En az 3 başarı → altın yüzük. Dondurmacının 3 hareketini doğru sırayla tekrarlarsa: +1 puan." }
+    },
+    "simit": {
+      "malzeme": { "ru": "Карточки скороговорок (2 набора), запечатанные письма ×12", "tr": "Tekerleme kartları (2 takım), mühürlü mektup ×12" },
+      "puan": { "ru": "Каждый участник тянет карточку, на каждую скороговорку 3 попытки. Минимум 5 скороговорок без ошибок → запечатанное письмо. Каждая дополнительная: +1 балл.", "tr": "Her katılımcı bir kart çeker, her tekerleme için 3 hak. En az 5 tekerleme hatasız → mühürlü mektup. Her ek tekerleme: +1 puan." }
+    },
+    "dikilitas": {
+      "malzeme": { "ru": "Конверты с алфавитом ×10, плакат «Послание обелиска», ручки, карточки «Заклинание» ×12", "tr": "Alfabe zarfı ×10, «Dikilitaşın mesajı» afişi, kalem, «Büyü sözü» kartı ×12" },
+      "puan": { "ru": "Верно расшифрованная фраза → карточка «Заклинание»: команда вписывает в неё фразу. Фраза понадобится в финале.", "tr": "Doğru çözülen cümle → «Büyü sözü» kartı: takım cümleyi karta yazar. Cümle finalde gerekecek." }
+    },
+    "baharat": {
+      "malzeme": { "ru": "Списки специй ×10, механические весы (шаг 1 г), ложечки, 10 специй, мешочки ×12", "tr": "Baharat listesi ×10, mekanik terazi (1 g), kaşıklar, 10 baharat, kese ×12" },
+      "puan": { "ru": "Общий вес ровно 30 г (допуск ±1 г) → мешочек с ароматической смесью. Смесь команда забирает в мешочке.", "tr": "Toplam tam 30 g (±1 g) → baharat kesesi. Takım karışımı keseyle alır." }
+    },
+    "canta": {
+      "malzeme": { "ru": "Зеркальные кулоны ×12; после каждой команды кулон снова прячется в другую сумку", "tr": "Aynalı kolye ×12; her takımdan sonra kolye başka bir çantaya saklanır" },
+      "puan": { "ru": "Три попытки. После каждой неудачной — подсказка. Нашли не позднее третьей попытки → зеркальный кулон. Нашли с первой подсказки: +1 балл.", "tr": "Üç hak. Her başarısız denemeden sonra bir ipucu. En geç üçüncü denemede bulursa → aynalı kolye. İlk ipucuyla bulursa: +1 puan." }
+    },
+    "pazar": {
+      "malzeme": { "ru": "Списки покупок ×10, конверты с деньгами ×10 (500–1000 TL)", "tr": "Alışveriş listesi ×10, nakit zarfı ×10 (500–1000 TL)" },
+      "puan": { "ru": "Все 5 предметов куплены в рамках бюджета, чеки собраны, выбор объяснён → пять символов. Символы оцениваются в финале: до 5 баллов.", "tr": "5 eşya bütçe içinde alındı, fişler toplandı, seçim açıklandı → beş sembol. Semboller finalde değerlendirilir: en fazla 5 puan." }
+    },
+    "gulhane": {
+      "malzeme": { "ru": "Карточки с фото ×10, ручки, карточки «Фрагмент воспоминания» ×12", "tr": "Fotoğraflı kart ×10, kalem, «Hatıra parçası» kartı ×12" },
+      "puan": { "ru": "Каждое найденное отличие: +1 балл. Все 5 отличий → фрагмент воспоминания.", "tr": "Bulunan her fark: +1 puan. 5 farkın hepsi → hatıra parçası." }
+    },
+    "amfi": {
+      "malzeme": { "ru": "Карточки пословиц (20 шт.), секундомер, карточки «Фрагмент артефакта» ×12", "tr": "Atasözü kartları (20 adet), kronometre, «Artefakt parçası» kartı ×12" },
+      "puan": { "ru": "8 пословиц на команду, 15 секунд на обсуждение. Верное продолжение: +1 балл, верный смысл: +1 балл. Минимум 4 балла → фрагмент артефакта.", "tr": "Takım başına 8 atasözü, 15 saniye düşünme. Doğru devam: +1, doğru anlam: +1 puan. En az 4 puan → artefakt parçası." }
+    }
+  },
+
+  "tekerlemeler": [
+    { "tr": "Şu köşe yaz köşesi, şu köşe kış köşesi, ortada su şişesi.", "kiril": "Шу кёше яз кёшеси, шу кёше кыш кёшеси, ортада су шишеси.", "ru": "Этот угол — летний, этот угол — зимний, а посередине — бутылка воды." },
+    { "tr": "Bir berber bir berbere: «Gel beraber bir berber dükkânı açalım» demiş.", "kiril": "Бир бербер бир бербере: «Гель берабер бир бербер дюккяны ачалым», демиш.", "ru": "Один парикмахер сказал другому: «Давай вместе откроем парикмахерскую»." },
+    { "tr": "Dal sarkar, kartal kalkar; kartal kalkar, dal sarkar.", "kiril": "Дал саркар, картал калкар; картал калкар, дал саркар.", "ru": "Ветка свисает — орёл взлетает; орёл взлетает — ветка свисает." },
+    { "tr": "Kırk küp, kırkının da kulpu kırık küp.", "kiril": "Кырк кюп, кыркынын да кулпу кырык кюп.", "ru": "Сорок кувшинов, и у всех сорока ручки отбиты." },
+    { "tr": "Şemsi Paşa pasajında sesi büzüşesiceler.", "kiril": "Шемси Паша пасажында сеси бюзюшесиджелер.", "ru": "Шуточное «проклятие»: чтоб у тех, кто в пассаже Шемси-паши, голос сел." },
+    { "tr": "Bu yoğurdu sarımsaklasak da mı saklasak, sarımsaklamasak da mı saklasak?", "kiril": "Бу йоурду сарымсакласак да мы сакласак, сарымсакламасак да мы сакласак?", "ru": "Этот йогурт с чесноком хранить или без чеснока хранить?" },
+    { "tr": "Al bu takatukaları takatukacıya götür; takatukacı takatukaları takatukalamazsa takatukaları geri getir.", "kiril": "Ал бу такатукалары такатукаджыя гётюр; такатукаджы такатукалары такатукаламазса такатукалары гери гетир.", "ru": "Отнеси эти «такатуки» мастеру такатук; если он не сможет их «отакатучить» — принеси обратно." },
+    { "tr": "Üç tunç tas has hoş su.", "kiril": "Юч тунч тас хас хош су.", "ru": "Три бронзовые чаши чистой, приятной воды." },
+    { "tr": "Çekoslovakyalılaştıramadıklarımızdan mısınız?", "kiril": "Чекословакьялылаштырамадыкларымыздан мысыныз?", "ru": "«Вы из тех, кого мы так и не смогли сделать чехословаками?» — знаменитое длинное слово-шутка." },
+    { "tr": "Pijamalı hasta yağız şoföre çabucak güvendi.", "kiril": "Пижамалы хаста яыз шофёре чабуджак гювенди.", "ru": "Больной в пижаме быстро доверился смуглому шофёру. В этой фразе есть все буквы турецкого алфавита." }
+  ],
+
+  "atasozleri": [
+    { "tr": "Eşeğe altın semer vursalar, eşek yine eşektir.", "bas": "Хоть золотое седло на осла надень…", "devam": "…осёл всё равно останется ослом.", "anlam": "Внешний блеск не меняет сути." },
+    { "tr": "Kedi uzanamadığı ciğere mundar der.", "bas": "Кошка печёнку, до которой не может дотянуться…", "devam": "…называет тухлой.", "anlam": "То, что недоступно, объявляют плохим (как «зелен виноград»)." },
+    { "tr": "Tavşan dağa küsmüş, dağın haberi olmamış.", "bas": "Заяц обиделся на гору…", "devam": "…а гора даже не заметила.", "anlam": "Обида слабого не трогает сильного." },
+    { "tr": "Aç ayı oynamaz.", "bas": "Голодный медведь…", "devam": "…не танцует.", "anlam": "Без еды и оплаты никто работать не станет." },
+    { "tr": "Bal tutan parmağını yalar.", "bas": "Кто держит мёд…", "devam": "…тот облизывает пальцы.", "anlam": "Кто стоит рядом с выгодой, тому что-то да достанется." },
+    { "tr": "Damlaya damlaya göl olur.", "bas": "Капля за каплей…", "devam": "…получится озеро.", "anlam": "Понемногу собирается много (как «курочка по зёрнышку клюёт»)." },
+    { "tr": "Ağaç yaşken eğilir.", "bas": "Дерево гнётся…", "devam": "…пока оно молодое.", "anlam": "Воспитывать и учить нужно с детства." },
+    { "tr": "Sakla samanı, gelir zamanı.", "bas": "Храни солому…", "devam": "…придёт и её время.", "anlam": "Любая вещь когда-нибудь пригодится." },
+    { "tr": "Dost acı söyler.", "bas": "Друг говорит…", "devam": "…горькую правду.", "anlam": "Настоящий друг не льстит." },
+    { "tr": "Komşu komşunun külüne muhtaçtır.", "bas": "Сосед нуждается…", "devam": "…даже в золе соседа.", "anlam": "Соседи всегда нужны друг другу." },
+    { "tr": "Üzüm üzüme baka baka kararır.", "bas": "Виноград, глядя на виноград…", "devam": "…темнеет (созревает).", "anlam": "Люди перенимают привычки тех, кто рядом." },
+    { "tr": "Ayağını yorganına göre uzat.", "bas": "Протягивай ноги…", "devam": "…по длине одеяла.", "anlam": "Живи по средствам (как «по одёжке протягивай ножки»)." },
+    { "tr": "İşleyen demir pas tutmaz.", "bas": "Железо, которое работает…", "devam": "…не ржавеет.", "anlam": "Кто трудится, тот не стареет." },
+    { "tr": "Bir elin nesi var, iki elin sesi var.", "bas": "Что может одна рука?..", "devam": "…А у двух рук есть хлопок.", "anlam": "Вместе мы сильнее." },
+    { "tr": "Balık baştan kokar.", "bas": "Рыба…", "devam": "…гниёт с головы.", "anlam": "Беда начинается с руководства." },
+    { "tr": "Gülme komşuna, gelir başına.", "bas": "Не смейся над соседом…", "devam": "…то же случится и с тобой.", "anlam": "Не радуйся чужой беде." },
+    { "tr": "Söz gümüşse sükût altındır.", "bas": "Если слово — серебро…", "devam": "…то молчание — золото.", "anlam": "Иногда лучше промолчать." },
+    { "tr": "Bir fincan kahvenin kırk yıl hatırı vardır.", "bas": "Одна чашка кофе…", "devam": "…помнится сорок лет.", "anlam": "Доброе дело не забывается." },
+    { "tr": "Su testisi su yolunda kırılır.", "bas": "Кувшин для воды…", "devam": "…разбивается по дороге за водой.", "anlam": "Кто часто рискует, однажды пострадает." },
+    { "tr": "Dereyi görmeden paçaları sıvama.", "bas": "Не закатывай штанины…", "devam": "…пока не увидел речку.", "anlam": "Не спеши готовиться к тому, чего ещё нет." }
+  ],
+
+  "oyunlar": [
+    { "ru": { "ad": "Последняя палочка", "kural": "Между Мастером и игроком лежат 20 палочек. По очереди каждый забирает 1, 2 или 3. Тот, кому достанется последняя палочка, проигрывает." }, "tr": { "ad": "Son çubuk", "kural": "Usta ile oyuncu arasında 20 çubuk var. Sırayla her biri 1, 2 ya da 3 çubuk alır. Son çubuğu almak zorunda kalan kaybeder." }, "malzeme": "20 палочек · 20 çubuk", "ipucu": { "ru": "Совет Мастеру: оставляйте сопернику 17, 13, 9, 5 или 1 палочку — тогда победа ваша.", "tr": "Ustaya ipucu: rakibe 17, 13, 9, 5 veya 1 çubuk bırakırsanız kazanırsınız." } },
+    { "ru": { "ad": "Напёрстки", "kural": "Под одним из трёх стаканчиков спрятан шарик. Мастер быстро перемещает стаканчики, игрок должен угадать, где шарик. Три попытки." }, "tr": { "ad": "Bardak oyunu", "kural": "Üç bardaktan birinin altında top var. Usta bardakları hızla karıştırır, oyuncu topun yerini tahmin eder. Üç deneme." }, "malzeme": "3 непрозрачных стаканчика и шарик · 3 opak bardak ve top" },
+    { "ru": { "ad": "Башня", "kural": "Игрок и Мастер по очереди вынимают по одному бруску и кладут его наверх. Кто уронит башню — проиграл. Можно играть на скорость или одной рукой." }, "tr": { "ad": "Kule", "kural": "Oyuncu ve Usta sırayla birer tahta çıkarıp kulenin üstüne koyar. Kuleyi deviren kaybeder. Hızlı ya da tek elle de oynanabilir." }, "malzeme": "Деревянные бруски (дженга) · jenga" },
+    { "ru": { "ad": "Весы", "kural": "Мастер и игрок по очереди кладут грузики на чаши весов. Задача — добиться равновесия или не допустить перевеса своей чаши." }, "tr": { "ad": "Terazi", "kural": "Usta ve oyuncu sırayla terazinin kefelerine ağırlık koyar. Amaç dengeyi kurmak ya da kendi kefesinin ağır basmasını önlemek." }, "malzeme": "Маленькие весы и грузики · terazi ve ağırlıklar" },
+    { "ru": { "ad": "Спички", "kural": "Мастер выкладывает равенство из спичек. Игрок должен переложить одну спичку, чтобы равенство стало верным." }, "tr": { "ad": "Kibrit", "kural": "Usta kibritlerle bir işlem dizer. Oyuncu tek bir kibriti yer değiştirerek işlemi doğru yapmalı." }, "malzeme": "Крупные спички · iri kibrit", "bulmaca": [
+      { "soru": "6 + 4 = 4", "cevap": "0 + 4 = 4", "not": { "ru": "среднюю спичку шестёрки перекладываем вправо вверх", "tr": "6'nın ortadaki çubuğu sağ üste taşınır" } },
+      { "soru": "5 + 7 = 2", "cevap": "9 − 7 = 2", "not": { "ru": "вертикальную спичку плюса добавляем к пятёрке", "tr": "artının dik çubuğu 5'e eklenir" } },
+      { "soru": "3 + 3 = 8", "cevap": "3 + 5 = 8", "not": { "ru": "во второй тройке правую верхнюю спичку переносим влево вверх", "tr": "ikinci 3'ün sağ üst çubuğu sol üste taşınır" } }
+    ] },
+    { "ru": { "ad": "Память", "kural": "Мастер выкладывает 8–10 разноцветных фишек, даёт посмотреть 10 секунд и накрывает тканью. Игрок должен восстановить последовательность." }, "tr": { "ad": "Hafıza", "kural": "Usta 8–10 renkli fişi dizer, 10 saniye gösterir ve bezle örter. Oyuncu sırayı aynen kurmalı." }, "malzeme": "Цветные фишки и ткань · renkli fiş ve bez" }
+  ],
+
+  "sifre": {
+    "mesaj": "ЗЕРКАЛО ВЕРНУЛОСЬ ДОМОЙ",
+    "alfabe": [
+      ["А", "𓄿"], ["Б", "𓃀"], ["В", "𓆑"], ["Г", "𓎼"], ["Д", "𓂧"], ["Е", "𓇋"], ["Ё", "𓇌"], ["Ж", "𓆓"],
+      ["З", "𓊃"], ["И", "𓂝"], ["Й", "𓏭"], ["К", "𓎡"], ["Л", "𓃭"], ["М", "𓅓"], ["Н", "𓈖"], ["О", "𓅱"],
+      ["П", "𓊪"], ["Р", "𓂋"], ["С", "𓋴"], ["Т", "𓏏"], ["У", "𓆛"], ["Ф", "𓆣"], ["Х", "𓉔"], ["Ц", "𓋹"],
+      ["Ч", "𓍿"], ["Ш", "𓈙"], ["Щ", "𓐍"], ["Ъ", "𓇳"], ["Ы", "𓅃"], ["Ь", "𓂀"], ["Э", "𓉐"], ["Ю", "𓇯"], ["Я", "𓃒"]
+    ]
+  },
+
+  "baharatlar": [
+    { "tr": "Pul biber", "ru": "Красный перец хлопьями", "g": 5 },
+    { "tr": "Kimyon", "ru": "Зира (кумин)", "g": 4 },
+    { "tr": "Sumak", "ru": "Сумах", "g": 4 },
+    { "tr": "Kekik", "ru": "Чабрец", "g": 3 },
+    { "tr": "Nane", "ru": "Сушёная мята", "g": 3 },
+    { "tr": "Karabiber", "ru": "Чёрный перец", "g": 3 },
+    { "tr": "Tarçın", "ru": "Корица", "g": 2 },
+    { "tr": "Zerdeçal", "ru": "Куркума", "g": 2 },
+    { "tr": "Kişniş", "ru": "Кориандр", "g": 2 },
+    { "tr": "Yenibahar", "ru": "Душистый перец", "g": 2 }
+  ],
+
+  "alisveris": {
+    "butce": "500–1000 TL",
+    "kalemler": [
+      { "ru": "Что-нибудь сладкое", "tr": "Tatlı bir şey" },
+      { "ru": "Что-нибудь красивое", "tr": "Güzel bir şey" },
+      { "ru": "Что-нибудь от сглаза", "tr": "Nazarlık" },
+      { "ru": "Что-нибудь с изображением котиков", "tr": "Kedi resimli bir şey" },
+      { "ru": "Что-нибудь приятное на ощупь", "tr": "Dokunması hoş bir şey" }
+    ]
+  },
+
+  "gulhane_farklar": ["скамейка · bank", "фонарь · fener", "лестница · merdiven", "арка · kemer", "дерево необычной формы · ilginç şekilli ağaç"],
+
+  "mektup": {
+    "hitap": "Тому, кто нашёл это письмо.",
+    "paragraflar": [
+      "Если ты читаешь эти строки, значит, ты уже идёшь по моим следам. После моей смерти всё, что я любила, разошлось по рукам: жемчужина с моего браслета, золотой перстень, серебряная шкатулка… и моё зеркальное ожерелье. Без них я не могу обрести покой.",
+      "Собери мои вещи и верни их туда, где началась моя история, — под своды Цистерны 1001 колонны. А когда придёшь, произнеси слова, оставленные на древнем камне.",
+      "Зеркало видит всё. Не пытайся его обмануть."
+    ],
+    "imza": "Гевхерли"
+  },
+
+  "final": {
+    "ru": [
+      "(Гевхерли стоит у старинного сундука. Команда подходит.)",
+      "«Вы пришли… Сколько лет я ждала шагов под сводами моей цистерны. Покажите, что вы принесли».",
+      "(Команда по одному кладёт артефакты в сундук. Гевхерли называет каждый.)",
+      "«Жемчужина с моего последнего пира… Перстень… Шкатулка… Моё письмо… И зеркало. Моё зеркало».",
+      "«Остались только слова — те, что я оставила на древнем камне. Произнесите их все вместе».",
+      "(Команда хором: «ЗЕРКАЛО ВЕРНУЛОСЬ ДОМОЙ!»)",
+      "«Зеркало вернулось домой… Теперь я свободна. А вместе со мной свободен и Стамбул. Больше никто не увидит меня в витринах и не услышит в переулках».",
+      "(Закрывает сундук и берёт его.) «Прощайте. И помните: зеркало видит всё».",
+      "(Уходит в глубину цистерны.)"
+    ],
+    "tr": [
+      "(Gevherli eski sandığın başında durur. Takım yaklaşır.)",
+      "«Geldiniz… Sarnıcımın kemerleri altında ayak seslerini yıllarca bekledim. Ne getirdiğinizi gösterin».",
+      "(Takım artefaktları tek tek sandığa koyar. Gevherli her birinin adını söyler.)",
+      "«Son ziyafetimin incisi… Yüzük… Kutu… Mektubum… Ve ayna. Benim aynam».",
+      "«Geriye yalnızca sözler kaldı — eski taşa bıraktığım sözler. Hep birlikte söyleyin».",
+      "(Takım hep birlikte: «ZERKALO VERNULOS DOMOY!» — «Ayna evine döndü!»)",
+      "«Ayna evine döndü… Artık özgürüm. Benimle birlikte İstanbul da özgür. Artık kimse beni vitrinlerde görmeyecek, sokaklarda sesimi duymayacak».",
+      "(Sandığı kapatıp alır.) «Hoşça kalın. Ve unutmayın: ayna her şeyi görür».",
+      "(Sarnıcın derinliklerine yürür.)"
+    ]
+  }
+}

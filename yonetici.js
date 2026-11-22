@@ -341,7 +341,7 @@ function detayCiz() {
   const n = acikTakim;
   if (!n) return;
   const k = takimKaydi(n), r = takimRota(n), simdi = Date.now(), d = durumHesapla(k, r, simdi);
-  $("detayBaslik").innerHTML = '<span class="t-no" style="--renk:' + renk(n) + '">' + esc(n) + "</span> " + esc(t("takim")) + " " + esc(n) + (k.ad ? " · " + esc(k.ad) : "");
+  $("detayBaslik").innerHTML = '<span class="t-no" style="--renk:' + renk(n) + '">' + esc(n) + "</span> " + esc(t("takim")) + ' <span class="sayi">' + esc(n) + "</span>" + (k.ad ? " · " + esc(k.ad) : "");
   let h = '<p class="t-durum">' + esc(durumMetni(n, d)) + "</p>";
   h += '<div class="ozet-kart kart"><div><small>' + esc(t("baslangicN")) + "</small><b>" + saat(k.baslangic) + "</b></div>" +
     "<div><small>" + esc(t("sure")) + "</small><b>" + (k.baslangic ? sureYaz((k.final || simdi) - k.baslangic) : "—") + "</b></div>" +
@@ -448,7 +448,7 @@ function siralamaCiz() {
 }
 
 // ---------- Linkler (QR) ----------
-function siteKok() { return location.origin + location.pathname.replace(/[^/]*$/, ""); }
+function siteKok() { return (VERI.etkinlik.site_url || location.origin + location.pathname.replace(/[^/]*$/, "")).replace(/\/?$/, "/"); }
 function qrSvg(metin) {
   if (typeof qrcode !== "function") return "";
   const q = qrcode(0, "M");
@@ -464,7 +464,7 @@ function linkKart(baslik, alt, link, ek, renkNo) {
 }
 function linklerCiz() {
   const kok = siteKok(), kodlar = VERI.lider_kodlari || {};
-  let h = '<div class="link-ust"><p class="soluk">' + esc(t("linkAcik")) + '</p><button type="button" class="btn ana kucuk" id="yazdirBtn">' + esc(t("yazdir")) + "</button></div>";
+  let h = '<div class="link-ust"><p class="soluk">' + esc(t("linkAcik")) + '</p><a class="btn ikincil kucuk" href="baski.html">' + esc(t("baskiPaketi")) + '</a><button type="button" class="btn ana kucuk" id="yazdirBtn">' + esc(t("yazdir")) + "</button></div>";
   h += '<h2 class="bolum-baslik">' + esc(t("ortakLink")) + "</h2>";
   h += '<div class="link-izgara">' + linkKart(TL(VERI.etkinlik.ad), t("ortakAcik"), kok) + "</div>";
   h += '<h2 class="bolum-baslik sayfa-kir">' + esc(t("liderLinkleri")) + '</h2><p class="uyari-yazi">⚠ ' + esc(t("liderUyari")) + '</p><div class="link-izgara">';
