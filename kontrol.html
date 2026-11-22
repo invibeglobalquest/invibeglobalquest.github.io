@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kontrolcü Paneli</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <h1>🧑‍⚖️ Kontrolcü Paneli</h1>
+  <div id="uyari" class="uyari gizli"></div>
+
+  <section id="giris">
+    <div class="kart">
+      <p>Takımınızı seçip kontrolcü şifrenizi yazın.</p>
+      <select id="takimSec"></select>
+      <input id="pin" type="text" placeholder="KONTROLCÜ ŞİFRESİ" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false">
+      <div id="pinHata" class="hata"></div>
+      <button id="pinDugme" class="btn">Giriş</button>
+    </div>
+  </section>
+
+  <section id="panel" class="gizli">
+    <h2 id="panelBaslik"></h2>
+    <p class="soluk" id="panelDurum"></p>
+    <div id="satirlar"></div>
+    <div class="kart">
+      <div class="alan"><label for="ek">Ek puan / ceza<br><span class="soluk">(ceza için eksi yazın)</span></label>
+        <input id="ek" type="number" step="1" value="0" inputmode="numeric"></div>
+    </div>
+    <div class="toplam">Toplam puan: <span id="toplam">0</span></div>
+    <div id="kayitHata" class="hata"></div>
+    <button id="kaydet" class="btn">Puanları Kaydet</button>
+    <p><button id="cikis" class="btn ikincil kucuk">Çıkış</button></p>
+  </section>
+
+  <p><a href="skor.html">📊 Puan tablosu</a> · <a href="index.html">← Takım ekranı</a></p>
+</main>
+<script src="common.js"></script>
+<script src="kontrol.js"></script>
+</body>
+</html>

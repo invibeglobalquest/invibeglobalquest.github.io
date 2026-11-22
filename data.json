@@ -2,41 +2,236 @@
   "etkinlik": {
     "ad": "Tarihi Yarımada Quest",
     "baslangic_bitis_noktasi": "Binbirdirek Sarnıcı",
+    "baslangic_bitis_konum": "https://maps.app.goo.gl/AGjtzgTzQmCXvTLaA?g_st=ic",
     "sure_dakika": 150,
+    "tur_dakika": 14,
+    "istasyon_max_dakika": 10,
     "senkron_url": ""
   },
+  "kontrolcu_sifreleri": {
+    "1": "K1731",
+    "2": "K2284",
+    "3": "K3956",
+    "4": "K4413",
+    "5": "K5687",
+    "6": "K6152",
+    "7": "K7809",
+    "8": "K8376",
+    "9": "K9594",
+    "10": "K10228"
+  },
+  "halka": [
+    "binbirdirek",
+    "tiyatro",
+    "dondurma",
+    "dikilitas",
+    "cantaci",
+    "mezarlik",
+    "simitci",
+    "kapali_carsi",
+    "akustik",
+    "valide_han"
+  ],
   "istasyonlar": {
+    "binbirdirek": {
+      "ad": "Binbirdirek Sarnıcı",
+      "tip": "serbest",
+      "konum": "https://maps.app.goo.gl/AGjtzgTzQmCXvTLaA?g_st=ic",
+      "gorev": "Başlangıç ve bitiş noktası. Bu turda mola verin, takım kontrolcüsünden bilgi alın ve hazır olunca devam edin.",
+      "puan": 0
+    },
+    "tiyatro": {
+      "ad": "Tiyatro Meydanı",
+      "tip": "kod",
+      "konum": "",
+      "gorev": "Meydandaki yetkiliyi bulun ve verdiği görevi tamamlayın. Bitirince yetkiliden şifreyi alın.",
+      "puan": 10,
+      "kod": "TIY417"
+    },
     "dondurma": {
-      "ad": "Dondurma",
-      "gorev": "Dondurmacıyı bulun. Tüm takım dondurmasını alsın; dondurmacıdan kodu isteyin.",
-      "kod": "DON123"
+      "ad": "Dondurmacı",
+      "tip": "kod",
+      "konum": "https://maps.app.goo.gl/C7rzooettGuvDBrr7?g_st=ic",
+      "gorev": "Dondurmacıyı bulun. Yetkilinin verdiği görevi tamamlayın ve şifreyi isteyin.",
+      "puan": 10,
+      "kod": "DON582"
     },
-    "simit": {
-      "ad": "Simit Tekerlemesi",
-      "gorev": "Simitçiye tekerlemeyi hep bir ağızdan, hatasız söyleyin. Başarırsanız kodu verir.",
-      "kod": "SIM456"
+    "dikilitas": {
+      "ad": "Dikilitaş – Fotoğraf Bulma",
+      "tip": "foto",
+      "konum": "",
+      "gorev": "Dikilitaş'ı bulun. Takımın tamamı anıtla birlikte yetkilinin tarif ettiği pozda fotoğraf çeksin ve aşağıdan yükleyin.",
+      "puan": 10
     },
-    "kahve": {
-      "ad": "Kahve",
-      "gorev": "Kahve durağında takımdan bir kişi kahveyi hazırlasın. Yetkiliden kodu alın.",
-      "kod": "KAH789"
+    "cantaci": {
+      "ad": "Çantacı",
+      "tip": "kod",
+      "konum": "",
+      "gorev": "Çantacıyı bulun, yetkilinin verdiği görevi tamamlayın ve şifreyi isteyin.",
+      "puan": 10,
+      "kod": "CAN296"
     },
-    "arasta": {
-      "ad": "Arasta Çarşısı Malzeme Seçimi",
-      "gorev": "Arasta Çarşısı'nda yetkilinin verdiği listedeki malzemeleri seçin ve gösterin. Doğruysa kodu verir.",
-      "kod": "ARA321"
+    "mezarlik": {
+      "ad": "Mezarlık – Şifre Kelime",
+      "tip": "sifre",
+      "konum": "",
+      "gorev": "Mezarlıkta ipucunu takip ederek gizli kelimeyi bulun ve aşağıya yazın.",
+      "puan": 10,
+      "kod": "KELIME"
+    },
+    "simitci": {
+      "ad": "Simitçi",
+      "tip": "kod",
+      "konum": "https://maps.app.goo.gl/sQHBdv88TEsSxNyp6?g_st=ic",
+      "gorev": "Simitçiye tekerlemeyi hep bir ağızdan, hatasız söyleyin. Başarırsanız şifreyi verir.",
+      "puan": 10,
+      "kod": "SIM735"
+    },
+    "kapali_carsi": {
+      "ad": "Kapalı Çarşı",
+      "tip": "kod",
+      "konum": "",
+      "gorev": "Yetkilinin verdiği çarşı görevini tamamlayın ve şifreyi isteyin.",
+      "puan": 10,
+      "kod": "KAP163"
+    },
+    "akustik": {
+      "ad": "Akustik Oda",
+      "tip": "kod",
+      "konum": "",
+      "gorev": "Akustik odada yetkilinin verdiği görevi tamamlayın ve şifreyi isteyin.",
+      "puan": 10,
+      "kod": "AKU849"
+    },
+    "valide_han": {
+      "ad": "Valide Han – Oyun",
+      "tip": "kod",
+      "konum": "",
+      "gorev": "Valide Han'daki oyunu oynayın. Bitirince yetkiliden şifreyi alın.",
+      "puan": 10,
+      "kod": "VAL628"
     }
   },
   "rotalar": {
-    "1":  ["dondurma", "simit", "kahve", "arasta"],
-    "2":  ["simit", "kahve", "arasta", "dondurma"],
-    "3":  ["kahve", "arasta", "dondurma", "simit"],
-    "4":  ["arasta", "dondurma", "simit", "kahve"],
-    "5":  ["dondurma", "kahve", "arasta", "simit"],
-    "6":  ["simit", "arasta", "dondurma", "kahve"],
-    "7":  ["kahve", "simit", "arasta", "dondurma"],
-    "8":  ["arasta", "kahve", "simit", "dondurma"],
-    "9":  ["dondurma", "arasta", "simit", "kahve"],
-    "10": ["simit", "dondurma", "arasta", "kahve"]
+    "1": [
+      "binbirdirek",
+      "tiyatro",
+      "dondurma",
+      "dikilitas",
+      "cantaci",
+      "mezarlik",
+      "simitci",
+      "kapali_carsi",
+      "akustik",
+      "valide_han"
+    ],
+    "2": [
+      "tiyatro",
+      "dondurma",
+      "dikilitas",
+      "cantaci",
+      "mezarlik",
+      "simitci",
+      "kapali_carsi",
+      "akustik",
+      "valide_han",
+      "binbirdirek"
+    ],
+    "3": [
+      "dondurma",
+      "dikilitas",
+      "cantaci",
+      "mezarlik",
+      "simitci",
+      "kapali_carsi",
+      "akustik",
+      "valide_han",
+      "binbirdirek",
+      "tiyatro"
+    ],
+    "4": [
+      "dikilitas",
+      "cantaci",
+      "mezarlik",
+      "simitci",
+      "kapali_carsi",
+      "akustik",
+      "valide_han",
+      "binbirdirek",
+      "tiyatro",
+      "dondurma"
+    ],
+    "5": [
+      "cantaci",
+      "mezarlik",
+      "simitci",
+      "kapali_carsi",
+      "akustik",
+      "valide_han",
+      "binbirdirek",
+      "tiyatro",
+      "dondurma",
+      "dikilitas"
+    ],
+    "6": [
+      "mezarlik",
+      "simitci",
+      "kapali_carsi",
+      "akustik",
+      "valide_han",
+      "binbirdirek",
+      "tiyatro",
+      "dondurma",
+      "dikilitas",
+      "cantaci"
+    ],
+    "7": [
+      "simitci",
+      "kapali_carsi",
+      "akustik",
+      "valide_han",
+      "binbirdirek",
+      "tiyatro",
+      "dondurma",
+      "dikilitas",
+      "cantaci",
+      "mezarlik"
+    ],
+    "8": [
+      "kapali_carsi",
+      "akustik",
+      "valide_han",
+      "binbirdirek",
+      "tiyatro",
+      "dondurma",
+      "dikilitas",
+      "cantaci",
+      "mezarlik",
+      "simitci"
+    ],
+    "9": [
+      "akustik",
+      "valide_han",
+      "binbirdirek",
+      "tiyatro",
+      "dondurma",
+      "dikilitas",
+      "cantaci",
+      "mezarlik",
+      "simitci",
+      "kapali_carsi"
+    ],
+    "10": [
+      "valide_han",
+      "binbirdirek",
+      "tiyatro",
+      "dondurma",
+      "dikilitas",
+      "cantaci",
+      "mezarlik",
+      "simitci",
+      "kapali_carsi",
+      "akustik"
+    ]
   }
 }
