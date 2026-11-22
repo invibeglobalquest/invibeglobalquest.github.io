@@ -5,7 +5,7 @@
     "yol_dk": 10,
     "gorev_dk": 10,
     "yonetici_pin": "1001",
-    "senkron_url": ""
+    "senkron_url": "https://questistanbul-e7942-default-rtdb.europe-west1.firebasedatabase.app"
   },
 
   "giris_hikaye": {
