@@ -31,3 +31,8 @@ th{font-size:.8rem;color:var(--soluk)}td.n{text-align:center;font-weight:700}
 .gizli{display:none!important}
 .buyuk{font-size:3rem;text-align:center}
 a.btn{text-decoration:none;text-align:center;line-height:60px;margin-top:10px}a.btn.konum{background:var(--yesil);color:#fff}
+.onizleme{display:block;width:100%;max-height:300px;object-fit:cover;border-radius:12px;margin-top:12px}
+label.btn{display:block;text-align:center;line-height:60px;cursor:pointer}
+.alan{display:flex;gap:10px;align-items:center;margin:8px 0}.alan label{flex:1}.alan input{width:90px;min-height:48px;font-size:1.2rem;text-align:center;border:2px solid var(--cizgi);border-radius:10px;background:var(--bg);color:var(--yazi)}
+.toplam{font-size:1.6rem;font-weight:800;text-align:center;margin:10px 0}
+select{width:100%;min-height:56px;font-size:1.2rem;border:2px solid var(--cizgi);border-radius:12px;background:var(--bg);color:var(--yazi);padding:0 10px}
