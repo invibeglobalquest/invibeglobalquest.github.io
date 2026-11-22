@@ -72,7 +72,7 @@ function panelMetinleri() {
   const u = $("dbUyari");
   u.classList.toggle("gizli", DB.var());
   u.textContent = t("dbYok");
-  dilDugmeleri($("dilKutu"), () => { panelMetinleri(); hepsiniCiz(); ayarlarCiz(); noktaIsaretleri(); });
+  dilDugmeleri($("dilKutu"), () => { panelMetinleri(); hepsiniCiz(); ayarlarCiz(); noktaIsaretleri(); if (sekme === "linkler") linklerCiz(); });
 }
 
 function panelBaslat() {
@@ -93,8 +93,9 @@ function panelBaslat() {
 function sekmeAc(s) {
   sekme = s;
   document.querySelectorAll(".sekme").forEach((b) => b.classList.toggle("secili", b.dataset.sekme === s));
-  ["canli", "siralama", "ayarlar"].forEach((x) => $("s-" + x).classList.toggle("gizli", x !== s));
+  ["canli", "siralama", "linkler", "ayarlar"].forEach((x) => $("s-" + x).classList.toggle("gizli", x !== s));
   if (s === "siralama") siralamaCiz();
+  if (s === "linkler") linklerCiz();
   if (s === "ayarlar") ayarlarCiz();
   if (s === "canli" && harita) setTimeout(() => harita.invalidateSize(), 50);
 }
@@ -444,6 +445,45 @@ function siralamaCiz() {
   });
   $("siraTablo").innerHTML = h + "</tbody>";
   $("siraTablo").querySelectorAll("tr[data-takim]").forEach((tr) => (tr.onclick = () => detayAc(tr.dataset.takim)));
+}
+
+// ---------- Linkler (QR) ----------
+function siteKok() { return location.origin + location.pathname.replace(/[^/]*$/, ""); }
+function qrSvg(metin) {
+  if (typeof qrcode !== "function") return "";
+  const q = qrcode(0, "M");
+  q.addData(metin);
+  q.make();
+  return q.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+}
+function linkKart(baslik, alt, link, ek, renkNo) {
+  return '<div class="kart link-kart"><div class="qr" aria-hidden="true">' + qrSvg(link) + '</div><div class="link-bilgi">' +
+    "<h3>" + (renkNo ? '<span class="t-no kucuk" style="--renk:' + renk(renkNo) + '">' + esc(renkNo) + "</span> " : "") + esc(baslik) + "</h3>" +
+    (alt ? '<p class="soluk">' + esc(alt) + "</p>" : "") + (ek || "") +
+    "<code>" + esc(link) + '</code><button type="button" class="metin-btn kopyala" data-link="' + esc(link) + '">' + esc(t("kopyala")) + "</button></div></div>";
+}
+function linklerCiz() {
+  const kok = siteKok(), kodlar = VERI.lider_kodlari || {};
+  let h = '<div class="link-ust"><p class="soluk">' + esc(t("linkAcik")) + '</p><button type="button" class="btn ana kucuk" id="yazdirBtn">' + esc(t("yazdir")) + "</button></div>";
+  h += '<h2 class="bolum-baslik">' + esc(t("ortakLink")) + "</h2>";
+  h += '<div class="link-izgara">' + linkKart(TL(VERI.etkinlik.ad), t("ortakAcik"), kok) + "</div>";
+  h += '<h2 class="bolum-baslik sayfa-kir">' + esc(t("liderLinkleri")) + '</h2><p class="uyari-yazi">⚠ ' + esc(t("liderUyari")) + '</p><div class="link-izgara">';
+  takimNolari().forEach((n) => {
+    if (!kodlar[n]) return;
+    const link = kok + "?t=" + encodeURIComponent(n) + "&k=" + encodeURIComponent(kodlar[n]);
+    h += linkKart(t("takim") + " " + n + " · " + t("liderLink"), t("ilkNokta", { x: noktaAdi(VERI.rotalar[n][0]) }), link,
+      "<p>" + esc(t("kod")) + ': <b class="kod">' + esc(kodlar[n]) + "</b></p>", n);
+  });
+  h += "</div>";
+  const s = $("s-linkler");
+  s.innerHTML = h;
+  $("yazdirBtn").onclick = () => window.print();
+  s.querySelectorAll(".kopyala").forEach((b) => (b.onclick = async () => {
+    try { await navigator.clipboard.writeText(b.dataset.link); }
+    catch (e) { prompt(t("kopyala"), b.dataset.link); return; }
+    b.textContent = t("kopyalandi");
+    setTimeout(() => (b.textContent = t("kopyala")), 1600);
+  }));
 }
 
 // ---------- Ayarlar: konumlar ----------

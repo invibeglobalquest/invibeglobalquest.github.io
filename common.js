@@ -62,7 +62,20 @@ const METIN = {
     bagli: "онлайн", kopuk: "нет связи", kapat: "Закрыть", takimEkrani: "← Экран команды",
     sira: "#", tamamNokta: "Точки", sure: "Время", gpsYok: "нет GPS", haritadaAc: "Открыть карту",
     konumAciklama: "Встаньте у точки и нажмите «Я здесь», введите координаты или включите перетаскивание и передвиньте метку на карте. Команды получат новое место автоматически.",
-    pinNot: "PIN меняется в data.json (yonetici_pin).", ozet: "Сводка", dakikaFmt: "{m} мин"
+    pinNot: "PIN меняется в data.json (yonetici_pin).", ozet: "Сводка", dakikaFmt: "{m} мин",
+    izleAcik: "Выберите свою команду, чтобы следить за маршрутом, заданиями и таймером. Отмечает точки только лидер команды по своей личной ссылке.",
+    liderMisin: "Вы лидер команды?", liderAcik: "Откройте личную ссылку лидера, которую дал организатор, или введите код.",
+    kodGir: "Ввести код лидера", kod: "Код лидера", liderOl: "Войти как лидер", kodHata: "Неверный код для этой команды.",
+    linkHata: "Ссылка лидера недействительна. Попросите у организатора новую.",
+    izleyiciBant: "Режим просмотра — точки отмечает лидер команды", liderBant: "Вы лидер: только вы отмечаете точки этой команды.",
+    bekleniyor: "Ждём старта — лидер команды нажмёт «Начать квест». Экран обновится сам.",
+    liderFotoBekle: "Когда команда придёт, лидер загрузит фото точки.", liderBitirecek: "Лидер отметит выполнение задания.",
+    guncellendi: "обновлено {x}", izleme: "просмотр", liderCikis: "Выйти из режима лидера",
+    liderCikisOnay: "Выйти из режима лидера на этом телефоне? Данные команды сохранятся; войти снова можно по ссылке лидера.",
+    linkler: "Ссылки", ortakLink: "Общая ссылка для всех участников", ortakAcik: "Участники выбирают свою команду и только смотрят маршрут, задания и таймер.",
+    liderLinkleri: "Личные ссылки лидеров", liderUyari: "Давайте каждую ссылку только лидеру этой команды: кто её откроет, сможет отмечать точки.",
+    kopyala: "Копировать", kopyalandi: "Скопировано ✓", yazdir: "🖨 Печать", liderLink: "лидер",
+    linkAcik: "Распечатайте или отправьте: общую ссылку — всем, личную ссылку — только лидеру своей команды."
   },
   tr: {
     takimSec: "Takımınızı seçin", takim: "Takım", ilkNokta: "İlk nokta: {x}",
@@ -106,7 +119,20 @@ const METIN = {
     bagli: "canlı", kopuk: "bağlantı yok", kapat: "Kapat", takimEkrani: "← Takım ekranı",
     sira: "#", tamamNokta: "Nokta", sure: "Süre", gpsYok: "GPS yok", haritadaAc: "Haritada aç",
     konumAciklama: "Noktanın yanında durup «Bulunduğum yer»e basın, koordinat yazın ya da sürüklemeyi açıp haritadaki işareti taşıyın. Takımlar yeni konumu otomatik alır.",
-    pinNot: "PIN, data.json içindeki yonetici_pin alanından değiştirilir.", ozet: "Özet", dakikaFmt: "{m} dk"
+    pinNot: "PIN, data.json içindeki yonetici_pin alanından değiştirilir.", ozet: "Özet", dakikaFmt: "{m} dk",
+    izleAcik: "Rotayı, görevleri ve sayacı izlemek için takımınızı seçin. Noktaları yalnızca takım lideri kendi özel linkiyle işaretler.",
+    liderMisin: "Takım lideri misiniz?", liderAcik: "Organizatörün verdiği lider linkini açın veya kodu girin.",
+    kodGir: "Lider kodunu gir", kod: "Lider kodu", liderOl: "Lider olarak gir", kodHata: "Bu takım için kod yanlış.",
+    linkHata: "Lider linki geçersiz. Organizatörden yenisini isteyin.",
+    izleyiciBant: "İzleme modu — noktaları takım lideri işaretler", liderBant: "Liderisiniz: bu takımın noktalarını yalnızca siz işaretlersiniz.",
+    bekleniyor: "Başlangıç bekleniyor — takım lideri «Questi başlat»a basacak. Ekran kendiliğinden güncellenir.",
+    liderFotoBekle: "Takım noktaya varınca lider fotoğrafı yükleyecek.", liderBitirecek: "Görev bitince lider işaretleyecek.",
+    guncellendi: "güncellendi {x}", izleme: "izleme", liderCikis: "Lider modundan çık",
+    liderCikisOnay: "Bu telefonda lider modundan çıkılsın mı? Takımın verileri korunur; lider linkiyle tekrar girebilirsiniz.",
+    linkler: "Linkler", ortakLink: "Tüm katılımcılar için ortak link", ortakAcik: "Katılımcılar takımını seçer; rotayı, görevleri ve sayacı yalnızca izler.",
+    liderLinkleri: "Lider linkleri", liderUyari: "Her linki yalnızca o takımın liderine verin: linki açan herkes noktaları işaretleyebilir.",
+    kopyala: "Kopyala", kopyalandi: "Kopyalandı ✓", yazdir: "🖨 Yazdır", liderLink: "lider",
+    linkAcik: "Yazdırın veya gönderin: ortak linki herkese, lider linkini yalnızca o takımın liderine."
   }
 };
 function t(k, v) {

@@ -1,4 +1,4 @@
-// Takım ekranı: takım seçimi, rota, sayaçlar, fotoğraf, görev tamamlama
+// Takım ekranı: lider (kodlu link) noktaları işaretler, diğer üyeler yalnızca izler
 "use strict";
 
 const A_DURUM = "kv_durum", A_KUYRUK = "kv_kuyruk", A_KUCUK = "kv_kucuk";
@@ -18,6 +18,11 @@ function kucukYaz() {
   if (!yaz(A_KUCUK, kucukler)) { /* depolama dolu: yalnızca bellekte kalır */ }
 }
 function rota() { return rotaAl(durum.takim, durum); }
+function lider() { return durum.rol === "lider"; }
+function liderKoduDogru(n, k) {
+  const kod = (VERI.lider_kodlari || {})[n];
+  return !!kod && String(k || "").replace(/\s+/g, "").toUpperCase() === String(kod).toUpperCase();
+}
 
 // ---------- Sunucu kuyruğu (internet kesilirse sonra gönderir) ----------
 let isleniyor = false;
@@ -54,7 +59,8 @@ window.addEventListener("online", kuyrukIsle);
 function senkronGoster() {
   const e = $("ustSenkron");
   if (!e) return;
-  if (!DB.var()) e.textContent = t("snkYok");
+  if (!lider()) e.textContent = "👁 " + (sonYenileme ? t("guncellendi", { x: saat(sonYenileme) }) : t("izleme"));
+  else if (!DB.var()) e.textContent = t("snkYok");
   else if (kuyruk.length) e.textContent = "⟳ " + t("snkBekliyor", { n: kuyruk.length });
   else e.textContent = "✓ " + t("snkTamam");
 }
@@ -90,26 +96,51 @@ function heroHTML(baslik) {
 function girisCiz() {
   const s = $("giris");
   let h = heroHTML(TL(VERI.etkinlik.ad));
+  h += '<p class="not">👁 ' + esc(t("izleAcik")) + "</p>";
   h += '<h2 class="bolum-baslik">' + esc(t("takimSec")) + '</h2><div class="takimlar">';
   takimNolari().forEach((n) => {
     const ilk = VERI.rotalar[n][0];
     h += '<button type="button" class="takim-btn" data-takim="' + esc(n) + '"><b>' + esc(t("takim")) + " " + esc(n) +
       "</b><small>" + esc(t("ilkNokta", { x: noktaAdi(ilk) })) + "</small></button>";
   });
-  h += '</div><p class="alt-link"><a href="yonetici.html">🔒 ' + esc(t("yoneticiLink")) + "</a></p>";
+  h += "</div>";
+  h += '<div class="kart lider-kart"><h3>⭐ ' + esc(t("liderMisin")) + '</h3><p class="soluk">' + esc(t("liderAcik")) + "</p>" +
+    '<button type="button" class="btn ikincil kucuk" id="liderAcBtn">' + esc(t("kodGir")) + "</button>" +
+    '<form id="liderForm" hidden><label class="alan">' + esc(t("takim")) + '<select id="liderTakim">' +
+    takimNolari().map((n) => '<option value="' + esc(n) + '">' + esc(t("takim")) + " " + esc(n) + "</option>").join("") + "</select></label>" +
+    '<label class="alan">' + esc(t("kod")) + '<input id="liderKod" maxlength="10" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>' +
+    '<p class="hata" id="liderHata" role="alert"></p><button type="submit" class="btn ana">' + esc(t("liderOl")) + "</button></form></div>";
+  h += '<p class="alt-link"><a href="yonetici.html">🔒 ' + esc(t("yoneticiLink")) + "</a></p>";
   s.innerHTML = h;
   dilDugmeleri($("dilKutu"), yenidenCiz);
-  s.querySelectorAll(".takim-btn").forEach((b) => (b.onclick = () => takimSec(b.dataset.takim)));
+  s.querySelectorAll(".takim-btn").forEach((b) => (b.onclick = () => izleyiciSec(b.dataset.takim)));
+  $("liderAcBtn").onclick = () => { $("liderForm").hidden = false; $("liderAcBtn").hidden = true; $("liderKod").focus(); };
+  $("liderForm").onsubmit = (e) => {
+    e.preventDefault();
+    const n = $("liderTakim").value;
+    if (!liderKoduDogru(n, $("liderKod").value)) { $("liderHata").textContent = t("kodHata"); return; }
+    liderGiris(n);
+  };
 }
 
-async function takimSec(n) {
-  if (DB.var()) {
-    try {
-      const k = await DB.get("takimlar/" + n);
-      if (k && k.baslangic && confirm(t("devamOnay", { n }))) { await sunucudanAl(n, k); return; }
-    } catch (e) {}
-  }
-  durum = { takim: n, konumPaylas: true };
+// Takım üyesi: yalnızca izler (sunucudan okur)
+function izleyiciSec(n) {
+  durum = { takim: n, rol: "izleyici" };
+  kucukler = {};
+  sonYenileme = 0;
+  kucukYaz();
+  durumYaz();
+  ekranAc();
+  window.scrollTo(0, 0);
+  izleyiciYenile();
+}
+// Takım lideri: kodu doğru girildiyse işaretleme yetkisi
+async function liderGiris(n) {
+  if (durum.takim === n && lider()) { ekranAc(); return; }
+  let k = null;
+  if (DB.var()) { try { k = await DB.get("takimlar/" + n); } catch (e) {} }
+  if (k && k.baslangic) { await sunucudanAl(n, k); return; }
+  durum = { takim: n, rol: "lider", konumPaylas: true };
   kucukler = {};
   kucukYaz();
   durumYaz();
@@ -118,7 +149,7 @@ async function takimSec(n) {
 }
 async function sunucudanAl(n, k) {
   durum = {
-    takim: n, oturum: k.oturum || null, ad: k.ad || "", rota: Array.isArray(k.rota) ? k.rota : undefined,
+    takim: n, rol: "lider", oturum: k.oturum || null, ad: k.ad || "", rota: Array.isArray(k.rota) ? k.rota : undefined,
     baslangic: k.baslangic, adimlar: k.adimlar || {}, final: k.final || null, bonus: k.bonus || {}, konumPaylas: true, sunucuda: true
   };
   try { kucukler = (await DB.get("kucuk/" + n)) || {}; } catch (e) { kucukler = {}; }
@@ -142,10 +173,19 @@ function hazirCiz() {
   });
   h += '<li class="uc"><span class="no">◆</span><span>' + esc(t("finalN")) + ": " + esc(TL(VERI.baslangic.ad)) + "</span></li></ol>";
   h += '<p class="not">⏱ ' + esc(t("kurallar", { y: VERI.etkinlik.yol_dk, g: VERI.etkinlik.gorev_dk })) + "</p>";
+  if (!lider()) {
+    h += '<div class="kart bekle-kart">⏳ ' + esc(t("bekleniyor")) + "</div>";
+    h += '<button type="button" class="btn ikincil kucuk" id="degistirBtn">' + esc(t("degistir")) + "</button>";
+    s.innerHTML = h;
+    dilDugmeleri($("dilKutu"), yenidenCiz);
+    $("degistirBtn").onclick = takimDegistir;
+    return;
+  }
+  h += '<div class="izle-bant lider">⭐ ' + esc(t("liderBant")) + "</div>";
   h += '<label class="alan">' + esc(t("takimAdi")) + '<input id="takimAdi" maxlength="40" autocomplete="off" value="' + esc(durum.ad || "") + '"></label>';
   h += '<label class="onay"><input type="checkbox" id="konumPaylas"' + (durum.konumPaylas !== false ? " checked" : "") + "> " + esc(t("konumPaylas")) + "</label>";
   h += '<button type="button" class="btn ana" id="baslaBtn">▶ ' + esc(t("basla")) + "</button>";
-  h += '<button type="button" class="btn ikincil kucuk" id="degistirBtn">' + esc(t("degistir")) + "</button>";
+  h += '<button type="button" class="btn ikincil kucuk" id="degistirBtn">' + esc(t("liderCikis")) + "</button>";
   s.innerHTML = h;
   dilDugmeleri($("dilKutu"), () => { durum.ad = $("takimAdi").value; yenidenCiz(); });
   $("baslaBtn").onclick = baslat;
@@ -153,6 +193,7 @@ function hazirCiz() {
 }
 
 function baslat() {
+  if (!lider()) return;
   const simdi = Date.now();
   durum.ad = $("takimAdi").value.trim();
   durum.konumPaylas = $("konumPaylas").checked;
@@ -176,15 +217,17 @@ function baslat() {
 }
 
 function takimDegistir() {
-  if (durum.baslangic && !confirm(t("degistirOnay"))) return;
-  sifirlaYerel();
+  if (lider() && !confirm(t(DB.var() ? "liderCikisOnay" : "degistirOnay"))) return;
+  sifirlaYerel(false);
 }
-function sifirlaYerel() {
+// kuyrukSil=false: gönderilmemiş kayıtlar yine de sunucuya gider
+function sifirlaYerel(kuyrukSil) {
   clearInterval(zamanlayici);
   durum = {};
   kucukler = {};
-  kuyruk = [];
+  if (kuyrukSil) kuyruk = [];
   yonetim = {};
+  sonYenileme = 0;
   durumYaz(); kucukYaz(); kuyrukYaz();
   ekranAc();
   window.scrollTo(0, 0);
@@ -192,7 +235,7 @@ function sifirlaYerel() {
 
 // ---------- Oyun ekranı ----------
 function ustCiz() {
-  $("ustTakim").textContent = t("takim") + " " + durum.takim + (durum.ad ? " · " + durum.ad : "");
+  $("ustTakim").textContent = (lider() ? "⭐ " : "") + t("takim") + " " + durum.takim + (durum.ad ? " · " + durum.ad : "");
   $("ustToplamE").textContent = t("toplam");
   senkronGoster();
 }
@@ -212,7 +255,7 @@ function noktaDetayHTML(id) {
 
 function oyunCiz() {
   const s = $("oyun"), r = rota(), d = durumHesapla(durum, r);
-  let h = "";
+  let h = lider() ? "" : '<div class="izle-bant">👁 ' + esc(t("izleyiciBant")) + "</div>";
 
   if (d.faz === "final") {
     const b = VERI.baslangic;
@@ -222,7 +265,7 @@ function oyunCiz() {
       '<p class="yer">📍 ' + esc(TL(b.ad)) + '<span id="kartMesafe" class="mesafe"></span></p>' +
       "<p>" + esc(TL(VERI.final)) + "</p>" +
       '<a class="btn harita" target="_blank" rel="noopener" href="' + haritaLink(b.lat, b.lng) + '">' + esc(t("konumaGit")) + "</a>" +
-      '<button type="button" class="btn ana" id="finalBtn">' + esc(t("finaleVardik")) + "</button></div>";
+      (lider() ? '<button type="button" class="btn ana" id="finalBtn">' + esc(t("finaleVardik")) + "</button>" : "") + "</div>";
   } else {
     const id = d.id, n = VERI.istasyonlar[id], a = (durum.adimlar || {})[id] || {};
     const [pb, ps] = planDilim(durum.baslangic, d.i);
@@ -234,7 +277,14 @@ function oyunCiz() {
       noktaDetayHTML(id);
     // Adım 1: fotoğraf (varış)
     h += '<div class="adim' + (a.varis ? " bitti" : "") + '"><div class="adim-no">1</div><div class="adim-ic">';
-    if (a.varis) {
+    if (!lider()) {
+      h += a.varis
+        ? '<div class="foto-satir">' + (kucukler[id] ? '<img class="foto-kucuk" data-foto="' + esc(id) + '" src="' + kucukler[id] + '" alt="">' : "") +
+          "<div><b>✓ " + esc(t("varis", { s: saat(a.varis) })) + "</b></div></div>"
+        : '<p class="soluk">' + esc(t("liderFotoBekle")) + "</p>";
+      h += '</div></div><div class="adim' + (a.varis ? "" : " kilitli") + '"><div class="adim-no">2</div><div class="adim-ic"><p class="soluk">' +
+        esc(t("liderBitirecek")) + "</p></div></div></div>";
+    } else if (a.varis) {
       h += '<div class="foto-satir">' + (kucukler[id] ? '<img class="foto-kucuk" data-foto="' + esc(id) + '" src="' + kucukler[id] + '" alt="">' : "") +
         "<div><b>✓ " + esc(t("varis", { s: saat(a.varis) })) + "</b>" +
         (a.mesafe != null ? '<small class="soluk">' + esc(t("uzak", { m: a.mesafe })) + "</small>" : "") +
@@ -243,9 +293,8 @@ function oyunCiz() {
       h += '<p class="soluk">' + esc(t("adimFoto")) + "</p>" +
         '<label class="btn ana foto-btn">' + esc(t("fotoCek")) + '<input type="file" accept="image/*" class="foto-input" data-tur="nokta" data-id="' + esc(id) + '"></label>';
     }
-    h += "</div></div>";
     // Adım 2: görev tamamlandı
-    h += '<div class="adim' + (a.varis ? "" : " kilitli") + '"><div class="adim-no">2</div><div class="adim-ic">' +
+    if (lider()) h += "</div></div>" + '<div class="adim' + (a.varis ? "" : " kilitli") + '"><div class="adim-no">2</div><div class="adim-ic">' +
       '<label class="onay"><input type="checkbox" id="artefaktAldik" checked' + (a.varis ? "" : " disabled") + "> " +
       esc(t("artefaktAldik", { a: TL(n.artefakt) })) + "</label>" +
       '<button type="button" class="btn yesil" id="tamamBtn"' + (a.varis ? "" : " disabled") + ">" + esc(t("tamamla")) + "</button>" +
@@ -274,7 +323,7 @@ function oyunCiz() {
   h += "</div>";
 
   h += bonusHTML();
-  h += '<button type="button" class="btn ikincil kucuk" id="degistirBtn">' + esc(t("degistir")) + "</button>";
+  h += '<button type="button" class="btn ikincil kucuk" id="degistirBtn">' + esc(t(lider() ? "liderCikis" : "degistir")) + "</button>";
   s.innerHTML = h;
   oyunBagla();
 }
@@ -294,7 +343,8 @@ function bonusHTML() {
       });
       h += '</div><small class="soluk">' + esc(t("fotoSayisi", { n: ts.length })) + "</small>";
     }
-    h += '<label class="btn ikincil foto-btn">' + esc(t("fotoEkle")) + '<input type="file" accept="image/*" class="foto-input" data-tur="bonus" data-id="' + esc(bid) + '"></label></div>';
+    if (lider()) h += '<label class="btn ikincil foto-btn">' + esc(t("fotoEkle")) + '<input type="file" accept="image/*" class="foto-input" data-tur="bonus" data-id="' + esc(bid) + '"></label>';
+    h += "</div>";
   }
   return h;
 }
@@ -329,6 +379,7 @@ function oyunBagla() {
 }
 
 async function fotoSecildi(inp, dosya, tur, id) {
+  if (!lider()) return;
   const etiket = inp.parentElement;
   const eski = etiket.firstChild.textContent;
   etiket.classList.add("yukleniyor");
@@ -379,6 +430,7 @@ async function fotoSecildi(inp, dosya, tur, id) {
 }
 
 function tamamla() {
+  if (!lider()) return;
   const d = durumHesapla(durum, rota());
   if (d.faz !== "gorev") return;
   const id = d.id, a = durum.adimlar[id];
@@ -396,6 +448,7 @@ function tamamla() {
 }
 
 function finaleVar() {
+  if (!lider()) return;
   if (!confirm(t("finaleVardik").replace(/^\S+\s*/, "") + "?")) return;
   durum.final = Date.now();
   durumYaz();
@@ -433,7 +486,7 @@ function bitisCiz() {
     h += '<div class="foto-izgara buyuk">' + fotolar.map((id) => '<img class="foto-mini" data-foto="' + esc(id) + '" src="' + kucukler[id] + '" alt="">').join("") + "</div>";
   }
   h += bonusHTML();
-  h += '<button type="button" class="btn ikincil kucuk" id="degistirBtn">' + esc(t("degistir")) + "</button>";
+  h += '<button type="button" class="btn ikincil kucuk" id="degistirBtn">' + esc(t(lider() ? "liderCikis" : "degistir")) + "</button>";
   s.innerHTML = h;
   dilDugmeleri($("dilKutu"), yenidenCiz);
   fotoBagla(s);
@@ -479,7 +532,7 @@ function tik() {
 // ---------- Konum paylaşımı ----------
 let konumIzleId = null, sonGonderim = 0, sonGonderilen = null;
 function konumBaslat() {
-  if (durum.konumPaylas === false || !navigator.geolocation || konumIzleId !== null || !durum.baslangic) return;
+  if (!lider() || durum.konumPaylas === false || !navigator.geolocation || konumIzleId !== null || !durum.baslangic) return;
   konumIzleId = navigator.geolocation.watchPosition((p) => {
     const simdi = Date.now();
     sonKonum = { lat: +p.coords.latitude.toFixed(6), lng: +p.coords.longitude.toFixed(6), acc: Math.round(p.coords.accuracy), ts: simdi };
@@ -493,22 +546,80 @@ function konumBaslat() {
 }
 
 // ---------- Yöneticiyle eşitleme ----------
-let sonKonumAyar;
+let sonKonumAyar, sonYenileme = 0, yoklamaSay = 0;
+// Ekranı yeniden çizer; kaydırma yerini ve açık noktaları korur
+function yerindeCiz() {
+  const y = window.scrollY;
+  const acik = Array.from(document.querySelectorAll(".nokta-satir")).filter((x) => !x.querySelector(".nokta-detay").hidden).map((x) => x.dataset.id);
+  ekranAc();
+  acik.forEach((id) => {
+    const x = document.querySelector('.nokta-satir[data-id="' + id + '"]');
+    if (x) { x.querySelector(".nokta-detay").hidden = false; x.querySelector(".nokta-bas").setAttribute("aria-expanded", "true"); }
+  });
+  window.scrollTo(0, y);
+}
+// Yöneticinin değiştirdiği nokta konumlarını alır; değiştiyse true
+async function konumAyarKontrol(kn) {
+  if (kn === undefined) { try { kn = await DB.get("ayarlar/konumlar"); } catch (e) { return false; } }
+  const kj = JSON.stringify(kn || null);
+  if (kj === sonKonumAyar) return false;
+  const ilk = sonKonumAyar === undefined;
+  sonKonumAyar = kj;
+  await konumlariUygula(kn || null);
+  return !ilk;
+}
+function yenile() { if (lider()) yokla(); else izleyiciYenile(); }
+
+function izOzet(d) {
+  return JSON.stringify([d.ad || "", d.rota || null, d.oturum || null, d.baslangic || null, d.adimlar || {}, d.final || null, d.bonus || {}]);
+}
+function gerekenFotolar() {
+  const k = [];
+  for (const id in durum.adimlar || {}) if (durum.adimlar[id].foto || durum.adimlar[id].varis) k.push(id);
+  for (const b in durum.bonus || {}) for (const x in durum.bonus[b] || {}) k.push("b_" + b + "_" + x);
+  return k;
+}
+async function izleyiciYenile() {
+  if (lider() || !durum.takim || !DB.var()) return;
+  const n = durum.takim;
+  let k;
+  try { k = await DB.get("takimlar/" + n); } catch (e) { senkronGoster(); return; }
+  if (durum.takim !== n || lider()) return;
+  sonYenileme = Date.now();
+  k = k || {};
+  const yeni = {
+    takim: n, rol: "izleyici", ad: k.ad || "", rota: Array.isArray(k.rota) ? k.rota : undefined, oturum: k.oturum || null,
+    baslangic: k.baslangic || null, adimlar: k.adimlar || {}, final: k.final || null, bonus: k.bonus || {}
+  };
+  let degisti = izOzet(yeni) !== izOzet(durum);
+  if (yeni.oturum !== durum.oturum) kucukler = {};
+  durum = yeni;
+  durumYaz();
+  const eksik = gerekenFotolar().filter((x) => !kucukler[x]);
+  if (eksik.length) {
+    const gelen = await Promise.all(eksik.map((x) => DB.get("kucuk/" + n + "/" + x).catch(() => null)));
+    gelen.forEach((v, i) => { if (v) { kucukler[eksik[i]] = v; degisti = true; } });
+    kucukYaz();
+  }
+  if (durum.final) {
+    try {
+      const yn = (await DB.get("yonetim/" + n)) || {};
+      if (JSON.stringify(yn) !== JSON.stringify(yonetim)) { yonetim = yn; degisti = true; }
+    } catch (e) {}
+  }
+  if (yoklamaSay++ % 4 === 0 && await konumAyarKontrol()) degisti = true;
+  if (degisti) yerindeCiz(); else senkronGoster();
+}
+
 async function yokla() {
-  if (!DB.var() || !durum.takim || !durum.baslangic) return;
+  if (!DB.var() || !durum.takim || !durum.baslangic || !lider()) return;
   try {
     const n = durum.takim;
     const [ot, yn, kn] = await Promise.all([DB.get("takimlar/" + n + "/oturum"), DB.get("yonetim/" + n), DB.get("ayarlar/konumlar")]);
-    const kj = JSON.stringify(kn || null);
-    if (kj !== sonKonumAyar) {
-      const ilk = sonKonumAyar === undefined;
-      sonKonumAyar = kj;
-      await konumlariUygula(kn || null);
-      if (!ilk && !$("oyun").classList.contains("gizli")) { const y = window.scrollY; oyunCiz(); window.scrollTo(0, y); }
-    }
+    if (await konumAyarKontrol(kn) && !$("oyun").classList.contains("gizli")) yerindeCiz();
     if (ot === null && durum.sunucuda && kuyruk.length === 0 && !isleniyor) {
       alert(t("sifirlandi"));
-      sifirlaYerel();
+      sifirlaYerel(true);
       return;
     }
     if (ot && durum.oturum && ot !== durum.oturum) {
@@ -530,13 +641,22 @@ async function yokla() {
     return;
   }
   dilDegistir(DIL);
-  if (durum.takim && !VERI.rotalar[durum.takim]) durum = {};
-  ekranAc();
+  if (durum.takim && (!VERI.rotalar[durum.takim] || !durum.rol)) durum = {};
+  // Lider linki: ?t=3&k=KOD  ·  Takım izleme linki: ?t=3
+  const q = new URLSearchParams(location.search);
+  const qn = q.get("t"), qk = q.get("k");
+  if (qn) history.replaceState(null, "", location.pathname);
+  if (qn && VERI.rotalar[qn]) {
+    if (qk && liderKoduDogru(qn, qk)) { await liderGiris(qn); }
+    else if (qk) { alert(t("linkHata")); durum = {}; ekranAc(); }
+    else if (durum.takim !== qn) izleyiciSec(qn);
+    else ekranAc();
+  } else ekranAc();
   konumBaslat();
   kuyrukIsle();
-  yokla();
-  yoklamaZ = setInterval(yokla, 20000);
+  yenile();
+  yoklamaZ = setInterval(yenile, 15000);
   document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) { tik(); kuyrukIsle(); yokla(); }
+    if (!document.hidden) { tik(); kuyrukIsle(); yenile(); }
   });
 })();

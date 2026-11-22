@@ -36,6 +36,7 @@
     <nav class="sekmeler" role="tablist">
       <button type="button" class="sekme secili" data-sekme="canli"></button>
       <button type="button" class="sekme" data-sekme="siralama"></button>
+      <button type="button" class="sekme" data-sekme="linkler"></button>
       <button type="button" class="sekme" data-sekme="ayarlar"></button>
     </nav>
     <div class="y-ust-sag"><span id="saatSimdi" class="saat-simdi"></span><div class="dil" id="dilKutu"></div><button type="button" id="cikisBtn" class="metin-btn acik"></button></div>
@@ -55,6 +56,7 @@
     <section id="s-siralama" class="sekme-ic gizli">
       <div class="kart tablo-kart"><table class="tablo" id="siraTablo"></table></div>
     </section>
+    <section id="s-linkler" class="sekme-ic gizli"></section>
     <section id="s-ayarlar" class="sekme-ic gizli">
       <h2 class="bolum-baslik" id="konumBaslik"></h2>
       <p class="soluk" id="konumAciklama"></p>
@@ -76,6 +78,7 @@
 </div>
 
 <script src="vendor/leaflet/leaflet.js"></script>
+<script src="vendor/qrcode/qrcode.js"></script>
 <script src="common.js"></script>
 <script src="yonetici.js"></script>
 </body>

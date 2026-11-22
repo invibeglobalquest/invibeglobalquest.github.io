@@ -317,5 +317,10 @@
     "8":  ["dikilitas", "ziyafet", "oyun", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar"],
     "9":  ["ziyafet", "oyun", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas"],
     "10": ["oyun", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet"]
+  },
+
+  "lider_kodlari": {
+    "1": "4E362M", "2": "HAS6Y2", "3": "KEZZP9", "4": "KZPW4C", "5": "8VPVYT",
+    "6": "YU4H4D", "7": "F59AYM", "8": "7GRB4K", "9": "DRVS7J", "10": "4MEHDT"
   }
 }
