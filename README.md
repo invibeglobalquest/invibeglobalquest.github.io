@@ -51,7 +51,7 @@ Adres boşsa site yine açılır ama her telefon yalnızca kendini görür (yaln
 Depo → **Settings → Pages → Deploy from a branch → main / (root)**. `main`'e giren her değişiklik 1–2 dk içinde siteye yansır.
 
 ## Etkinlik öncesi kontrol listesi
-- [ ] **PIN'i değiştirin:** `data.json` → `"yonetici_pin"` (varsayılan `1001`).
+- [ ] **PIN'i değiştirin:** `data.json` → `"yonetici_pin"` (şu an `1453`).
 - [ ] **Konumları doğrulayın.** Haritada kesikli çerçeveli iki nokta internette bulunamadığı için yaklaşık girildi:
   - «Последний пир» — **Palude restoranı** (şimdilik Atmeydanı civarı)
   - «Игра хозяйки» — **Sarnıç veya Kapadokya Kafe** (şimdilik Sarnıç)
