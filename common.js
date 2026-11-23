@@ -28,16 +28,16 @@ const METIN = {
     degistirOnay: "Сменить команду? Прогресс на этом телефоне будет удалён.",
     devamOnay: "Команда {n} уже начала квест на другом телефоне. Продолжить с того же места?",
     fazYol: "В пути", fazGorev: "Задание", fazFinal: "К финалу", fazBitti: "Финиш",
-    toplam: "Всего", nokta: "Точка", konumaGit: "📍 Как дойти", hikaye: "Легенда", gorevB: "Задание",
+    toplam: "Всего", nokta: "Точка", konumaGit: "Как дойти", hikaye: "Легенда", gorevB: "Задание",
     artefakt: "Артефакт", kosul: "Условие",
     adimFoto: "Когда придёте, сфотографируйте точку — это отметка о прибытии и старт таймера задания.",
-    fotoCek: "📷 Загрузить фото точки", fotoDegistir: "Заменить фото", fotoHazirlaniyor: "Фото обрабатывается…",
+    fotoCek: "Загрузить фото точки", fotoDegistir: "Заменить фото", fotoHazirlaniyor: "Фото обрабатывается…",
     fotoHata: "Не удалось прочитать фото. Попробуйте ещё раз.",
-    varis: "Прибытие {s}", tamamla: "✅ Задание выполнено", tamamlaOnce: "Сначала загрузите фото точки",
+    varis: "Прибытие {s}", tamamla: "Задание выполнено", tamamlaOnce: "Сначала загрузите фото точки",
     artefaktAldik: "Мы получили артефакт: {a}", tamamlandi: "Выполнено · {s}", plan: "План",
     tumNoktalar: "Все точки маршрута", yolGorevleri: "Задания в пути (бонус)",
-    yolGorevAcik: "Можно выполнить в любой момент квеста.", fotoEkle: "📷 Добавить фото", fotoSayisi: "Фото: {n}",
-    finalBaslik: "Все точки пройдены!", finaleVardik: "🏁 Мы в цистерне",
+    yolGorevAcik: "Можно выполнить в любой момент квеста.", fotoEkle: "Добавить фото", fotoSayisi: "Фото: {n}",
+    finalBaslik: "Все точки пройдены!", finaleVardik: "Мы в цистерне",
     bitti: "Квест завершён!", toplamSure: "Общее время", artefaktlar: "Артефакты", puan: "Баллы",
     snkTamam: "сохранено", snkBekliyor: "отправка… ({n})", snkYok: "только на телефоне",
     sureDoldu: "Время вышло!", uzak: "{m} м от точки",
@@ -76,7 +76,16 @@ const METIN = {
     liderLinkleri: "Личные ссылки лидеров", liderUyari: "Давайте каждую ссылку только лидеру этой команды: кто её откроет, сможет отмечать точки.",
     kopyala: "Копировать", kopyalandi: "Скопировано ✓", yazdir: "🖨 Печать", liderLink: "лидер",
     linkAcik: "Распечатайте или отправьте: общую ссылку — всем, личную ссылку — только лидеру своей команды.",
-    baskiPaketi: "📄 Все карточки для печати"
+    baskiPaketi: "📄 Все карточки для печати",
+    kolListe: "Список артефактов", kutArtefakt: "Артефакт получен!", kutGorev: "Задание выполнено", kutDevam: "Дальше",
+    kutAlt: "«{x}» · артефактов: {n} из {m}", dinle: "Слушать легенду", durdur: "Остановить", lanetKalkti: "Проклятие снято",
+    kartKaydet: "Сохранить открытку", kartHazirlaniyor: "Готовим открытку…", organizator: "Организатор квеста", atla: "Пропустить",
+    fotolarimiz: "Наши фото", kutBonus: "Бонусное фото добавлено", ekranLink: "Экран для финала",
+    guvenlik: "Безопасность", acikMod: "Открытый режим: коды и PIN проверяются на телефоне.", guvenliMod: "Защищённый режим: коды и PIN проверяет Firebase.",
+    kurulumBtn: "Настроить защищённый режим", kurulumTamam: "Аккаунты созданы. Теперь вставьте правила ниже в Firebase и сообщите, что готово.",
+    kurallarKopyala: "Скопировать правила", girisHata: "Не удалось войти. Проверьте интернет.",
+    ekBaslat: "Начать показ", ekTamEkran: "Полный экран", ekSiralama: "Таблица команд", ekFotolar: "Фото квеста", ekFotoYok: "Ждём первые фото…",
+    ekOlaylar: "Последние события", ekArtefakt: "Команда {n} получила артефакт", ekFinal: "Команда {n} вернулась в цистерну!", ekBasladi: "с начала квеста"
   },
   tr: {
     takimSec: "Takımınızı seçin", takim: "Takım", ilkNokta: "İlk nokta: {x}",
@@ -87,16 +96,16 @@ const METIN = {
     degistirOnay: "Takımı değiştirmek istiyor musunuz? Bu telefondaki ilerleme silinir.",
     devamOnay: "Takım {n} questi başka bir telefonda başlatmış. Kaldığı yerden devam edilsin mi?",
     fazYol: "Yolda", fazGorev: "Görev", fazFinal: "Finale", fazBitti: "Bitti",
-    toplam: "Toplam", nokta: "Nokta", konumaGit: "📍 Konuma git", hikaye: "Hikâye", gorevB: "Görev",
+    toplam: "Toplam", nokta: "Nokta", konumaGit: "Konuma git", hikaye: "Hikâye", gorevB: "Görev",
     artefakt: "Artefakt", kosul: "Koşul",
     adimFoto: "Noktaya varınca fotoğrafını çekin — bu varış kaydınızdır ve görev sayacını başlatır.",
-    fotoCek: "📷 Noktanın fotoğrafını yükle", fotoDegistir: "Fotoğrafı değiştir", fotoHazirlaniyor: "Fotoğraf hazırlanıyor…",
+    fotoCek: "Noktanın fotoğrafını yükle", fotoDegistir: "Fotoğrafı değiştir", fotoHazirlaniyor: "Fotoğraf hazırlanıyor…",
     fotoHata: "Fotoğraf okunamadı. Tekrar deneyin.",
-    varis: "Varış {s}", tamamla: "✅ Görev tamamlandı", tamamlaOnce: "Önce noktanın fotoğrafını yükleyin",
+    varis: "Varış {s}", tamamla: "Görev tamamlandı", tamamlaOnce: "Önce noktanın fotoğrafını yükleyin",
     artefaktAldik: "Artefaktı aldık: {a}", tamamlandi: "Tamamlandı · {s}", plan: "Plan",
     tumNoktalar: "Rotadaki tüm noktalar", yolGorevleri: "Yol görevleri (bonus)",
-    yolGorevAcik: "Quest boyunca istediğiniz an yapabilirsiniz.", fotoEkle: "📷 Fotoğraf ekle", fotoSayisi: "{n} fotoğraf",
-    finalBaslik: "Tüm noktalar tamam!", finaleVardik: "🏁 Sarnıca vardık",
+    yolGorevAcik: "Quest boyunca istediğiniz an yapabilirsiniz.", fotoEkle: "Fotoğraf ekle", fotoSayisi: "{n} fotoğraf",
+    finalBaslik: "Tüm noktalar tamam!", finaleVardik: "Sarnıca vardık",
     bitti: "Quest tamamlandı!", toplamSure: "Toplam süre", artefaktlar: "Artefaktlar", puan: "Puan",
     snkTamam: "kaydedildi", snkBekliyor: "gönderiliyor… ({n})", snkYok: "yalnızca bu telefonda",
     sureDoldu: "Süre doldu!", uzak: "noktaya {m} m",
@@ -106,7 +115,7 @@ const METIN = {
     pinBaslik: "Yönetici girişi", giris: "Giriş", pinHata: "PIN yanlış", cikis: "Çıkış",
     canli: "Canlı", siralama: "Sıralama", ayarlar: "Ayarlar",
     sBasladi: "Başlayan", sBitirdi: "Bitiren", sGecikme: "Gecikmede", sFoto: "Fotoğraf",
-    dBaslamadi: "Başlamadı", dYol: "Yolda → {x}", dGorev: "Noktada: {x}", dFinal: "Finale gidiyor", dBitti: "Bitirdi",
+    dBaslamadi: "Başlamadı", dYol: "Yolda: {x}", dGorev: "Noktada: {x}", dFinal: "Finale gidiyor", dBitti: "Bitirdi",
     once: "{x} önce", azOnce: "az önce", dk: "dk", sn: "sn",
     akis: "Olay akışı", akisBos: "Henüz olay yok.",
     oBasla: "questi başlattı", oVaris: "vardı · {x}", oBitis: "tamamladı · {x}", oBonus: "bonus fotoğraf · {x}", oFinal: "sarnıca vardı (final)",
@@ -134,7 +143,16 @@ const METIN = {
     liderLinkleri: "Lider linkleri", liderUyari: "Her linki yalnızca o takımın liderine verin: linki açan herkes noktaları işaretleyebilir.",
     kopyala: "Kopyala", kopyalandi: "Kopyalandı ✓", yazdir: "🖨 Yazdır", liderLink: "lider",
     linkAcik: "Yazdırın veya gönderin: ortak linki herkese, lider linkini yalnızca o takımın liderine.",
-    baskiPaketi: "📄 Tüm baskı kartları"
+    baskiPaketi: "📄 Tüm baskı kartları",
+    kolListe: "Artefakt listesi", kutArtefakt: "Artefakt kazanıldı!", kutGorev: "Görev tamamlandı", kutDevam: "Devam",
+    kutAlt: "«{x}» · artefakt: {n}/{m}", dinle: "Hikâyeyi dinle", durdur: "Durdur", lanetKalkti: "Lanet kaldırıldı",
+    kartKaydet: "Hatıra kartını kaydet", kartHazirlaniyor: "Kart hazırlanıyor…", organizator: "Quest organizatörü", atla: "Geç",
+    fotolarimiz: "Fotoğraflarımız", kutBonus: "Bonus fotoğraf eklendi", ekranLink: "Final ekranı",
+    guvenlik: "Güvenlik", acikMod: "Açık mod: kodlar ve PIN telefonda kontrol edilir.", guvenliMod: "Güvenli mod: kodları ve PIN'i Firebase kontrol eder.",
+    kurulumBtn: "Güvenli modu kur", kurulumTamam: "Hesaplar oluşturuldu. Şimdi aşağıdaki kuralları Firebase'e yapıştırın ve bana haber verin.",
+    kurallarKopyala: "Kuralları kopyala", girisHata: "Giriş yapılamadı. İnterneti kontrol edin.",
+    ekBaslat: "Gösterimi başlat", ekTamEkran: "Tam ekran", ekSiralama: "Takım sıralaması", ekFotolar: "Quest fotoğrafları", ekFotoYok: "İlk fotoğraflar bekleniyor…",
+    ekOlaylar: "Son olaylar", ekArtefakt: "Takım {n} artefakt kazandı", ekFinal: "Takım {n} sarnıca döndü!", ekBasladi: "başlangıçtan beri"
   }
 };
 function t(k, v) {
@@ -194,6 +212,94 @@ function takimNolari() {
   return Object.keys(VERI.rotalar).sort((a, b) => a - b);
 }
 
+// ---------- Güvenli mod (Firebase Authentication REST) ----------
+// data.json → etkinlik.firebase_api_key + guvenli:true olunca aktif. Yoksa açık mod (eski davranış).
+const GUVEN = {
+  anahtar: "kv_oturum",
+  kurulum: false,
+  oturum: null,
+  key() { return ((VERI && VERI.etkinlik.firebase_api_key) || "").trim(); },
+  aktif() { return !!this.key() && (!!VERI.etkinlik.guvenli || this.kurulum); },
+  alan() { return VERI.etkinlik.hesap_alani || "invibequest.app"; },
+  oku() { if (this.oturum) return this.oturum; try { this.oturum = JSON.parse(localStorage.getItem(this.anahtar)); } catch (e) {} return this.oturum; },
+  yaz(o) { this.oturum = o; try { o ? localStorage.setItem(this.anahtar, JSON.stringify(o)) : localStorage.removeItem(this.anahtar); } catch (e) {} },
+  async post(url, govde, form) {
+    const r = await fetch(url + "?key=" + encodeURIComponent(this.key()), {
+      method: "POST",
+      headers: { "Content-Type": form ? "application/x-www-form-urlencoded" : "application/json" },
+      body: form ? new URLSearchParams(govde).toString() : JSON.stringify(govde)
+    });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok) { const e = new Error((j.error && j.error.message) || "HTTP " + r.status); e.kod = e.message; throw e; }
+    return j;
+  },
+  idUrl(yol) { return (VERI.etkinlik.auth_url || "https://identitytoolkit.googleapis.com") + "/v1/" + yol; },
+  kaydet(j, email) {
+    const o = { email: email || j.email || "", idToken: j.idToken || j.id_token, refreshToken: j.refreshToken || j.refresh_token,
+      exp: Date.now() + (+(j.expiresIn || j.expires_in || 3600)) * 1000 - 120000 };
+    this.yaz(o);
+    return o;
+  },
+  async giris(email, sifre) { return this.kaydet(await this.post(this.idUrl("accounts:signInWithPassword"), { email, password: sifre, returnSecureToken: true }), email); },
+  async kayit(email, sifre) { return this.post(this.idUrl("accounts:signUp"), { email, password: sifre, returnSecureToken: true }); },
+  async anonim() { return this.kaydet(await this.post(this.idUrl("accounts:signUp"), { returnSecureToken: true }), ""); },
+  async yenile(o) {
+    const url = (VERI.etkinlik.token_url || "https://securetoken.googleapis.com") + "/v1/token";
+    return this.kaydet(await this.post(url, { grant_type: "refresh_token", refresh_token: o.refreshToken }, true), o.email);
+  },
+  async token() {
+    if (!this.aktif()) return null;
+    let o = this.oku();
+    if (!o || !o.refreshToken) o = await this.anonim();
+    else if (Date.now() > o.exp) {
+      try { o = await this.yenile(o); } catch (e) { if (!o.email) o = await this.anonim(); else throw e; }
+    }
+    return o.idToken;
+  },
+  cikis() { this.yaz(null); },
+  eposta(rol, n) { return (rol === "yonetici" ? "yonetici" : "takim" + n) + "@" + this.alan(); },
+  sifre(rol, deger) { return rol === "yonetici" ? "quest#" + String(deger).trim() : String(deger).replace(/\s+/g, "").toUpperCase(); }
+};
+// Lider kodunu doğrular (güvenli modda Firebase'e giriş yaparak)
+async function liderDogrula(n, kod) {
+  if (!GUVEN.aktif()) {
+    const k = (VERI.lider_kodlari || {})[n];
+    return !!k && String(kod || "").replace(/\s+/g, "").toUpperCase() === String(k).toUpperCase();
+  }
+  try { await GUVEN.giris(GUVEN.eposta("lider", n), GUVEN.sifre("lider", kod)); return true; }
+  catch (e) { if (/INVALID|PASSWORD|NOT_FOUND|CREDENTIAL/.test(e.kod || "")) return false; throw e; }
+}
+// Yönetici PIN'ini doğrular; başarılıysa lider kodlarını da yükler
+async function yoneticiDogrula(pin) {
+  if (!GUVEN.aktif()) {
+    const ok = String(pin || "").trim() === String(VERI.etkinlik.yonetici_pin);
+    if (ok) try { localStorage.setItem("kv_yonetici", String(pin).trim()); } catch (e) {}
+    return ok;
+  }
+  try { await GUVEN.giris(GUVEN.eposta("yonetici"), GUVEN.sifre("yonetici", pin)); }
+  catch (e) { if (/INVALID|PASSWORD|NOT_FOUND|CREDENTIAL/.test(e.kod || "")) return false; throw e; }
+  await liderKodlariYukle();
+  return true;
+}
+// Daha önce giriş yapılmış mı (sayfa yenilenince PIN sormamak için)
+async function yoneticiOturumu() {
+  if (!GUVEN.aktif()) {
+    let k = null;
+    try { k = localStorage.getItem("kv_yonetici"); } catch (e) {}
+    return String(k || "").trim() === String(VERI.etkinlik.yonetici_pin);
+  }
+  const o = GUVEN.oku();
+  if (!o || o.email !== GUVEN.eposta("yonetici")) return false;
+  try { await GUVEN.token(); await liderKodlariYukle(); return true; } catch (e) { return false; }
+}
+async function liderKodlariYukle() {
+  if (GUVEN.aktif()) { try { VERI.lider_kodlari = (await DB.get("gizli/kodlar")) || {}; } catch (e) { VERI.lider_kodlari = VERI.lider_kodlari || {}; } }
+}
+function yoneticiCikis() {
+  try { localStorage.removeItem("kv_yonetici"); } catch (e) {}
+  if (GUVEN.aktif()) GUVEN.cikis();
+}
+
 // ---------- Sunucu (Firebase Realtime Database REST API) ----------
 const DB = {
   url() {
@@ -206,7 +312,8 @@ const DB = {
     if (!u) throw new Error("sunucu yok");
     const opt = { method, headers: {} };
     if (govde !== undefined) { opt.body = JSON.stringify(govde); opt.headers["Content-Type"] = "application/json"; }
-    const r = await fetch(u + "/" + yol + ".json", opt);
+    const tk = await GUVEN.token();
+    const r = await fetch(u + "/" + yol + ".json" + (tk ? "?auth=" + encodeURIComponent(tk) : ""), opt);
     if (!r.ok) throw new Error("HTTP " + r.status);
     const txt = await r.text();
     return txt ? JSON.parse(txt) : null;
@@ -226,9 +333,11 @@ const DB = {
     };
     const yokla = () => { clearInterval(zaman); sorgula(); zaman = setInterval(sorgula, 10000); };
     if (typeof EventSource === "undefined") { yokla(); return { kapat() { clearInterval(zaman); } }; }
-    const ac = () => {
+    const ac = async () => {
       if (kapali) return;
-      es = new EventSource(this.url() + "/" + yol + ".json");
+      let tk = null;
+      try { tk = await GUVEN.token(); } catch (e) { durumCb && durumCb(false); setTimeout(ac, 10000); return; }
+      es = new EventSource(this.url() + "/" + yol + ".json" + (tk ? "?auth=" + encodeURIComponent(tk) : ""));
       const isle = (patch) => (ev) => {
         try {
           const m = JSON.parse(ev.data);
@@ -242,6 +351,10 @@ const DB = {
       es.addEventListener("put", isle(false));
       es.addEventListener("patch", isle(true));
       es.addEventListener("keep-alive", () => durumCb && durumCb(true));
+      // jeton süresi dolunca Firebase akışı keser: yenileyip yeniden bağlan
+      const yeniden = () => { es.close(); const o = GUVEN.oku(); if (o) { o.exp = 0; GUVEN.yaz(o); } setTimeout(ac, 500); };
+      es.addEventListener("auth_revoked", yeniden);
+      es.addEventListener("cancel", yeniden);
       es.onerror = () => {
         durumCb && durumCb(false);
         if (++hataSay >= 4) { es.close(); yokla(); }
@@ -382,3 +495,36 @@ function fotoGoster(src, baslik) {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") { const k = $("lightbox"); if (k) k.classList.remove("acik"); }
 });
+
+// ---------- Sesli anlatım (tarayıcının kendi sesi) ----------
+function sesVar() { return typeof window !== "undefined" && "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined"; }
+function dinleBtn(metin) {
+  if (!sesVar()) return "";
+  return '<button type="button" class="dinle-btn" data-metin="' + esc(metin) + '">' + (typeof ikon === "function" ? ikon("ses") : "") + "<span>" + esc(t("dinle")) + "</span></button>";
+}
+let sesBtn = null;
+function dinleBagla(kok) {
+  (kok || document).querySelectorAll(".dinle-btn").forEach((b) => {
+    b.onclick = (e) => {
+      e.preventDefault();
+      const ss = window.speechSynthesis;
+      if (sesBtn === b && ss.speaking) { ss.cancel(); return; }
+      ss.cancel();
+      const u = new SpeechSynthesisUtterance(b.dataset.metin);
+      const dil = DIL === "tr" ? "tr" : "ru";
+      u.lang = dil === "tr" ? "tr-TR" : "ru-RU";
+      const ses = ss.getVoices().find((v) => (v.lang || "").toLowerCase().startsWith(dil));
+      if (ses) u.voice = ses;
+      u.rate = 0.95;
+      const ayarla = (calisiyor) => { b.classList.toggle("calisiyor", calisiyor); b.querySelector("span").textContent = t(calisiyor ? "durdur" : "dinle"); };
+      if (sesBtn && sesBtn !== b) { sesBtn.classList.remove("calisiyor"); sesBtn.querySelector("span").textContent = t("dinle"); }
+      sesBtn = b;
+      u.onend = u.onerror = () => ayarla(false);
+      ayarla(true);
+      ss.speak(u);
+    };
+  });
+}
+function swKaydet() {
+  if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) navigator.serviceWorker.register("sw.js").catch(() => {});
+}

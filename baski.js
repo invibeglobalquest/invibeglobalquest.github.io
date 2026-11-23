@@ -1,5 +1,6 @@
 // Baskı paketi: data.json + materyal.json'dan yazdırılabilir A4 sayfalar üretir
 "use strict";
+GUVEN.anahtar = "kv_oturum_y";
 
 let M = null, SITE = "";
 const FOTO = { gulhane: null, yolfoto: null };
@@ -309,14 +310,12 @@ function baslat() {
     return;
   }
   SITE = (VERI.etkinlik.site_url || location.origin + location.pathname.replace(/[^/]*$/, "")).replace(/\/?$/, "/");
-  let k = null;
-  try { k = localStorage.getItem("kv_yonetici"); } catch (e) {}
-  const dogru = (p) => String(p || "").trim() === String(VERI.etkinlik.yonetici_pin);
-  if (dogru(k)) { baslat(); return; }
-  $("kilitForm").onsubmit = (e) => {
+  if (await yoneticiOturumu()) { baslat(); return; }
+  $("kilitForm").onsubmit = async (e) => {
     e.preventDefault();
-    if (!dogru($("kilitPin").value)) { $("kilitHata").textContent = "PIN yanlış"; return; }
-    try { localStorage.setItem("kv_yonetici", $("kilitPin").value.trim()); } catch (e2) {}
+    let ok = false;
+    try { ok = await yoneticiDogrula($("kilitPin").value); } catch (e2) { $("kilitHata").textContent = "Bağlantı hatası"; return; }
+    if (!ok) { $("kilitHata").textContent = "PIN yanlış"; return; }
     baslat();
   };
   $("kilitPin").focus();

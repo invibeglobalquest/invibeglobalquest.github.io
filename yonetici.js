@@ -1,5 +1,6 @@
 // Yönetici paneli: tüm takımları canlı izleme, harita, olay akışı, fotoğraflar, puan, konum ayarı
 "use strict";
+GUVEN.anahtar = "kv_oturum_y";
 
 let TAKIMLAR = {}, KUCUK = {}, YONETIM = {};
 let harita = null, noktaIsaret = {}, takimIsaret = {};
@@ -39,7 +40,7 @@ function fotoSay() {
 }
 function bonusBaslik(k) {
   const m = /^b_(.+)_\d+$/.exec(k);
-  return m ? (VERI.yol_gorevleri[m[1]] || {}).emoji + " " + TL((VERI.yol_gorevleri[m[1]] || {}).baslik) : noktaAdi(k);
+  return m ? TL((VERI.yol_gorevleri[m[1]] || {}).baslik) : noktaAdi(k);
 }
 
 // ---------- PIN ----------
@@ -50,7 +51,6 @@ function pinCiz() {
   $("pinGeri").textContent = t("takimEkrani");
   dilDugmeleri($("dilKutuPin"), pinCiz);
 }
-function pinDogru(p) { return String(p || "").trim() === String(VERI.etkinlik.yonetici_pin); }
 function girisYap() {
   $("pinEkran").classList.add("gizli");
   $("panel").classList.remove("gizli");
@@ -78,7 +78,7 @@ function panelMetinleri() {
 function panelBaslat() {
   panelMetinleri();
   document.querySelectorAll(".sekme").forEach((b) => (b.onclick = () => sekmeAc(b.dataset.sekme)));
-  $("cikisBtn").onclick = () => { try { localStorage.removeItem("kv_yonetici"); } catch (e) {} location.reload(); };
+  $("cikisBtn").onclick = () => { yoneticiCikis(); location.reload(); };
   $("detayKapat").onclick = detayKapat;
   $("detay").onclick = (e) => { if (e.target.id === "detay") detayKapat(); };
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") detayKapat(); });
@@ -157,14 +157,23 @@ function istatistikCiz() {
     kutu(t("sGecikme"), gec, gec ? "uyar" : "") + kutu(t("sFoto"), fotoSay());
 }
 
-function durumMetni(n, d) {
-  const ad = (id) => { const s = VERI.istasyonlar[id]; return s ? s.emoji + " " + TL(s.baslik) : id; };
+function durumMetni(n, d, html) {
+  const ad = (id) => { const s = VERI.istasyonlar[id]; return s ? TL(s.baslik) : id; };
+  if (html) {
+    switch (d.faz) {
+      case "baslamadi": return esc(t("dBaslamadi"));
+      case "yol": return ikon("ok") + " " + esc(t("dYol", { x: ad(d.id) }));
+      case "gorev": return noktaIkon(d.id) + " " + esc(t("dGorev", { x: ad(d.id) }));
+      case "final": return ikon("sarnic") + " " + esc(t("dFinal"));
+      default: return ikon("bayrak") + " " + esc(t("dBitti"));
+    }
+  }
   switch (d.faz) {
     case "baslamadi": return t("dBaslamadi");
-    case "yol": return "🚶 " + t("dYol", { x: ad(d.id) });
-    case "gorev": return "🎯 " + t("dGorev", { x: ad(d.id) });
-    case "final": return "🏛 " + t("dFinal");
-    default: return "🏁 " + t("dBitti");
+    case "yol": return t("dYol", { x: ad(d.id) });
+    case "gorev": return t("dGorev", { x: ad(d.id) });
+    case "final": return t("dFinal");
+    default: return t("dBitti");
   }
 }
 
@@ -184,10 +193,10 @@ function kartlarCiz() {
     h += '<button type="button" class="' + sinif + '" data-takim="' + esc(n) + '" style="--renk:' + renk(n) + '">' +
       '<div class="t-ust"><span class="t-no">' + esc(n) + "</span><span class=\"t-ad\"><b>" + esc(t("takim")) + " " + esc(n) + "</b>" +
       (k.ad ? "<small>" + esc(k.ad) + "</small>" : "") + "</span>" + sayac + "</div>" +
-      '<div class="t-durum">' + esc(durumMetni(n, d)) + "</div>" +
+      '<div class="t-durum">' + durumMetni(n, d, true) + "</div>" +
       '<div class="bar"><i style="width:' + (100 * d.tamam / (r.length || 1)) + '%"></i></div>' +
       '<div class="t-alt"><span>' + d.tamam + "/" + r.length + "</span><span>★ " + artefaktSay(n) + "</span><span>" + puanTop(n) + " " + esc(t("puan").toLowerCase()) + "</span>" +
-      (gps ? "<span>" + esc(gps) + "</span>" : "") +
+      (gps ? "<span>" + ikon("konum") + " " + esc(gps.replace(/^📍\s*/, "")) + "</span>" : "") +
       (k.baslangic ? '<span class="sag">' + esc(onceYaz(sonHareket(k), simdi)) + "</span>" : "") + "</div></button>";
   });
   const kutu = $("takimKartlari");
@@ -218,21 +227,21 @@ function akisCiz() {
   $("akis").innerHTML = ol.map((o) => {
     let metin = "", foto = "";
     const s = VERI.istasyonlar[o.id];
-    const ad = s ? s.emoji + " " + TL(s.baslik) : "";
-    if (o.tur === "basla") metin = "▶ " + t("oBasla");
+    const ad = s ? TL(s.baslik) : "";
+    if (o.tur === "basla") metin = ikon("baslat") + " " + esc(t("oBasla"));
     else if (o.tur === "varis") {
-      metin = "📷 " + t("oVaris", { x: ad }) + (o.a.mesafe != null ? " · " + t("uzak", { m: o.a.mesafe }) : "");
+      metin = ikon("foto") + " " + esc(t("oVaris", { x: ad }) + (o.a.mesafe != null ? " · " + t("uzak", { m: o.a.mesafe }) : ""));
       foto = (KUCUK[o.n] || {})[o.id] ? o.id : "";
     } else if (o.tur === "bitis") {
       const sure = o.a.varis ? " (" + dakika(o.a.bitis - o.a.varis) + ")" : "";
-      metin = "✅ " + t("oBitis", { x: ad }) + sure + (artefaktVar(o.n, o.id) ? " ★" : "");
+      metin = ikon("tamam") + " " + esc(t("oBitis", { x: ad }) + sure) + (artefaktVar(o.n, o.id) ? " " + ikon("yildiz", "altin") : "");
     } else if (o.tur === "bonus") {
-      metin = "⭐ " + t("oBonus", { x: bonusBaslik(o.key) });
+      metin = ikon("yildiz") + " " + esc(t("oBonus", { x: bonusBaslik(o.key) }));
       foto = (KUCUK[o.n] || {})[o.key] ? o.key : "";
-    } else metin = "🏁 " + t("oFinal");
+    } else metin = ikon("bayrak") + " " + esc(t("oFinal"));
     return '<li><span class="a-saat">' + saat(o.ts) + "<small>" + esc(onceYaz(o.ts, simdi)) + "</small></span>" +
       '<span class="t-no kucuk" style="--renk:' + renk(o.n) + '">' + esc(o.n) + "</span>" +
-      '<span class="a-metin"><b>' + esc(t("takim")) + " " + esc(o.n) + "</b> " + esc(metin) + "</span>" +
+      '<span class="a-metin"><b>' + esc(t("takim")) + " " + esc(o.n) + "</b> " + metin + "</span>" +
       (foto ? '<img class="foto-mini" data-n="' + esc(o.n) + '" data-k="' + esc(foto) + '" src="' + KUCUK[o.n][foto] + '" alt="">' : "") + "</li>";
   }).join("");
   $("akis").querySelectorAll("img[data-k]").forEach((img) => (img.onclick = () => tamFoto(img.dataset.n, img.dataset.k, img.src)));
@@ -272,10 +281,10 @@ function noktaIsaretleri() {
       noktaIsaret[id] = m;
     }
   };
-  ekle(VERI.baslangic.id, VERI.baslangic, "🏛", TL(VERI.baslangic.ad) + " · " + t("baslangicN") + " / " + t("finalN"));
+  ekle(VERI.baslangic.id, VERI.baslangic, ikon("sarnic"), TL(VERI.baslangic.ad) + " · " + t("baslangicN") + " / " + t("finalN"));
   for (const id in VERI.istasyonlar) {
     const s = VERI.istasyonlar[id];
-    ekle(id, s, s.emoji, TL(s.baslik) + " — " + TL(s.yer) + (s.dogrula ? " ⚠ " + t("dogrula") : ""));
+    ekle(id, s, noktaIkon(id), TL(s.baslik) + " — " + TL(s.yer) + (s.dogrula ? " ⚠ " + t("dogrula") : ""));
   }
   tasimaAyarla();
   haritaGuncelle();
@@ -342,7 +351,7 @@ function detayCiz() {
   if (!n) return;
   const k = takimKaydi(n), r = takimRota(n), simdi = Date.now(), d = durumHesapla(k, r, simdi);
   $("detayBaslik").innerHTML = '<span class="t-no" style="--renk:' + renk(n) + '">' + esc(n) + "</span> " + esc(t("takim")) + ' <span class="sayi">' + esc(n) + "</span>" + (k.ad ? " · " + esc(k.ad) : "");
-  let h = '<p class="t-durum">' + esc(durumMetni(n, d)) + "</p>";
+  let h = '<p class="t-durum">' + durumMetni(n, d, true) + "</p>";
   h += '<div class="ozet-kart kart"><div><small>' + esc(t("baslangicN")) + "</small><b>" + saat(k.baslangic) + "</b></div>" +
     "<div><small>" + esc(t("sure")) + "</small><b>" + (k.baslangic ? sureYaz((k.final || simdi) - k.baslangic) : "—") + "</b></div>" +
     "<div><small>★</small><b>" + artefaktSay(n) + "/" + artefaktToplam(n) + "</b></div>" +
@@ -362,7 +371,7 @@ function detayCiz() {
     const art = artefaktVar(n, id);
     h += '<div class="d-satir' + (a.bitis ? " tamam" : i === d.i ? " aktif" : "") + '">' +
       (kc ? '<img class="foto-mini" data-n="' + esc(n) + '" data-k="' + esc(id) + '" src="' + kc + '" alt="">' : '<span class="foto-mini bos">' + (i + 1) + "</span>") +
-      '<div class="d-bilgi"><b>' + (i + 1) + ". " + s.emoji + " " + esc(TL(s.baslik)) + "</b>" +
+      '<div class="d-bilgi"><b>' + (i + 1) + ". " + noktaIkon(id) + " " + esc(TL(s.baslik)) + "</b>" +
       "<small>" + esc(t("kPlan")) + " " + saat(pb) + "–" + saat(ps) + " · " + esc(t("kVaris")) + " " + saat(a.varis) +
       (yolSure != null ? ' <span class="' + (yolGec ? "kirmizi-yazi" : "") + '">(' + esc(t("kYol")) + " " + dakika(yolSure) + ")</span>" : "") +
       " · " + esc(t("kBitis")) + " " + saat(a.bitis) +
@@ -378,7 +387,7 @@ function detayCiz() {
   for (const b in VERI.yol_gorevleri) {
     const g = VERI.yol_gorevleri[b], tsler = Object.keys(((k.bonus || {})[b]) || {}).sort();
     const art = yon(n, b).artefakt === true;
-    h += '<div class="d-satir bonus"><div class="d-bilgi"><b>' + g.emoji + " " + esc(TL(g.baslik)) + "</b><small>" + esc(t("fotoSayisi", { n: tsler.length })) + "</small>" +
+    h += '<div class="d-satir bonus"><div class="d-bilgi"><b>' + noktaIkon(b) + " " + esc(TL(g.baslik)) + "</b><small>" + esc(t("fotoSayisi", { n: tsler.length })) + "</small>" +
       '<div class="foto-izgara">' + tsler.map((x) => {
         const kk = "b_" + b + "_" + x, kc = (KUCUK[n] || {})[kk];
         return kc ? '<img class="foto-mini" data-n="' + esc(n) + '" data-k="' + esc(kk) + '" src="' + kc + '" alt="">' : "";
@@ -386,7 +395,7 @@ function detayCiz() {
       '<div class="d-islem">' + (g.artefakt_var ? '<button type="button" class="yildiz' + (art ? " var" : "") + '" data-n="' + esc(n) + '" data-k="' + esc(b) + '" data-v="' + (art ? 1 : 0) + '" title="' + esc(TL(g.artefakt)) + '">' + (art ? "★" : "☆") + "</button>" : "") +
       puanGirdi(n, b) + "</div></div>";
   }
-  if (k.final) h += '<p class="t-durum">🏁 ' + esc(t("oFinal")) + " · " + saat(k.final) + "</p>";
+  if (k.final) h += '<p class="t-durum">' + ikon("bayrak") + " " + esc(t("oFinal")) + " · " + saat(k.final) + "</p>";
   h += '<button type="button" class="btn kirmizi kucuk" id="sifirlaBtn">' + esc(t("sifirla")) + "</button>";
   const ic = $("detayIc");
   ic.innerHTML = h;
@@ -439,7 +448,7 @@ function siralamaCiz() {
   satir.sort((a, b) => b.art - a.art || b.puan - a.puan || a.sure - b.sure || b.d.tamam - a.d.tamam || a.n - b.n);
   let h = "<thead><tr><th>" + esc(t("sira")) + "</th><th>" + esc(t("takim")) + "</th><th>★</th><th>" + esc(t("puan")) + "</th><th>" + esc(t("tamamNokta")) + "</th><th>" + esc(t("sure")) + "</th></tr></thead><tbody>";
   satir.forEach((s, i) => {
-    const sure = s.d.faz === "bitti" ? sureYaz(s.d.toplam) + " 🏁" : s.k.baslangic ? sureYaz(simdi - s.k.baslangic) : "—";
+    const sure = s.d.faz === "bitti" ? sureYaz(s.d.toplam) + " " + ikon("bayrak") : s.k.baslangic ? sureYaz(simdi - s.k.baslangic) : "—";
     h += '<tr data-takim="' + esc(s.n) + '"><td>' + (i + 1) + '</td><td><span class="t-no kucuk" style="--renk:' + renk(s.n) + '">' + esc(s.n) + "</span> " + esc(t("takim")) + " " + esc(s.n) + (s.k.ad ? " · " + esc(s.k.ad) : "") +
       '</td><td class="sayi">' + s.art + '</td><td class="sayi">' + s.puan + '</td><td class="sayi">' + s.d.tamam + "/" + s.r.length + '</td><td class="sayi">' + sure + "</td></tr>";
   });
@@ -464,7 +473,7 @@ function linkKart(baslik, alt, link, ek, renkNo) {
 }
 function linklerCiz() {
   const kok = siteKok(), kodlar = VERI.lider_kodlari || {};
-  let h = '<div class="link-ust"><p class="soluk">' + esc(t("linkAcik")) + '</p><a class="btn ikincil kucuk" href="baski.html">' + esc(t("baskiPaketi")) + '</a><button type="button" class="btn ana kucuk" id="yazdirBtn">' + esc(t("yazdir")) + "</button></div>";
+  let h = '<div class="link-ust"><p class="soluk">' + esc(t("linkAcik")) + '</p><a class="btn ikincil kucuk" href="ekran.html" target="_blank" rel="noopener">' + ikon("ekran") + " " + esc(t("ekranLink")) + '</a><a class="btn ikincil kucuk" href="baski.html">' + esc(t("baskiPaketi")) + '</a><button type="button" class="btn ana kucuk" id="yazdirBtn">' + esc(t("yazdir")) + "</button></div>";
   h += '<h2 class="bolum-baslik">' + esc(t("ortakLink")) + "</h2>";
   h += '<div class="link-izgara">' + linkKart(TL(VERI.etkinlik.ad), t("ortakAcik"), kok) + "</div>";
   h += '<h2 class="bolum-baslik sayfa-kir">' + esc(t("liderLinkleri")) + '</h2><p class="uyari-yazi">⚠ ' + esc(t("liderUyari")) + '</p><div class="link-izgara">';
@@ -486,12 +495,68 @@ function linklerCiz() {
   }));
 }
 
+// ---------- Ayarlar: güvenlik ----------
+function kurallarMetni() {
+  const a = GUVEN.alan(), Y = "auth != null && auth.token.email == 'yonetici@" + a + "'";
+  const T = "auth != null && (auth.token.email == 'takim' + $n + '@" + a + "' || auth.token.email == 'yonetici@" + a + "')";
+  const oku = "auth != null";
+  return JSON.stringify({ rules: {
+    takimlar: { ".read": oku, "$n": { ".write": T } },
+    kucuk: { ".read": oku, "$n": { ".write": T } },
+    foto: { ".read": oku, "$n": { ".write": T } },
+    yonetim: { ".read": oku, ".write": Y },
+    ayarlar: { ".read": oku, ".write": Y },
+    gizli: { ".read": Y, ".write": Y }
+  } }, null, 2);
+}
+function guvenlikCiz(mesaj) {
+  const k = $("guvenlikKutu");
+  if (!k) return;
+  let h = "<h3>" + ikon("kalkan") + " " + esc(t("guvenlik")) + "</h3>";
+  if (GUVEN.aktif() && !GUVEN.kurulum) h += '<p class="yesil-yazi">' + esc(t("guvenliMod")) + "</p>";
+  else {
+    h += '<p class="soluk">' + esc(t("acikMod")) + "</p>";
+    if (GUVEN.key() && VERI.lider_kodlari && VERI.etkinlik.yonetici_pin) h += '<button type="button" class="btn ana kucuk" id="kurulumBtn">' + esc(t("kurulumBtn")) + "</button>";
+    else h += '<p class="soluk">Firebase Authentication açılıp Web API anahtarı data.json\'a (firebase_api_key) eklenince kurulum düğmesi görünür.</p>';
+  }
+  if (mesaj) h += mesaj;
+  k.innerHTML = h;
+  const b = $("kurulumBtn");
+  if (b) b.onclick = guvenlikKurulumu;
+  const kb = $("kurallarBtn");
+  if (kb) kb.onclick = async () => { try { await navigator.clipboard.writeText(kurallarMetni()); kb.textContent = t("kopyalandi"); } catch (e) { $("kurallarAlan").select(); } };
+}
+async function guvenlikKurulumu() {
+  if (!confirm(t("kurulumBtn") + "?")) return;
+  $("kurulumBtn").disabled = true;
+  const satirlar = [];
+  GUVEN.kurulum = true;
+  try {
+    const hesaplar = [["yonetici", null, VERI.etkinlik.yonetici_pin]].concat(takimNolari().map((n) => ["lider", n, VERI.lider_kodlari[n]]));
+    for (const [rol, n, deger] of hesaplar) {
+      const e = GUVEN.eposta(rol, n);
+      try { await GUVEN.kayit(e, GUVEN.sifre(rol, deger)); satirlar.push(e + " ✓"); }
+      catch (err) { satirlar.push(e + (/EMAIL_EXISTS/.test(err.kod) ? " ✓ (var)" : " ✗ " + err.kod)); }
+    }
+    await GUVEN.giris(GUVEN.eposta("yonetici"), GUVEN.sifre("yonetici", VERI.etkinlik.yonetici_pin));
+    await DB.put("gizli/kodlar", VERI.lider_kodlari);
+    satirlar.push("gizli/kodlar ✓");
+    guvenlikCiz('<p class="yesil-yazi">' + esc(t("kurulumTamam")) + '</p><pre class="kurulum-log">' + esc(satirlar.join("\n")) + "</pre>" +
+      '<textarea id="kurallarAlan" class="kurallar" readonly rows="14">' + esc(kurallarMetni()) + '</textarea><button type="button" class="btn ikincil kucuk" id="kurallarBtn">' + esc(t("kurallarKopyala")) + "</button>");
+  } catch (e) {
+    guvenlikCiz('<p class="kirmizi-yazi">' + esc(t("girisHata")) + " (" + esc(e.kod || e.message) + ')</p><pre class="kurulum-log">' + esc(satirlar.join("\n")) + "</pre>");
+  } finally {
+    GUVEN.kurulum = false;
+  }
+}
+
 // ---------- Ayarlar: konumlar ----------
 function ayarlarCiz() {
+  if (!$("guvenlikKutu").innerHTML) guvenlikCiz();
   const idler = [VERI.baslangic.id].concat(Object.keys(VERI.istasyonlar));
   $("konumListe").innerHTML = idler.map((id) => {
     const n = nokta(id), bas = id === VERI.baslangic.id;
-    return '<div class="kart konum-satir" data-id="' + esc(id) + '"><div class="konum-ad"><b>' + (bas ? "🏛 " + esc(TL(n.ad)) : n.emoji + " " + esc(TL(n.baslik))) + "</b>" +
+    return '<div class="kart konum-satir" data-id="' + esc(id) + '"><div class="konum-ad"><b>' + (bas ? ikon("sarnic") + " " + esc(TL(n.ad)) : noktaIkon(id) + " " + esc(TL(n.baslik))) + "</b>" +
       "<small>" + (bas ? esc(t("baslangicN")) + " / " + esc(t("finalN")) : esc(TL(n.yer))) + (n.dogrula ? ' · <span class="kirmizi-yazi">⚠ ' + esc(t("dogrula")) + "</span>" : "") + "</small></div>" +
       '<input class="konum-girdi" value="' + n.lat + ", " + n.lng + '" aria-label="lat, lng">' +
       '<div class="konum-btnlar"><button type="button" class="btn ikincil kucuk burada">' + esc(t("buradayim")) + "</button>" +
@@ -530,14 +595,12 @@ async function konumKaydet(id, lat, lng) {
   catch (e) { document.body.innerHTML = '<main><div class="kart"><p>' + esc(t("veriYok")) + "</p></div></main>"; return; }
   dilDegistir(DIL);
   pinCiz();
-  let kayitli = null;
-  try { kayitli = localStorage.getItem("kv_yonetici"); } catch (e) {}
-  if (pinDogru(kayitli)) { girisYap(); return; }
-  $("pinForm").onsubmit = (e) => {
+  if (await yoneticiOturumu()) { girisYap(); return; }
+  $("pinForm").onsubmit = async (e) => {
     e.preventDefault();
-    const p = $("pinGir").value;
-    if (!pinDogru(p)) { $("pinHata").textContent = t("pinHata"); $("pinGir").select(); return; }
-    try { localStorage.setItem("kv_yonetici", p.trim()); } catch (e2) {}
+    let ok = false;
+    try { ok = await yoneticiDogrula($("pinGir").value); } catch (e2) { $("pinHata").textContent = t("girisHata"); return; }
+    if (!ok) { $("pinHata").textContent = t("pinHata"); $("pinGir").select(); return; }
     girisYap();
   };
   $("pinGir").focus();

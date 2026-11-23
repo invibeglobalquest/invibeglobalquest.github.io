@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#16121f">
 <title>Yönetici · 1001 Direk Quest</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="medya/favicon.png">
+<link rel="apple-touch-icon" href="medya/apple-touch-icon.png">
+<link rel="stylesheet" href="vendor/fonts/fonts.css">
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -29,6 +29,7 @@
 
 <div id="panel" class="gizli">
   <header class="y-ust">
+    <img src="medya/logo.png" alt="Invibe Global" class="y-logo" width="48" height="45">
     <div class="y-ust-sol">
       <b id="yBaslik"></b>
       <span id="baglanti" class="baglanti"><i></i><span></span></span>
@@ -62,6 +63,7 @@
       <p class="soluk" id="konumAciklama"></p>
       <label class="onay"><input type="checkbox" id="tasiKutu"> <span id="tasiEtiket"></span></label>
       <div id="konumListe" class="konum-liste"></div>
+      <div id="guvenlikKutu" class="kart guvenlik"></div>
       <div class="kart tehlike">
         <p class="soluk" id="pinNot"></p>
         <button type="button" class="btn kirmizi kucuk" id="tumunuSilBtn"></button>
@@ -79,6 +81,7 @@
 
 <script src="vendor/leaflet/leaflet.js"></script>
 <script src="vendor/qrcode/qrcode.js"></script>
+<script src="ikonlar.js"></script>
 <script src="common.js"></script>
 <script src="yonetici.js"></script>
 </body>

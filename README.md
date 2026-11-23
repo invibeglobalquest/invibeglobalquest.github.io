@@ -57,6 +57,28 @@ Lider telefon değiştirirse lider linkini yeni telefonda açar; takım kaldığ
 - **Linkler:** ortak link + 10 lider linki, QR kodlarıyla; **🖨 Yazdır** ile 1. sayfa ortak link, sonraki sayfalar lider kartları.
 - **Ayarlar:** nokta konumlarını düzeltme (aşağıya bakın), tüm verileri silme.
 
+## Deneyim ve görünüm
+- **Açılış:** Ana sayfa ilk açıldığında Invibe Global logo animasyonu oynar (lider/takım linklerinde oynamaz, «Geç» ile atlanır).
+- **Artefakt koleksiyonu:** Oyun ekranının üstünde 10 yuvalı şerit; her görevde biri altınla dolar. «Görev tamamlandı»ya basınca liderde ve takım üyelerinin telefonlarında «Artefakt kazanıldı» animasyonu açılır.
+- **Sesli anlatım:** Efsane ve nokta hikâyeleri «Hikâyeyi dinle» ile telefonun kendi sesiyle okunur (RU/TR).
+- **Lanet kaldırıldı ekranı:** Bitişte süre, artefakt, puan, fotoğraf kolajı ve paylaşılabilir **hatıra kartı** (1080×1350 görsel).
+- **Uygulama gibi:** Telefonda «Ana ekrana ekle» ile simgesiyle tam ekran açılır; sayfa önbelleğe alındığı için çekimin zayıf olduğu yerlerde (sarnıç) de açılır.
+- **Paylaşım önizlemesi:** Link WhatsApp/Telegram'da kapak görseli ve başlıkla görünür (`medya/og.jpg`).
+- İkonlar emoji yerine altın çizgi ikon seti (`ikonlar.js`); yazı tipleri depoda (`vendor/fonts`).
+
+## Final ekranı (`ekran.html`)
+Sarnıçtaki projeksiyon için: dizüstünü projektöre bağlayın → https://invibeglobalquest.github.io/ekran.html → PIN → **Gösterimi başlat** (tam ekran, sesli logo animasyonu). Ekranda canlı takım sıralaması, son fotoğrafların slayt gösterisi, olay şeridi ve her tamamlanan görevde büyük «artefakt kazandı» duyurusu çıkar. Yönetici panelinde **Linkler → Final ekranı** ile de açılır.
+
+## Güvenli mod (önerilir)
+Şu an lider kodları ve PIN `data.json` içinde, veritabanı da herkese açık. Güvenli modda kodları ve PIN'i Firebase kontrol eder; yalnızca o takımın lideri o takıma, yalnızca yönetici puanlara yazabilir; fotoğrafları da yalnızca uygulamayı açanlar görür.
+1. Firebase konsolu → **Authentication → Get started → Sign-in method**: **Email/Password** ve **Anonymous**'u etkinleştirin.
+2. **Proje ayarları (⚙) → Genel → Web API anahtarı**'nı kopyalayıp bana gönderin (`data.json → firebase_api_key`; bu anahtar gizli değildir).
+3. Yönetici paneli → **Ayarlar → Güvenlik → «Güvenli modu kur»**: 10 lider ve 1 yönetici hesabı mevcut kod/PIN ile oluşturulur, kodlar korumalı alana yazılır ve kurallar gösterilir.
+4. Gösterilen kuralları Firebase → Realtime Database → **Kurallar**'a yapıştırıp **Publish**.
+5. Bana haber verin: `data.json`'da `guvenli: true` yapıp PIN'i ve kodları dosyadan silerim. Yazdırılmış QR'lar aynen çalışmaya devam eder.
+
+Güvenli moddan sonra bir lider kodunu veya PIN'i değiştirmek için Firebase → Authentication'da ilgili hesabın şifresi de değişmelidir (bana yazın).
+
 ## Kurulum (bir kez)
 
 ### 1. Ortak veritabanı (Firebase, ücretsiz) — ✅ kuruldu (`questistanbul`)
@@ -93,6 +115,8 @@ Depo → **Settings → Pages → Deploy from a branch → main / (root)**. `mai
 | `common.js` | Ortak kod: metinler (RU/TR), sunucu, sayaç hesabı, fotoğraf küçültme |
 | `style.css` | Tasarım |
 | `data.json` | **Düzenlenecek dosya:** noktalar (metinler RU/TR, koordinat, artefakt), rotalar, süreler, PIN, veritabanı adresi |
+| `ekran.html`, `ekran.js`, `ekran.css` | Final projeksiyon ekranı |
+| `ikonlar.js`, `medya/`, `manifest.webmanifest`, `sw.js` | İkonlar, logo/video/görseller, uygulama bilgisi, çevrimdışı önbellek |
 | `vendor/leaflet/` | Harita kütüphanesi (Leaflet 1.9.4, BSD lisansı) |
 | `vendor/qrcode/` | QR kod üretici (qrcode-generator 1.4.4, MIT lisansı) |
 | `vendor/fonts/` | Baskı yazı tipleri: Nunito, Cormorant Garamond, Noto Sans Egyptian Hieroglyphs (Fontsource, OFL-1.1) |

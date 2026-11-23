@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0d0a12">
+<title>Финал · Проклятье 1001 колонны</title>
+<link rel="icon" type="image/png" href="medya/favicon.png">
+<link rel="stylesheet" href="vendor/fonts/fonts.css">
+<link rel="stylesheet" href="ekran.css">
+</head>
+<body>
+<section id="kapi" class="kapi">
+  <img src="medya/logo.png" alt="Invibe Global" class="kapi-logo" width="160" height="150">
+  <h1 id="kapiBaslik"></h1>
+  <form id="pinForm" class="gizli">
+    <input id="pinGir" type="password" inputmode="numeric" autocomplete="current-password" aria-label="PIN" placeholder="PIN">
+    <button type="submit" id="pinBtn">OK</button>
+    <p id="pinHata" class="hata" role="alert"></p>
+  </form>
+  <button type="button" id="baslatBtn" class="buyuk-btn gizli"></button>
+</section>
+
+<div id="intro" class="intro gizli"><video id="introVideo" src="medya/intro.mp4" playsinline preload="auto"></video></div>
+
+<main id="ekran" class="ekran gizli">
+  <header class="e-ust">
+    <img src="medya/logo.png" alt="Invibe Global" class="e-logo" width="80" height="75">
+    <div class="e-baslik"><small id="eAlt"></small><h1 id="eBaslik"></h1></div>
+    <div class="e-saat"><b id="eSaat">--:--</b><small id="eGecen"></small></div>
+    <button type="button" id="tamEkranBtn" class="kucuk-btn"></button>
+  </header>
+  <section class="e-sira">
+    <h2 id="eSiraBaslik"></h2>
+    <ol id="eListe" class="e-liste"></ol>
+  </section>
+  <section class="e-foto">
+    <h2 id="eFotoBaslik"></h2>
+    <div class="e-foto-kutu"><img id="eFoto" alt=""><img id="eFoto2" alt=""><p id="eFotoYazi"></p><p id="eFotoYok" class="e-bos"></p></div>
+  </section>
+  <footer class="e-akis"><span id="eAkisBaslik"></span><div class="e-akis-ic"><div id="eAkis"></div></div></footer>
+  <div id="eDuyuru" class="e-duyuru" aria-live="polite"></div>
+</main>
+
+<script src="ikonlar.js"></script>
+<script src="common.js"></script>
+<script src="ekran.js"></script>
+</body>
+</html>

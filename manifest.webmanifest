@@ -1,0 +1,17 @@
+{
+  "name": "Проклятье 1001 колонны · Invibe Global",
+  "short_name": "1001 колонна",
+  "description": "Квест по Султанахмету от Invibe Global",
+  "lang": "ru",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#16121f",
+  "theme_color": "#16121f",
+  "icons": [
+    { "src": "medya/ikon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "medya/ikon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "medya/ikon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
