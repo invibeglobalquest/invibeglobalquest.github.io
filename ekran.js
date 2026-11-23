@@ -123,7 +123,11 @@ function fotoListesiKur() {
       let ts = 0, ad = "";
       const m = /^b_(.+)_(\d+)$/.exec(key);
       if (m) { ts = +m[2]; ad = TL((VERI.yol_gorevleri[m[1]] || {}).baslik); }
-      else { const a = (k.adimlar || {})[key] || {}; ts = a.foto || a.varis || 0; ad = TL((VERI.istasyonlar[key] || {}).baslik); }
+      else {
+        const tam = /_tamam$/.test(key), id = key.replace(/_tamam$/, ""), a = (k.adimlar || {})[id] || {};
+        ts = tam ? (a.foto2 || a.bitis || 0) : (a.foto || a.varis || 0);
+        ad = TL((VERI.istasyonlar[id] || {}).baslik) + (tam ? " · ★ " + TL((VERI.istasyonlar[id] || {}).artefakt) : "");
+      }
       L2.push({ n, key, ts, ad });
     }
   }

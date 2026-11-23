@@ -487,3 +487,23 @@ body.yonetici main { max-width: none; }
 .dil-btn { min-width: 46px; min-height: 44px; font-size: .85rem; }
 .geri-al { min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--kirmizi); background: none; color: var(--kirmizi); font-weight: 800; cursor: pointer; }
 .t-durum .geri-al { min-height: 34px; margin-left: 8px; }
+
+/* iki fotoğraflı nokta, kilitli noktalar, geri düğmeleri */
+.adim-baslik { margin: 0 0 4px; font-size: .95rem; font-weight: 800; }
+.foto-ikili { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.foto-ikili figure { margin: 0; }
+.foto-ikili .foto-orta { height: 150px; }
+.foto-ikili figcaption { font-size: .78rem; color: var(--soluk); font-weight: 700; text-align: center; margin-top: 2px; }
+.kilit-not { display: flex; gap: 8px; align-items: center; margin: 0 0 8px; padding: 8px 12px; border-radius: 10px; background: var(--kart2); color: var(--soluk); font-weight: 700; font-size: .9rem; }
+.kilit-ikon { color: var(--soluk); opacity: .7; }
+.nokta-satir.sirada .nokta-ad { color: var(--soluk); }
+.ik.ters { transform: scaleX(-1); }
+.ust-sol { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.ust-sol > div { min-width: 0; }
+.geri-btn { flex: none; width: 40px; height: 40px; border-radius: 12px; border: 1px solid rgba(201, 163, 90, .45); background: transparent; color: var(--altin); display: grid; place-items: center; cursor: pointer; }
+.geri-btn .ik { width: 22px; height: 22px; }
+.hero-geri { position: absolute; left: 14px; top: 14px; z-index: 1; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px 0 10px;
+  border-radius: 999px; border: 1px solid rgba(201, 163, 90, .55); background: rgba(0, 0, 0, .25); color: var(--krem); font-weight: 800; font-size: .85rem; cursor: pointer; }
+.hero > .hero-geri, .final-hero > .hero-geri { position: absolute; }
+.geri-link { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; border: 1px solid rgba(201, 163, 90, .45); color: var(--altin); }
+.foto-mini.odul { outline: 2px solid var(--altin); outline-offset: -2px; }

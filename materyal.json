@@ -20,7 +20,7 @@
       "• У каждой команды есть лидер с личной ссылкой. Только он отмечает точки на телефоне.",
       "• Остальные открывают общую ссылку и выбирают свою команду: там маршрут, задания и таймер.",
       "• На каждую точку — 15 минут: дорога и задание вместе. Таймер покажет, если вы опаздываете.",
-      "• На каждой точке лидер загружает фото точки, а после задания нажимает «Задание выполнено».",
+      "• На каждой точке лидер загружает два фото: фото точки по прибытии и фото команды с наградой после задания — так точка завершается.",
       "• За каждое задание — артефакт, за успехи — бонусные баллы. Побеждает команда, которая соберёт больше всех артефактов и баллов.",
       "• Финал — здесь, в цистерне. Гевхерли будет ждать вас.",
       "Лидеры, откройте свои ссылки. По команде — нажимаем «Начать квест»!"
@@ -32,7 +32,7 @@
       "• Her takımın kişisel linki olan bir lideri var. Noktaları telefonda yalnızca o işaretler.",
       "• Diğerleri ortak linki açıp takımını seçer: rota, görevler ve sayaç oradadır.",
       "• Her nokta için 15 dakika: yol ve görev birlikte. Geç kalırsanız sayaç gösterir.",
-      "• Her noktada lider noktanın fotoğrafını yükler, görev bitince «Görev tamamlandı»ya basar.",
+      "• Her noktada lider iki fotoğraf yükler: varınca noktanın fotoğrafı, görev bitince ödülle takım fotoğrafı — nokta böyle tamamlanır.",
       "• Her görev bir artefakt, başarılar bonus puan kazandırır. En çok artefakt ve puanı toplayan takım kazanır.",
       "• Final burada, sarnıçta. Gevherli sizi bekliyor olacak.",
       "Liderler linklerinizi açın. İşaretle birlikte «Questi başlat»a basıyoruz!"

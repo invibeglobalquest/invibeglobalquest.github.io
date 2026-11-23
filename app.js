@@ -85,9 +85,11 @@ function ekranAc() {
   zamanlayici = setInterval(tik, 1000);
 }
 function yenidenCiz() { ekranAc(); }
+document.addEventListener("click", (e) => { const b = e.target.closest && e.target.closest("[data-geri]"); if (b) takimDegistir(); });
 
-function heroHTML(baslik, sayi) {
-  return '<div class="hero"><div class="marka"><img src="medya/logo-kucuk.png" alt="Invibe Global" width="64" height="60"></div><div class="dil" id="dilKutu"></div>' + kemerSVG() +
+function geriDugme() { return '<button type="button" class="hero-geri" data-geri="1">' + ikon("ok", "ters") + "<span>" + esc(t("geri")) + "</span></button>"; }
+function heroHTML(baslik, sayi, geri) {
+  return '<div class="hero">' + (geri ? geriDugme() : '<div class="marka"><img src="medya/logo-kucuk.png" alt="Invibe Global" width="64" height="60"></div>') + '<div class="dil" id="dilKutu"></div>' + kemerSVG() +
     '<p class="hero-ust">' + esc(TL(VERI.etkinlik.alt)) + "</p>" +
     '<h1 class="hero-baslik">' + esc(baslik) + (sayi ? ' <span class="sayi">' + esc(sayi) + "</span>" : "") + '</h1><div class="altin-cizgi"></div></div>';
 }
@@ -163,7 +165,7 @@ async function sunucudanAl(n, k) {
 
 function hazirCiz() {
   const s = $("hazir"), r = rota();
-  let h = heroHTML(t("takim"), durum.takim);
+  let h = heroHTML(t("takim"), durum.takim, true);
   h += '<div class="kart hikaye-kart"><p>' + esc(TL(VERI.giris_hikaye)) + "</p>" + dinleBtn(TL(VERI.giris_hikaye)) + "</div>";
   h += '<h2 class="bolum-baslik">' + esc(t("rota")) + '</h2><ol class="rota-liste">';
   h += '<li class="uc"><span class="no">◆</span><span>' + esc(t("baslangicN")) + ": " + esc(TL(VERI.baslangic.ad)) + "</span></li>";
@@ -240,7 +242,14 @@ function sifirlaYerel(kuyrukSil) {
 }
 
 // ---------- Oyun ekranı ----------
+function fotoIkili(id) {
+  const f = (k, et) => kucukler[k] ? '<figure><img class="foto-orta" data-foto="' + esc(k) + '" src="' + kucukler[k] + '" alt=""><figcaption>' + esc(et) + "</figcaption></figure>" : "";
+  const h = f(id, t("foto1")) + f(id + "_tamam", t("foto2"));
+  return h ? '<div class="foto-ikili">' + h + "</div>" : "";
+}
 function ustCiz() {
+  $("geriBtn").setAttribute("aria-label", t("geri"));
+  $("geriBtn").onclick = takimDegistir;
   $("ustTakim").textContent = (lider() ? "★ " : "") + t("takim") + " " + durum.takim + (durum.ad ? " · " + durum.ad : "");
   $("ustToplamE").textContent = t("toplam");
   senkronGoster();
@@ -282,31 +291,27 @@ function oyunCiz() {
       '<p class="yer">' + ikon("konum") + " " + esc(TL(n.yer)) + '<span id="kartMesafe" class="mesafe"></span></p>' +
       '<p class="plan">' + ikon("saat") + " " + esc(t("plan")) + " " + saat(pb) + "–" + saat(ps) + "</p>" +
       noktaDetayHTML(id);
-    // Adım 1: fotoğraf (varış)
-    h += '<div class="adim' + (a.varis ? " bitti" : "") + '"><div class="adim-no">1</div><div class="adim-ic">';
-    if (!lider()) {
-      h += a.varis
-        ? '<div class="foto-satir">' + (kucukler[id] ? '<img class="foto-kucuk" data-foto="' + esc(id) + '" src="' + kucukler[id] + '" alt="">' : "") +
-          "<div><b>✓ " + esc(t("varis", { s: saat(a.varis) })) + "</b></div></div>"
-        : '<p class="soluk">' + esc(t("liderFotoBekle")) + "</p>";
-      h += '</div></div><div class="adim' + (a.varis ? "" : " kilitli") + '"><div class="adim-no">2</div><div class="adim-ic"><p class="soluk">' +
-        esc(t("liderBitirecek")) + "</p></div></div></div>";
-    } else if (a.varis) {
-      h += '<div class="foto-satir">' + (kucukler[id] ? '<img class="foto-kucuk" data-foto="' + esc(id) + '" src="' + kucukler[id] + '" alt="">' : "") +
-        "<div><b>✓ " + esc(t("varis", { s: saat(a.varis) })) + "</b>" +
+    // Adım 1: noktanın fotoğrafı (varış) · Adım 2: ödülle takım fotoğrafı (görev tamamlandı)
+    const foto1 = kucukler[id] ? '<img class="foto-kucuk" data-foto="' + esc(id) + '" src="' + kucukler[id] + '" alt="">' : "";
+    h += '<div class="adim' + (a.varis ? " bitti" : "") + '"><div class="adim-no">1</div><div class="adim-ic"><h4 class="adim-baslik">' + esc(t("adim1Baslik")) + "</h4>";
+    if (a.varis) {
+      h += '<div class="foto-satir">' + foto1 + "<div><b>✓ " + esc(t("varis", { s: saat(a.varis) })) + "</b>" +
         (a.mesafe != null ? '<small class="soluk">' + esc(t("uzak", { m: a.mesafe })) + "</small>" : "") +
-        '<label class="metin-btn"><span class="et">' + esc(t("fotoDegistir")) + '</span><input type="file" accept="image/*" class="foto-input" data-tur="nokta" data-id="' + esc(id) + '"></label></div></div>';
-    } else {
+        (lider() ? '<label class="metin-btn"><span class="et">' + esc(t("fotoDegistir")) + '</span><input type="file" accept="image/*" class="foto-input" data-tur="nokta" data-id="' + esc(id) + '"></label>' : "") + "</div></div>";
+    } else if (lider()) {
       h += '<p class="soluk">' + esc(t("adimFoto")) + "</p>" +
         '<label class="btn ana foto-btn">' + etiketli("foto", t("fotoCek")) + '<input type="file" accept="image/*" class="foto-input" data-tur="nokta" data-id="' + esc(id) + '"></label>';
-    }
-    // Adım 2: görev tamamlandı
-    if (lider()) h += "</div></div>" + '<div class="adim' + (a.varis ? "" : " kilitli") + '"><div class="adim-no">2</div><div class="adim-ic">' +
-      '<label class="onay"><input type="checkbox" id="artefaktAldik" checked' + (a.varis ? "" : " disabled") + "> " +
-      esc(t("artefaktAldik", { a: TL(n.artefakt) })) + "</label>" +
-      '<button type="button" class="btn yesil" id="tamamBtn"' + (a.varis ? "" : " disabled") + ">" + etiketli("tamam", t("tamamla")) + "</button>" +
-      (a.varis ? "" : '<small class="soluk">' + esc(t("tamamlaOnce")) + "</small>") +
-      "</div></div></div>";
+    } else h += '<p class="soluk">' + esc(t("liderFotoBekle")) + "</p>";
+    h += '</div></div><div class="adim' + (a.varis ? "" : " kilitli") + '"><div class="adim-no">2</div><div class="adim-ic"><h4 class="adim-baslik">' + esc(t("adim2Baslik")) + "</h4>";
+    if (lider()) {
+      h += '<p class="soluk">' + esc(t(a.varis ? "adim2Acik" : "tamamlaOnce")) + "</p>" +
+        '<label class="onay"><input type="checkbox" id="artefaktAldik" checked' + (a.varis ? "" : " disabled") + "> " + esc(t("artefaktAldik", { a: TL(n.artefakt) })) + "</label>" +
+        (a.varis
+          ? '<label class="btn yesil foto-btn">' + etiketli("foto", t("odulFoto")) + '<input type="file" accept="image/*" class="foto-input" data-tur="tamam" data-id="' + esc(id) + '"></label>' +
+            '<button type="button" class="metin-btn" id="tamamBtn">' + esc(t("fotoYok")) + "</button>"
+          : '<button type="button" class="btn yesil" disabled>' + etiketli("foto", t("odulFoto")) + "</button>");
+    } else h += '<p class="soluk">' + esc(t("liderBitirecek")) + "</p>";
+    h += "</div></div></div>";
   }
 
   // Tüm noktalar
@@ -316,15 +321,17 @@ function oyunCiz() {
     const [pb, ps] = planDilim(durum.baslangic, i);
     const sinif = a.bitis ? "tamam" : i === d.i ? "aktif" : "sirada";
     let sag = "";
-    if (a.bitis) sag = (kucukler[id] ? '<img class="foto-mini" src="' + kucukler[id] + '" alt="">' : "") + '<span class="saat-yesil">✓ ' + saat(a.bitis) + "</span>";
+    const kt = kucukler[id + "_tamam"] || kucukler[id];
+    if (a.bitis) sag = (kt ? '<img class="foto-mini" src="' + kt + '" alt="">' : "") + '<span class="saat-yesil">✓ ' + saat(a.bitis) + "</span>";
     else if (i === d.i) sag = '<span class="simdi">●</span>';
+    else sag = '<span class="kilit-ikon" title="' + esc(t("kilitli", { n: i })) + '">' + ikon("kilit") + "</span>";
     h += '<div class="nokta-satir ' + sinif + '" data-id="' + esc(id) + '">' +
       '<button type="button" class="nokta-bas" aria-expanded="false"><span class="no">' + (a.bitis ? "✓" : i + 1) + "</span>" +
       '<span class="nokta-ikon">' + noktaIkon(id) + '</span><span class="nokta-ad">' + esc(TL(n.baslik)) + "<small>" + esc(TL(n.yer)) + " · " + esc(t("plan")) + " " + saat(pb) + "–" + saat(ps) + "</small></span>" +
       '<span class="nokta-sag">' + sag + "</span></button>" +
       '<div class="nokta-detay" hidden>' +
-      (a.bitis ? '<p class="zamanlar">' + esc(t("varis", { s: saat(a.varis) })) + " · " + esc(t("tamamlandi", { s: saat(a.bitis) })) + "</p>" +
-        (kucukler[id] ? '<img class="foto-orta" data-foto="' + esc(id) + '" src="' + kucukler[id] + '" alt="">' : "") : "") +
+      (a.bitis ? '<p class="zamanlar">' + esc(t("varis", { s: saat(a.varis) })) + " · " + esc(t("tamamlandi", { s: saat(a.bitis) })) + "</p>" + fotoIkili(id) : "") +
+      (!a.bitis && i > d.i ? '<p class="kilit-not">' + ikon("kilit") + " " + esc(t("kilitli", { n: i })) + "</p>" : "") +
       noktaDetayHTML(id) + "</div></div>";
   });
   h += "</div>";
@@ -358,7 +365,8 @@ function bonusHTML() {
 
 function fotoBaslik(k) {
   const m = /^b_(.+)_\d+$/.exec(k);
-  return m ? TL((VERI.yol_gorevleri[m[1]] || {}).baslik) : noktaAdi(k);
+  if (m) return TL((VERI.yol_gorevleri[m[1]] || {}).baslik);
+  return noktaAdi(k.replace(/_tamam$/, "")) + (/_tamam$/.test(k) ? " · " + t("foto2") : "");
 }
 function fotoBagla(s) {
   s.querySelectorAll(".foto-input").forEach((inp) => {
@@ -417,6 +425,28 @@ async function fotoSecildi(inp, dosya, tur, id) {
     kuyrukEkle("PATCH", takimYolu(), p);
     kuyrukEkle("PUT", "kucuk/" + n + "/" + id, f.kucuk);
     kuyrukEkle("PUT", "foto/" + n + "/" + id, f.buyuk, true);
+  } else if (tur === "tamam") {
+    const a = (durum.adimlar || {})[id];
+    if (!a || !a.varis || a.bitis) return;
+    a.bitis = ts;
+    a.foto2 = ts;
+    a.artefakt = $("artefaktAldik") ? $("artefaktAldik").checked : true;
+    const k2 = id + "_tamam";
+    kucukler[k2] = f.kucuk;
+    kucukYaz();
+    durumYaz();
+    const p = { guncel: ts };
+    p["adimlar/" + id + "/bitis"] = ts;
+    p["adimlar/" + id + "/foto2"] = ts;
+    p["adimlar/" + id + "/artefakt"] = a.artefakt;
+    kuyrukEkle("PATCH", takimYolu(), p);
+    kuyrukEkle("PUT", "kucuk/" + n + "/" + k2, f.kucuk);
+    kuyrukEkle("PUT", "foto/" + n + "/" + k2, f.buyuk, true);
+    gorulenBitis = bitisSayisi();
+    ekranAc();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    kutlamaGoster(id);
+    return;
   } else {
     durum.bonus = durum.bonus || {};
     (durum.bonus[id] = durum.bonus[id] || {})[ts] = true;
@@ -441,7 +471,7 @@ function tamamla() {
   const d = durumHesapla(durum, rota());
   if (d.faz !== "gorev") return;
   const id = d.id, a = durum.adimlar[id];
-  if (!confirm(t("tamamla") + ": " + noktaAdi(id) + "?")) return;
+  if (!confirm(t("fotoYokOnay") + " · " + noktaAdi(id))) return;
   a.bitis = Date.now();
   a.artefakt = $("artefaktAldik").checked;
   durumYaz();
@@ -479,7 +509,7 @@ function toplamPuan() {
 function bitisCiz() {
   const s = $("bitis"), r = rota();
   const alinan = r.filter(artefaktVar);
-  let h = '<div class="final-hero"><div class="marka"><img src="medya/logo-kucuk.png" alt="Invibe Global" width="64" height="60"></div><div class="dil" id="dilKutu"></div>' + kemerSVG("orta") +
+  let h = '<div class="final-hero">' + geriDugme() + '<div class="dil" id="dilKutu"></div>' + kemerSVG("orta") +
     '<p class="hero-ust">' + esc(t("bitti")) + '</p><h1 class="hero-baslik">' + esc(t("lanetKalkti")) + "</h1>" +
     '<p class="fh-takim">' + esc(t("takim")) + ' <span class="sayi">' + esc(durum.takim) + "</span>" + (durum.ad ? " · " + esc(durum.ad) : "") + "</p>" +
     '<div class="ozet-koyu"><div><small>' + esc(t("toplamSure")) + "</small><b>" + sureYaz(durum.final - durum.baslangic) + "</b></div>" +
@@ -487,7 +517,8 @@ function bitisCiz() {
     "<div><small>" + esc(t("puan")) + '</small><b id="bitisPuan">' + toplamPuan() + "</b></div></div></div>";
   h += koleksiyonHTML(true);
   h += '<div class="kart"><p>' + esc(TL(VERI.final)) + "</p>" + dinleBtn(TL(VERI.final)) + "</div>";
-  const fotolar = r.filter((id) => kucukler[id]);
+  const fotolar = [];
+  r.forEach((id) => { if (kucukler[id + "_tamam"]) fotolar.push(id + "_tamam"); if (kucukler[id]) fotolar.push(id); });
   if (fotolar.length) {
     h += '<h2 class="bolum-baslik">' + esc(t("fotolarimiz")) + '</h2><div class="kolaj">' +
       fotolar.map((id) => '<img data-foto="' + esc(id) + '" src="' + kucukler[id] + '" alt="">').join("") + "</div>";
@@ -581,7 +612,7 @@ async function hatiraKarti() {
     x.font = '800 44px "Nunito", sans-serif';
     x.fillText(t("takim") + " " + durum.takim + (durum.ad ? " · " + durum.ad : ""), W / 2, 420);
     // fotoğraf kolajı
-    const fotolar = rota().filter((id) => kucukler[id]).slice(0, 6);
+    const fotolar = rota().map((id) => (kucukler[id + "_tamam"] ? id + "_tamam" : kucukler[id] ? id : null)).filter(Boolean).slice(0, 6);
     const kx = 150, ky = 470, ks = 260, kg = 10;
     for (let i = 0; i < fotolar.length; i++) {
       try {
@@ -737,16 +768,27 @@ function izOzet(d) {
 }
 function gerekenFotolar() {
   const k = [];
-  for (const id in durum.adimlar || {}) if (durum.adimlar[id].foto || durum.adimlar[id].varis) k.push(id);
+  for (const id in durum.adimlar || {}) {
+    if (durum.adimlar[id].foto || durum.adimlar[id].varis) k.push(id);
+    if (durum.adimlar[id].foto2) k.push(id + "_tamam");
+  }
   for (const b in durum.bonus || {}) for (const x in durum.bonus[b] || {}) k.push("b_" + b + "_" + x);
   return k;
 }
+// Aynı anda iki yenileme çalışmasın (ilk açılışta yarış durumu eski kutlamayı gösteriyordu)
+let izleyiciMesgul = false;
 async function izleyiciYenile() {
+  if (izleyiciMesgul) return;
+  izleyiciMesgul = true;
+  try { await izleyiciYenileIc(); } finally { izleyiciMesgul = false; }
+}
+async function izleyiciYenileIc() {
   if (lider() || !durum.takim || !DB.var()) return;
   const n = durum.takim;
   let k;
   try { k = await DB.get("takimlar/" + n); } catch (e) { senkronGoster(); return; }
   if (durum.takim !== n || lider()) return;
+  const ilkYukleme = !sonYenileme;
   sonYenileme = Date.now();
   k = k || {};
   const yeni = {
@@ -773,7 +815,7 @@ async function izleyiciYenile() {
   if (degisti) yerindeCiz(); else senkronGoster();
   // lider yeni bir görevi tamamladıysa izleyicilere de kutlama
   const b = bitisSayisi();
-  if (gorulenBitis !== null && b > gorulenBitis && !document.hidden) {
+  if (!ilkYukleme && gorulenBitis !== null && b > gorulenBitis && !document.hidden) {
     const son = rota().filter((id) => (durum.adimlar[id] || {}).bitis).sort((p, q) => durum.adimlar[q].bitis - durum.adimlar[p].bitis)[0];
     if (son) kutlamaGoster(son);
   }

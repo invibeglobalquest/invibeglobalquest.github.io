@@ -39,11 +39,13 @@ Site Rusça ve Türkçe çalışır (sağ üstteki RU / TR). Derleme gerekmez; H
 1. Lider kendi linkini açar → efsane, rota (Başlangıç: Binbirdirek Sarnıcı → 10 nokta → Final: Sarnıç) ve kurallar görünür → **Questi başlat**.
 2. Üstte büyük sayaç: **her nokta için 15 dk (yol + görev birlikte)**; önceki nokta bitince başlar (`data.json → nokta_dk`). Süre aşılırsa sayaç kırmızıya döner, `+02:15 gecikme` gösterir; telefon titrer, kısa bir uyarı sesi çalar ve üstte uyarı çıkar. Oyun sırasında lider telefonunun ekranı kendiliğinden kapanmaz (GPS ve uyarılar çalışmaya devam eder).
 3. Sıradaki nokta kartında: **📍 Konuma git** (Google Maps yürüyüş yol tarifi), hikâye, görev maddeleri, koşul ve kazanılacak artefakt.
-4. **Adım 1 — fotoğraf:** Noktaya varınca noktanın fotoğrafı yüklenir. Bu, varış kaydıdır ve görev sayacını başlatır (GPS açıksa noktaya uzaklık da kaydedilir).
-5. **Adım 2 — ✅ Görev tamamlandı:** Saat kaydedilir (`Tamamlandı · 14:32`), sıradaki noktanın yol sayacı başlar. "Artefaktı aldık" kutusu da işaretlenir.
-6. "Rotadaki tüm noktalar" listesinde her noktaya basınca konuma git + görev açılır; her noktanın **plan saat dilimi** (ör. `Plan 12:10–12:20`) ve gerçek saatleri görünür.
+4. **Adım 1 — noktanın fotoğrafı:** Noktaya varınca yüklenir; varış kaydıdır (GPS açıksa noktaya uzaklık da kaydedilir).
+5. **Adım 2 — ödül fotoğrafı:** Görev bitince takım ödülle (artefaktla) birlikte fotoğraflanır; bu fotoğraf yüklenince nokta **tamamlanır**, saat kaydedilir ve sıradaki nokta açılır. Fotoğraf çekilemezse küçük «Fotoğrafsız bitir» bağlantısı var.
+6. "Rotadaki tüm noktalar" listesinde her noktaya basınca konuma git + görev açılır; sırası gelmeyen noktalarda kilit ve «N. noktadan sonra açılır» yazar; biten noktalarda iki fotoğraf görünür; her noktanın **plan saat dilimi** (ör. `Plan 12:10–12:20`) ve gerçek saatleri görünür.
 7. **Yol görevleri (bonus):** «Следы исчезнувшей хозяйки» (harita parçası), «Взгляд сверху», «Стражи квартала» — istenen an fotoğraf eklenir.
 8. 10 nokta bitince final kartı: Sarnıç'a git → **🏁 Sarnıca vardık**.
+
+Her ekranın sol üstünde **Geri** düğmesi vardır (liderde lider modundan çıkmadan önce onay sorar).
 
 İnternet kesilirse kayıtlar telefonda bekler ve bağlantı gelince otomatik gönderilir (üstte "gönderiliyor… (n)").
 Lider telefon değiştirirse lider linkini yeni telefonda açar; takım kaldığı yerden devam eder.
@@ -52,7 +54,7 @@ Lider telefon değiştirirse lider linkini yeni telefonda açar; takım kaldığ
 
 ## Yönetici paneli
 - **Canlı:** harita (noktalar + takımların GPS konumu; GPS yoksa bulunduğu/gittiği nokta, kesikli çerçeveyle), 10 takım kartı (durum, kalan süre/gecikme, ilerleme, artefakt, puan, son hareket), **olay akışı** (kim ne zaman başladı, hangi noktaya vardı + fotoğrafı, hangi görevi tamamladı).
-- **Geri al:** Lider yanlışlıkla «Görev tamamlandı»ya (veya varış fotoğrafına, «Sarnıca vardık»a) bastıysa takım detayındaki **Geri al** son işareti siler; liderin telefonu 20 sn içinde güncellenir.
+- **Geri al:** Lider yanlışlıkla ödül fotoğrafı (veya varış fotoğrafı, «Sarnıca vardık») yüklediyse takım detayındaki **Geri al** son işareti siler; liderin telefonu 20 sn içinde güncellenir.
 - Takım kartına basınca **detay**: her nokta için plan / varış / bitiş saatleri, yol ve görev süreleri (aşanlar kırmızı), fotoğraflar (basınca büyük hali), **★ artefakt** düzeltme ve **puan** girişi, bonus fotoğrafları, **Takımı sıfırla**.
 - **Sıralama:** artefakt → puan → bitiş süresi.
 - **Linkler:** ortak link + 10 lider linki, QR kodlarıyla; **🖨 Yazdır** ile 1. sayfa ortak link, sonraki sayfalar lider kartları.

@@ -79,3 +79,4 @@ html, body { margin: 0; height: 100%; background: var(--zemin); color: var(--kre
 .e-duyuru h3 { margin: 1vmin 0 0; font: 600 5.4vmin var(--serif); }
 .e-duyuru small { display: block; margin-top: 1vmin; color: var(--soluk); font-size: 2vmin; }
 @media (prefers-reduced-motion: reduce) { #eAkis { animation: none; padding-left: 0; } .e-satir.parla { animation: none; } }
+.kapi .geri-link { color: var(--soluk); font-weight: 700; text-decoration: none; margin-top: 2vmin; }

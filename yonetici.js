@@ -40,7 +40,8 @@ function fotoSay() {
 }
 function bonusBaslik(k) {
   const m = /^b_(.+)_\d+$/.exec(k);
-  return m ? TL((VERI.yol_gorevleri[m[1]] || {}).baslik) : noktaAdi(k);
+  if (m) return TL((VERI.yol_gorevleri[m[1]] || {}).baslik);
+  return noktaAdi(k.replace(/_tamam$/, "")) + (/_tamam$/.test(k) ? " · " + t("foto2") : "");
 }
 
 // ---------- PIN ----------
@@ -236,6 +237,7 @@ function akisCiz() {
     } else if (o.tur === "bitis") {
       const sure = o.a.varis ? " (" + dakika(o.a.bitis - o.a.varis) + ")" : "";
       metin = ikon("tamam") + " " + esc(t("oBitis", { x: ad }) + sure) + (artefaktVar(o.n, o.id) ? " " + ikon("yildiz", "altin") : "");
+      foto = (KUCUK[o.n] || {})[o.id + "_tamam"] ? o.id + "_tamam" : "";
     } else if (o.tur === "bonus") {
       metin = ikon("yildiz") + " " + esc(t("oBonus", { x: bonusBaslik(o.key) }));
       foto = (KUCUK[o.n] || {})[o.key] ? o.key : "";
@@ -378,7 +380,8 @@ function detayCiz() {
     const yolGec = yolSure != null && yolSure > noktaMs(), gorevGec = !!(a.bitis && onceki && a.bitis - onceki > noktaMs());
     const art = artefaktVar(n, id);
     h += '<div class="d-satir' + (a.bitis ? " tamam" : i === d.i ? " aktif" : "") + '">' +
-      (kc ? '<img class="foto-mini" data-n="' + esc(n) + '" data-k="' + esc(id) + '" src="' + kc + '" alt="">' : '<span class="foto-mini bos">' + (i + 1) + "</span>") +
+      (kc ? '<img class="foto-mini" data-n="' + esc(n) + '" data-k="' + esc(id) + '" src="' + kc + '" alt="" title="' + esc(t("foto1")) + '">' : '<span class="foto-mini bos">' + (i + 1) + "</span>") +
+      ((KUCUK[n] || {})[id + "_tamam"] ? '<img class="foto-mini odul" data-n="' + esc(n) + '" data-k="' + esc(id + "_tamam") + '" src="' + KUCUK[n][id + "_tamam"] + '" alt="" title="' + esc(t("foto2")) + '">' : "") +
       '<div class="d-bilgi"><b>' + (i + 1) + ". " + noktaIkon(id) + " " + esc(TL(s.baslik)) + "</b>" +
       "<small>" + esc(t("kPlan")) + " " + saat(pb) + "–" + saat(ps) + " · " + esc(t("kVaris")) + " " + saat(a.varis) +
       (yolSure != null ? ' <span class="' + (yolGec ? "kirmizi-yazi" : "") + '">(' + esc(t("kYol")) + " " + dakika(yolSure) + ")</span>" : "") +
@@ -422,7 +425,7 @@ async function geriAl(n, id, tur) {
   if (!confirm(t("geriAlOnay", { n, x: tur === "final" ? t("oFinal") : noktaAdi(id) }))) return;
   const p = { duzeltme: Date.now() };
   if (tur === "final") p.final = null;
-  else if (tur === "bitis") { p["adimlar/" + id + "/bitis"] = null; p["adimlar/" + id + "/artefakt"] = null; }
+  else if (tur === "bitis") { p["adimlar/" + id + "/bitis"] = null; p["adimlar/" + id + "/artefakt"] = null; p["adimlar/" + id + "/foto2"] = null; }
   else p["adimlar/" + id] = null;
   if (!DB.var()) {
     const d = TAKIMLAR[n] || {};
@@ -435,7 +438,8 @@ async function geriAl(n, id, tur) {
   }
   try {
     await DB.patch("takimlar/" + n, p);
-    if (tur === "varis") await Promise.all([DB.sil("kucuk/" + n + "/" + id), DB.sil("foto/" + n + "/" + id)]).catch(() => {});
+    const k = tur === "varis" ? id : tur === "bitis" ? id + "_tamam" : null;
+    if (k) await Promise.all([DB.sil("kucuk/" + n + "/" + k), DB.sil("foto/" + n + "/" + k)]).catch(() => {});
   } catch (e) { alert(t("kopuk")); }
   if (document.activeElement) document.activeElement.blur();
   detayCiz();
