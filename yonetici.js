@@ -139,7 +139,8 @@ function hepsiniCiz() {
   akisCiz();
   haritaGuncelle();
   if (sekme === "siralama") siralamaCiz();
-  if (acikTakim && !$("detay").contains(document.activeElement)) detayCiz();
+  const ae = document.activeElement;
+  if (acikTakim && !(ae && ae.tagName === "INPUT" && $("detay").contains(ae))) detayCiz();
 }
 
 // ---------- Özet ve kartlar ----------
@@ -350,6 +351,13 @@ function detayCiz() {
   const n = acikTakim;
   if (!n) return;
   const k = takimKaydi(n), r = takimRota(n), simdi = Date.now(), d = durumHesapla(k, r, simdi);
+  // geri alınabilecek tek işaret: son yapılan (final, mevcut noktanın varışı ya da önceki noktanın bitişi)
+  let geri = null;
+  if (k.final) geri = { tur: "final" };
+  else if (d.faz === "gorev") geri = { tur: "varis", id: d.id };
+  else if (d.tamam > 0) geri = { tur: "bitis", id: r[d.tamam - 1] };
+  const geriBtn = (tur, id) => geri && geri.tur === tur && (tur === "final" || geri.id === id)
+    ? '<button type="button" class="geri-al" data-n="' + esc(n) + '" data-id="' + esc(id || "") + '" data-tur="' + tur + '">' + esc(t("geriAl")) + "</button>" : "";
   $("detayBaslik").innerHTML = '<span class="t-no" style="--renk:' + renk(n) + '">' + esc(n) + "</span> " + esc(t("takim")) + ' <span class="sayi">' + esc(n) + "</span>" + (k.ad ? " · " + esc(k.ad) : "");
   let h = '<p class="t-durum">' + durumMetni(n, d, true) + "</p>";
   h += '<div class="ozet-kart kart"><div><small>' + esc(t("baslangicN")) + "</small><b>" + saat(k.baslangic) + "</b></div>" +
@@ -367,7 +375,7 @@ function detayCiz() {
     const kc = (KUCUK[n] || {})[id];
     const yolSure = a.varis && onceki ? a.varis - onceki : null;
     const gorevSure = a.bitis && a.varis ? a.bitis - a.varis : null;
-    const yolGec = yolSure != null && yolSure > yolMs(), gorevGec = gorevSure != null && gorevSure > gorevMs();
+    const yolGec = yolSure != null && yolSure > noktaMs(), gorevGec = !!(a.bitis && onceki && a.bitis - onceki > noktaMs());
     const art = artefaktVar(n, id);
     h += '<div class="d-satir' + (a.bitis ? " tamam" : i === d.i ? " aktif" : "") + '">' +
       (kc ? '<img class="foto-mini" data-n="' + esc(n) + '" data-k="' + esc(id) + '" src="' + kc + '" alt="">' : '<span class="foto-mini bos">' + (i + 1) + "</span>") +
@@ -377,7 +385,7 @@ function detayCiz() {
       " · " + esc(t("kBitis")) + " " + saat(a.bitis) +
       (gorevSure != null ? ' <span class="' + (gorevGec ? "kirmizi-yazi" : "") + '">(' + esc(t("kGorev")) + " " + dakika(gorevSure) + ")</span>" : "") +
       (a.mesafe != null ? " · 📍 " + a.mesafe + " m" : "") + "</small></div>" +
-      '<div class="d-islem"><button type="button" class="yildiz' + (art ? " var" : "") + '" data-n="' + esc(n) + '" data-k="' + esc(id) + '" data-v="' + (art ? 1 : 0) + '" title="' + esc(TL(s.artefakt)) + '" aria-label="' + esc(t("artefakt")) + '">' + (art ? "★" : "☆") + "</button>" +
+      '<div class="d-islem">' + geriBtn("bitis", id) + geriBtn("varis", id) + '<button type="button" class="yildiz' + (art ? " var" : "") + '" data-n="' + esc(n) + '" data-k="' + esc(id) + '" data-v="' + (art ? 1 : 0) + '" title="' + esc(TL(s.artefakt)) + '" aria-label="' + esc(t("artefakt")) + '">' + (art ? "★" : "☆") + "</button>" +
       puanGirdi(n, id) + "</div></div>";
     if (a.bitis) onceki = a.bitis;
   });
@@ -395,18 +403,42 @@ function detayCiz() {
       '<div class="d-islem">' + (g.artefakt_var ? '<button type="button" class="yildiz' + (art ? " var" : "") + '" data-n="' + esc(n) + '" data-k="' + esc(b) + '" data-v="' + (art ? 1 : 0) + '" title="' + esc(TL(g.artefakt)) + '">' + (art ? "★" : "☆") + "</button>" : "") +
       puanGirdi(n, b) + "</div></div>";
   }
-  if (k.final) h += '<p class="t-durum">' + ikon("bayrak") + " " + esc(t("oFinal")) + " · " + saat(k.final) + "</p>";
+  if (k.final) h += '<p class="t-durum">' + ikon("bayrak") + " " + esc(t("oFinal")) + " · " + saat(k.final) + " " + geriBtn("final") + "</p>";
   h += '<button type="button" class="btn kirmizi kucuk" id="sifirlaBtn">' + esc(t("sifirla")) + "</button>";
   const ic = $("detayIc");
   ic.innerHTML = h;
   ic.querySelectorAll("img[data-k]").forEach((img) => (img.onclick = () => tamFoto(img.dataset.n, img.dataset.k, img.src)));
   ic.querySelectorAll(".yildiz").forEach((b) => (b.onclick = () => yonetimYaz(b.dataset.n, b.dataset.k, "artefakt", b.dataset.v !== "1")));
+  ic.querySelectorAll(".geri-al").forEach((b) => (b.onclick = () => geriAl(b.dataset.n, b.dataset.id, b.dataset.tur)));
   ic.querySelectorAll(".puan-girdi input").forEach((inp) => (inp.onchange = () => {
     const v = parseInt(inp.value, 10);
     yonetimYaz(inp.dataset.n, inp.dataset.k, "puan", isFinite(v) ? v : 0);
     inp.blur();
   }));
   $("sifirlaBtn").onclick = () => takimSifirla(n);
+}
+// Liderin yanlışlıkla bastığı son işareti geri alır; lider telefonu 20 sn içinde güncellenir
+async function geriAl(n, id, tur) {
+  if (!confirm(t("geriAlOnay", { n, x: tur === "final" ? t("oFinal") : noktaAdi(id) }))) return;
+  const p = { duzeltme: Date.now() };
+  if (tur === "final") p.final = null;
+  else if (tur === "bitis") { p["adimlar/" + id + "/bitis"] = null; p["adimlar/" + id + "/artefakt"] = null; }
+  else p["adimlar/" + id] = null;
+  if (!DB.var()) {
+    const d = TAKIMLAR[n] || {};
+    if (tur === "final") delete d.final;
+    else if (tur === "bitis") { delete d.adimlar[id].bitis; delete d.adimlar[id].artefakt; }
+    else delete d.adimlar[id];
+    try { localStorage.setItem("kv_durum", JSON.stringify(d)); } catch (e) {}
+    hepsiniCiz();
+    return;
+  }
+  try {
+    await DB.patch("takimlar/" + n, p);
+    if (tur === "varis") await Promise.all([DB.sil("kucuk/" + n + "/" + id), DB.sil("foto/" + n + "/" + id)]).catch(() => {});
+  } catch (e) { alert(t("kopuk")); }
+  if (document.activeElement) document.activeElement.blur();
+  detayCiz();
 }
 async function yonetimYaz(n, k, alan, deger) {
   YONETIM[n] = YONETIM[n] || {};

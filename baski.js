@@ -23,7 +23,7 @@ function ist(id) { return VERI.istasyonlar[id]; }
 function renk(n) { return M.renkler[(parseInt(n, 10) - 1) % M.renkler.length]; }
 function dk(m) { return Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0"); }
 // i. noktaya beklenen varış (başlangıçtan dakika)
-function beklenen(i) { return i * (VERI.etkinlik.yol_dk + VERI.etkinlik.gorev_dk) + VERI.etkinlik.yol_dk; }
+function beklenen(i) { return i * noktaDk(); }
 function telefon() { try { return localStorage.getItem("kv_baski_tel") || ""; } catch (e) { return ""; } }
 
 function sayfa(ic, etiket) {
@@ -66,7 +66,7 @@ function zarflar() {
     r.forEach((id, i) => {
       const s = ist(id);
       rota += '<li><span class="n">' + (i + 1) + "</span><span><b>" + E(s.baslik.ru) + "</b><small>" + E(s.yer.ru) +
-        " · план ≈ +" + dk(beklenen(i)) + "</small></span></li>";
+        " · план +" + dk(beklenen(i)) + "–" + dk(beklenen(i + 1)) + "</small></span></li>";
     });
     rota += '<li class="uc"><span class="n">◆</span><span><b>Финал:</b> ' + E(VERI.baslangic.ad.ru) + "</span></li>";
     return sayfa('<div class="zarf-ust" style="background:' + c.hex + '"><div class="no">' + E(n) + "</div><div><h1>Команда <span class=\"sayi\">" + E(n) + "</span>" +
@@ -76,7 +76,7 @@ function zarflar() {
       '<div class="uyari">Не передавайте эту ссылку никому: только лидер отмечает точки.</div></div>' +
       '<div><div class="ust-etiket">Ваш маршрут · Rotanız</div><ol class="rota-l">' + rota + "</ol></div></div>" +
       '<div class="zarf-alt"><div><div class="ust-etiket">Правила</div><ul>' +
-      "<li>Дорога до точки — до " + VERI.etkinlik.yol_dk + " минут, задание — до " + VERI.etkinlik.gorev_dk + " минут.</li>" +
+      "<li>На каждую точку — " + noktaDk() + " минут: дорога и задание вместе.</li>" +
       "<li>На точке лидер загружает фото точки — это отметка о прибытии.</li>" +
       "<li>После задания лидер нажимает «Задание выполнено».</li>" +
       "<li>Задания в пути (бонус) можно выполнять в любой момент.</li></ul>" +

@@ -22,7 +22,7 @@ const METIN = {
   ru: {
     takimSec: "Выберите свою команду", takim: "Команда", ilkNokta: "Старт: {x}",
     yoneticiLink: "Панель организатора", rota: "Ваш маршрут", baslangicN: "Старт", finalN: "Финал",
-    kurallar: "Дорога до каждой точки — до {y} мин, задание на точке — до {g} мин. На каждой точке загрузите фото — это отметка о прибытии.",
+    kurallar: "На каждую точку — {d} минут: дорога и задание вместе. Таймер стартует, когда вы завершаете предыдущую точку. На точке загрузите фото — это отметка о прибытии.",
     takimAdi: "Название команды (необязательно)", konumPaylas: "Показывать организатору, где мы (GPS)",
     basla: "Начать квест", degistir: "Сменить команду",
     degistirOnay: "Сменить команду? Прогресс на этом телефоне будет удалён.",
@@ -62,6 +62,8 @@ const METIN = {
     bagli: "онлайн", kopuk: "нет связи", kapat: "Закрыть", takimEkrani: "← Экран команды",
     sira: "#", tamamNokta: "Точки", sure: "Время", gpsYok: "нет GPS", haritadaAc: "Открыть карту",
     konumAciklama: "Встаньте у точки и нажмите «Я здесь», введите координаты или включите перетаскивание и передвиньте метку на карте. Команды получат новое место автоматически.",
+    baslaOnay: "Начать квест? Таймер команды запустится сразу.", geriAl: "Отменить", geriAlOnay: "Отменить последнюю отметку команды {n}: «{x}»?",
+    sureDolduUyari: "Время на эту точку вышло — заканчивайте и идите дальше.",
     pinNot: "PIN меняется в data.json (yonetici_pin).", ozet: "Сводка", dakikaFmt: "{m} мин",
     izleAcik: "Выберите свою команду, чтобы следить за маршрутом, заданиями и таймером. Отмечает точки только лидер команды по своей личной ссылке.",
     liderMisin: "Вы лидер команды?", liderAcik: "Откройте личную ссылку лидера, которую дал организатор, или введите код.",
@@ -90,7 +92,7 @@ const METIN = {
   tr: {
     takimSec: "Takımınızı seçin", takim: "Takım", ilkNokta: "İlk nokta: {x}",
     yoneticiLink: "Yönetici paneli", rota: "Rotanız", baslangicN: "Başlangıç", finalN: "Final",
-    kurallar: "Her noktaya yol en fazla {y} dk, her noktadaki görev en fazla {g} dk. Her noktada fotoğraf yükleyin — bu varış kaydınızdır.",
+    kurallar: "Her nokta için {d} dakika: yol ve görev birlikte. Sayaç önceki noktayı bitirdiğiniz an başlar. Noktada fotoğraf yükleyin — bu varış kaydınızdır.",
     takimAdi: "Takım adı (isteğe bağlı)", konumPaylas: "Yöneticiye konumumuzu göster (GPS)",
     basla: "Questi başlat", degistir: "Takımı değiştir",
     degistirOnay: "Takımı değiştirmek istiyor musunuz? Bu telefondaki ilerleme silinir.",
@@ -129,6 +131,8 @@ const METIN = {
     bagli: "canlı", kopuk: "bağlantı yok", kapat: "Kapat", takimEkrani: "← Takım ekranı",
     sira: "#", tamamNokta: "Nokta", sure: "Süre", gpsYok: "GPS yok", haritadaAc: "Haritada aç",
     konumAciklama: "Noktanın yanında durup «Bulunduğum yer»e basın, koordinat yazın ya da sürüklemeyi açıp haritadaki işareti taşıyın. Takımlar yeni konumu otomatik alır.",
+    baslaOnay: "Quest başlasın mı? Takımın sayacı hemen başlar.", geriAl: "Geri al", geriAlOnay: "Takım {n} için son işaret geri alınsın mı: «{x}»?",
+    sureDolduUyari: "Bu noktanın süresi doldu — bitirip devam edin.",
     pinNot: "PIN, data.json içindeki yonetici_pin alanından değiştirilir.", ozet: "Özet", dakikaFmt: "{m} dk",
     izleAcik: "Rotayı, görevleri ve sayacı izlemek için takımınızı seçin. Noktaları yalnızca takım lideri kendi özel linkiyle işaretler.",
     liderMisin: "Takım lideri misiniz?", liderAcik: "Organizatörün verdiği lider linkini açın veya kodu girin.",
@@ -403,12 +407,13 @@ function onceYaz(ts, simdi = Date.now()) {
   if (d < 3600) return t("once", { x: Math.round(d / 60) + " " + t("dk") });
   return t("once", { x: Math.floor(d / 3600) + ":" + String(Math.floor((d % 3600) / 60)).padStart(2, "0") });
 }
-function yolMs() { return VERI.etkinlik.yol_dk * 60000; }
-function gorevMs() { return VERI.etkinlik.gorev_dk * 60000; }
+// Her nokta için tek süre: yol + görev birlikte (önceki nokta bitince başlar)
+function noktaDk() { const e = VERI.etkinlik; return e.nokta_dk || ((e.yol_dk || 10) + (e.gorev_dk || 5)); }
+function noktaMs() { return noktaDk() * 60000; }
 // i. istasyonun planlanan zaman dilimi (başlangıçtan itibaren)
 function planDilim(baslangic, i) {
-  const bas = baslangic + i * (yolMs() + gorevMs()) + yolMs();
-  return [bas, bas + gorevMs()];
+  const bas = baslangic + i * noktaMs();
+  return [bas, bas + noktaMs()];
 }
 
 // Bir takımın anlık durumu (takım ekranı ve yönetici aynı hesabı kullanır)
@@ -419,12 +424,11 @@ function durumHesapla(k, rota, simdi = Date.now()) {
   for (let i = 0; i < rota.length; i++) {
     const a = ad[rota[i]] || {};
     if (!a.bitis) {
-      if (!a.varis) return { faz: "yol", i, id: rota[i], bas: onceki, limit: yolMs(), kalan: yolMs() - (simdi - onceki), tamam: i };
-      return { faz: "gorev", i, id: rota[i], bas: a.varis, limit: gorevMs(), kalan: gorevMs() - (simdi - a.varis), tamam: i };
+      return { faz: a.varis ? "gorev" : "yol", i, id: rota[i], bas: onceki, limit: noktaMs(), kalan: noktaMs() - (simdi - onceki), tamam: i };
     }
     onceki = a.bitis;
   }
-  if (!k.final) return { faz: "final", i: rota.length, bas: onceki, limit: yolMs(), kalan: yolMs() - (simdi - onceki), tamam: rota.length };
+  if (!k.final) return { faz: "final", i: rota.length, bas: onceki, limit: noktaMs(), kalan: noktaMs() - (simdi - onceki), tamam: rota.length };
   return { faz: "bitti", tamam: rota.length, toplam: k.final - k.baslangic };
 }
 

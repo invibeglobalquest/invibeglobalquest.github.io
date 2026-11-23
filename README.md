@@ -37,7 +37,7 @@ Site Rusça ve Türkçe çalışır (sağ üstteki RU / TR). Derleme gerekmez; H
 
 ## Takım ekranı nasıl işler? (lider)
 1. Lider kendi linkini açar → efsane, rota (Başlangıç: Binbirdirek Sarnıcı → 10 nokta → Final: Sarnıç) ve kurallar görünür → **Questi başlat**.
-2. Üstte büyük sayaç: her **yol en fazla 10 dk**, her **noktadaki görev en fazla 10 dk**. Süre aşılırsa sayaç kırmızıya döner ve `+02:15 gecikme` gösterir. Yanında toplam süre.
+2. Üstte büyük sayaç: **her nokta için 15 dk (yol + görev birlikte)**; önceki nokta bitince başlar (`data.json → nokta_dk`). Süre aşılırsa sayaç kırmızıya döner, `+02:15 gecikme` gösterir; telefon titrer, kısa bir uyarı sesi çalar ve üstte uyarı çıkar. Oyun sırasında lider telefonunun ekranı kendiliğinden kapanmaz (GPS ve uyarılar çalışmaya devam eder).
 3. Sıradaki nokta kartında: **📍 Konuma git** (Google Maps yürüyüş yol tarifi), hikâye, görev maddeleri, koşul ve kazanılacak artefakt.
 4. **Adım 1 — fotoğraf:** Noktaya varınca noktanın fotoğrafı yüklenir. Bu, varış kaydıdır ve görev sayacını başlatır (GPS açıksa noktaya uzaklık da kaydedilir).
 5. **Adım 2 — ✅ Görev tamamlandı:** Saat kaydedilir (`Tamamlandı · 14:32`), sıradaki noktanın yol sayacı başlar. "Artefaktı aldık" kutusu da işaretlenir.
@@ -52,13 +52,13 @@ Lider telefon değiştirirse lider linkini yeni telefonda açar; takım kaldığ
 
 ## Yönetici paneli
 - **Canlı:** harita (noktalar + takımların GPS konumu; GPS yoksa bulunduğu/gittiği nokta, kesikli çerçeveyle), 10 takım kartı (durum, kalan süre/gecikme, ilerleme, artefakt, puan, son hareket), **olay akışı** (kim ne zaman başladı, hangi noktaya vardı + fotoğrafı, hangi görevi tamamladı).
+- **Geri al:** Lider yanlışlıkla «Görev tamamlandı»ya (veya varış fotoğrafına, «Sarnıca vardık»a) bastıysa takım detayındaki **Geri al** son işareti siler; liderin telefonu 20 sn içinde güncellenir.
 - Takım kartına basınca **detay**: her nokta için plan / varış / bitiş saatleri, yol ve görev süreleri (aşanlar kırmızı), fotoğraflar (basınca büyük hali), **★ artefakt** düzeltme ve **puan** girişi, bonus fotoğrafları, **Takımı sıfırla**.
 - **Sıralama:** artefakt → puan → bitiş süresi.
 - **Linkler:** ortak link + 10 lider linki, QR kodlarıyla; **🖨 Yazdır** ile 1. sayfa ortak link, sonraki sayfalar lider kartları.
 - **Ayarlar:** nokta konumlarını düzeltme (aşağıya bakın), tüm verileri silme.
 
 ## Deneyim ve görünüm
-- **Açılış:** Ana sayfa ilk açıldığında Invibe Global logo animasyonu oynar (lider/takım linklerinde oynamaz, «Geç» ile atlanır).
 - **Artefakt koleksiyonu:** Oyun ekranının üstünde 10 yuvalı şerit; her görevde biri altınla dolar. «Görev tamamlandı»ya basınca liderde ve takım üyelerinin telefonlarında «Artefakt kazanıldı» animasyonu açılır.
 - **Sesli anlatım:** Efsane ve nokta hikâyeleri «Hikâyeyi dinle» ile telefonun kendi sesiyle okunur (RU/TR).
 - **Lanet kaldırıldı ekranı:** Bitişte süre, artefakt, puan, fotoğraf kolajı ve paylaşılabilir **hatıra kartı** (1080×1350 görsel).
@@ -67,7 +67,7 @@ Lider telefon değiştirirse lider linkini yeni telefonda açar; takım kaldığ
 - İkonlar emoji yerine altın çizgi ikon seti (`ikonlar.js`); yazı tipleri depoda (`vendor/fonts`).
 
 ## Final ekranı (`ekran.html`)
-Sarnıçtaki projeksiyon için: dizüstünü projektöre bağlayın → https://invibeglobalquest.github.io/ekran.html → PIN → **Gösterimi başlat** (tam ekran, sesli logo animasyonu). Ekranda canlı takım sıralaması, son fotoğrafların slayt gösterisi, olay şeridi ve her tamamlanan görevde büyük «artefakt kazandı» duyurusu çıkar. Yönetici panelinde **Linkler → Final ekranı** ile de açılır.
+Sarnıçtaki projeksiyon için: dizüstünü projektöre bağlayın → https://invibeglobalquest.github.io/ekran.html → PIN → **Gösterimi başlat** (tam ekran, sesli logo animasyonu; video yalnızca bu ekranda yüklenir, telefonları yavaşlatmaz). Ekranda canlı takım sıralaması, son fotoğrafların slayt gösterisi, olay şeridi ve her tamamlanan görevde büyük «artefakt kazandı» duyurusu çıkar. Yönetici panelinde **Linkler → Final ekranı** ile de açılır.
 
 ## Güvenli mod (önerilir)
 Şu an lider kodları ve PIN `data.json` içinde, veritabanı da herkese açık. Güvenli modda kodları ve PIN'i Firebase kontrol eder; yalnızca o takımın lideri o takıma, yalnızca yönetici puanlara yazabilir; fotoğrafları da yalnızca uygulamayı açanlar görür.

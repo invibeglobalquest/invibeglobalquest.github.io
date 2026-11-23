@@ -74,7 +74,7 @@ function goster(ad) {
 }
 function ekranAc() {
   clearInterval(zamanlayici);
-  document.title = TL(VERI.etkinlik.ad);
+  document.title = TL(VERI.etkinlik.ad) + " · Invibe Global";
   if (!durum.takim) { girisCiz(); goster("giris"); return; }
   if (!durum.baslangic) { hazirCiz(); goster("hazir"); return; }
   const d = durumHesapla(durum, rota());
@@ -87,7 +87,7 @@ function ekranAc() {
 function yenidenCiz() { ekranAc(); }
 
 function heroHTML(baslik, sayi) {
-  return '<div class="hero"><div class="marka"><img src="medya/logo.png" alt="Invibe Global" width="64" height="60"></div><div class="dil" id="dilKutu"></div>' + kemerSVG() +
+  return '<div class="hero"><div class="marka"><img src="medya/logo-kucuk.png" alt="Invibe Global" width="64" height="60"></div><div class="dil" id="dilKutu"></div>' + kemerSVG() +
     '<p class="hero-ust">' + esc(TL(VERI.etkinlik.alt)) + "</p>" +
     '<h1 class="hero-baslik">' + esc(baslik) + (sayi ? ' <span class="sayi">' + esc(sayi) + "</span>" : "") + '</h1><div class="altin-cizgi"></div></div>';
 }
@@ -150,7 +150,7 @@ async function liderGiris(n) {
 }
 async function sunucudanAl(n, k) {
   durum = {
-    takim: n, rol: "lider", oturum: k.oturum || null, ad: k.ad || "", rota: Array.isArray(k.rota) ? k.rota : undefined,
+    takim: n, rol: "lider", oturum: k.oturum || null, duzeltme: k.duzeltme || 0, ad: k.ad || "", rota: Array.isArray(k.rota) ? k.rota : undefined,
     baslangic: k.baslangic, adimlar: k.adimlar || {}, final: k.final || null, bonus: k.bonus || {}, konumPaylas: true, sunucuda: true
   };
   try { kucukler = (await DB.get("kucuk/" + n)) || {}; } catch (e) { kucukler = {}; }
@@ -173,7 +173,7 @@ function hazirCiz() {
       "<small>" + esc(TL(n.yer)) + "</small></span></li>";
   });
   h += '<li class="uc"><span class="no">◆</span><span>' + esc(t("finalN")) + ": " + esc(TL(VERI.baslangic.ad)) + "</span></li></ol>";
-  h += '<p class="not ikonlu">' + ikon("saat") + "<span>" + esc(t("kurallar", { y: VERI.etkinlik.yol_dk, g: VERI.etkinlik.gorev_dk })) + "</span></p>";
+  h += '<p class="not ikonlu">' + ikon("saat") + "<span>" + esc(t("kurallar", { d: noktaDk() })) + "</span></p>";
   if (!lider()) {
     h += '<div class="kart bekle-kart ikonlu">' + ikon("oyun") + "<span>" + esc(t("bekleniyor")) + "</span></div>";
     h += '<button type="button" class="btn ikincil kucuk" id="degistirBtn">' + esc(t("degistir")) + "</button>";
@@ -197,6 +197,8 @@ function hazirCiz() {
 
 function baslat() {
   if (!lider()) return;
+  if (!confirm(t("baslaOnay"))) return;
+  sesAc();
   const simdi = Date.now();
   durum.ad = $("takimAdi").value.trim();
   durum.konumPaylas = $("konumPaylas").checked;
@@ -216,6 +218,7 @@ function baslat() {
   if (!GUVEN.aktif()) kuyrukEkle("DELETE", "yonetim/" + durum.takim);
   konumBaslat();
   ekranAc();
+  ekranAcikTut();
   window.scrollTo(0, 0);
 }
 
@@ -476,7 +479,7 @@ function toplamPuan() {
 function bitisCiz() {
   const s = $("bitis"), r = rota();
   const alinan = r.filter(artefaktVar);
-  let h = '<div class="final-hero"><div class="marka"><img src="medya/logo.png" alt="Invibe Global" width="64" height="60"></div><div class="dil" id="dilKutu"></div>' + kemerSVG("orta") +
+  let h = '<div class="final-hero"><div class="marka"><img src="medya/logo-kucuk.png" alt="Invibe Global" width="64" height="60"></div><div class="dil" id="dilKutu"></div>' + kemerSVG("orta") +
     '<p class="hero-ust">' + esc(t("bitti")) + '</p><h1 class="hero-baslik">' + esc(t("lanetKalkti")) + "</h1>" +
     '<p class="fh-takim">' + esc(t("takim")) + ' <span class="sayi">' + esc(durum.takim) + "</span>" + (durum.ad ? " · " + esc(durum.ad) : "") + "</p>" +
     '<div class="ozet-koyu"><div><small>' + esc(t("toplamSure")) + "</small><b>" + sureYaz(durum.final - durum.baslangic) + "</b></div>" +
@@ -502,7 +505,7 @@ function bitisCiz() {
 
 // ---------- Artefakt koleksiyonu ve kutlama ----------
 function markaAlt() {
-  return '<div class="marka-alt"><span>' + esc(t("organizator")) + '</span><span class="rozet-logo"><img src="medya/logo.png" alt="Invibe Global" width="64" height="60"></span></div>';
+  return '<div class="marka-alt"><span>' + esc(t("organizator")) + '</span><span class="rozet-logo"><img src="medya/logo-kucuk.png" alt="Invibe Global" width="64" height="60"></span></div>';
 }
 function koleksiyonHTML(acik) {
   if (!durum.baslangic) return "";
@@ -594,7 +597,7 @@ async function hatiraKarti() {
     kutu(t("toplamSure"), sureYaz(durum.final - durum.baslangic), W / 2 - 330);
     kutu(t("artefaktlar"), alinan + "/" + r.length, W / 2);
     kutu(t("puan"), String(toplamPuan()), W / 2 + 330);
-    try { const logo = await resimYukle("medya/logo.png"); const lw = 150, lh = logo.height * lw / logo.width; x.drawImage(logo, W / 2 - lw / 2, H - lh - 50, lw, lh); } catch (e) {}
+    try { const logo = await resimYukle("medya/logo-kucuk.png"); const lw = 150, lh = logo.height * lw / logo.width; x.drawImage(logo, W / 2 - lw / 2, H - lh - 50, lw, lh); } catch (e) {}
     const blob = await new Promise((ok) => c.toBlob(ok, "image/jpeg", 0.9));
     const ad = "1001-" + t("takim").toLowerCase() + "-" + durum.takim + ".jpg";
     const dosya = new File([blob], ad, { type: "image/jpeg" });
@@ -612,24 +615,44 @@ async function hatiraKarti() {
   }
 }
 
-// ---------- Açılış videosu ----------
-function acilisGoster() {
-  let goruldu = false;
-  try { goruldu = sessionStorage.getItem("kv_acilis") === "1"; sessionStorage.setItem("kv_acilis", "1"); } catch (e) {}
-  if (goruldu || durum.baslangic || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const k = document.createElement("div");
-  k.className = "acilis";
-  k.innerHTML = '<video src="medya/intro.mp4" poster="medya/intro-son.jpg" muted playsinline autoplay preload="auto"></video>' +
-    '<button type="button" class="atla">' + esc(t("atla")) + "</button>";
-  document.body.appendChild(k);
-  const v = k.querySelector("video");
-  const bitir = () => { if (k.classList.contains("bitti")) return; k.classList.add("bitti"); setTimeout(() => k.remove(), 700); };
-  k.querySelector(".atla").onclick = bitir;
-  v.addEventListener("ended", bitir);
-  v.addEventListener("error", bitir);
-  setTimeout(bitir, 9500);
-  const p = v.play();
-  if (p && p.catch) p.catch(() => setTimeout(bitir, 1500));
+// ---------- Ekran açık kalsın, süre dolunca uyar ----------
+let ekranKilidi = null, sesBaglam = null;
+async function ekranAcikTut() {
+  const gerek = lider() && durum.baslangic && !durum.final && !document.hidden;
+  try {
+    if (gerek && !ekranKilidi && navigator.wakeLock) {
+      ekranKilidi = await navigator.wakeLock.request("screen");
+      ekranKilidi.addEventListener("release", () => { ekranKilidi = null; });
+    } else if (!gerek && ekranKilidi) { await ekranKilidi.release(); ekranKilidi = null; }
+  } catch (e) { ekranKilidi = null; }
+}
+// iPhone titreşimi desteklemediği için kısa bir ses de çalınır (ilk dokunuşta açılır)
+function sesAc() {
+  try { if (!sesBaglam) sesBaglam = new (window.AudioContext || window.webkitAudioContext)(); if (sesBaglam.state === "suspended") sesBaglam.resume(); } catch (e) {}
+}
+document.addEventListener("pointerdown", sesAc, { once: true });
+function bip() {
+  if (!sesBaglam) return;
+  try {
+    const z = sesBaglam.currentTime;
+    [0, 0.35, 0.7].forEach((g) => {
+      const o = sesBaglam.createOscillator(), v = sesBaglam.createGain();
+      o.frequency.value = 880; o.connect(v); v.connect(sesBaglam.destination);
+      v.gain.setValueAtTime(0.0001, z + g); v.gain.exponentialRampToValueAtTime(0.3, z + g + 0.02); v.gain.exponentialRampToValueAtTime(0.0001, z + g + 0.25);
+      o.start(z + g); o.stop(z + g + 0.27);
+    });
+  } catch (e) {}
+}
+function sureDolduUyar() {
+  if (navigator.vibrate) navigator.vibrate([300, 150, 300, 150, 300]);
+  bip();
+  if (!lider()) return;
+  let u = $("sureUyari");
+  if (!u) { u = document.createElement("div"); u.id = "sureUyari"; u.className = "sure-uyari"; u.setAttribute("role", "alert"); document.body.appendChild(u); }
+  u.innerHTML = ikon("saat") + "<span>" + esc(t("sureDolduUyari")) + "</span>";
+  u.classList.add("acik");
+  u.onclick = () => u.classList.remove("acik");
+  setTimeout(() => u.classList.remove("acik"), 8000);
 }
 
 // ---------- Sayaç ----------
@@ -648,7 +671,7 @@ function tik() {
   $("ustToplam").textContent = sureYaz(simdi - durum.baslangic);
   const etiket = d.faz === "yol" ? t("fazYol") : d.faz === "gorev" ? t("fazGorev") : t("fazFinal");
   const metin = sureYaz(d.kalan);
-  faz.textContent = etiket + " · " + VERI.etkinlik[d.faz === "gorev" ? "gorev_dk" : "yol_dk"] + " " + t("dk");
+  faz.textContent = etiket + " · " + noktaDk() + " " + t("dk");
   sayac.textContent = metin;
   const sinif = d.kalan < 0 ? "gec" : d.kalan < 120000 ? "az" : "";
   sayac.className = sinif;
@@ -658,7 +681,7 @@ function tik() {
   // süre dolduğu an titreşim
   const anahtar = d.faz + d.i;
   if (d.kalan < 0 && sonFaz === anahtar + "+") { /* zaten bildirildi */ }
-  else if (d.kalan < 0 && sonFaz === anahtar) { if (navigator.vibrate) navigator.vibrate([300, 150, 300]); sonFaz = anahtar + "+"; }
+  else if (d.kalan < 0 && sonFaz === anahtar) { sureDolduUyar(); sonFaz = anahtar + "+"; }
   else if (d.kalan >= 0) sonFaz = anahtar;
   // hedefe uzaklık
   const km = $("kartMesafe");
@@ -761,7 +784,11 @@ async function yokla() {
   if (!DB.var() || !durum.takim || !durum.baslangic || !lider()) return;
   try {
     const n = durum.takim;
-    const [ot, yn, kn] = await Promise.all([DB.get("takimlar/" + n + "/oturum"), DB.get("yonetim/" + n), DB.get("ayarlar/konumlar")]);
+    const [ot, yn, kn, dz] = await Promise.all([DB.get("takimlar/" + n + "/oturum"), DB.get("yonetim/" + n), DB.get("ayarlar/konumlar"), DB.get("takimlar/" + n + "/duzeltme")]);
+    if (dz && dz > (durum.duzeltme || 0) && kuyruk.length === 0 && !isleniyor) {
+      const k = await DB.get("takimlar/" + n);
+      if (k) { await sunucudanAl(n, k); return; }
+    }
     if (await konumAyarKontrol(kn) && !$("oyun").classList.contains("gizli")) yerindeCiz();
     if (ot === null && durum.sunucuda && kuyruk.length === 0 && !isleniyor) {
       alert(t("sifirlandi"));
@@ -800,14 +827,16 @@ async function yokla() {
     else if (durum.takim !== qn) izleyiciSec(qn);
     else ekranAc();
   } else ekranAc();
-  if (!qn) acilisGoster();
   swKaydet();
   gorulenBitis = bitisSayisi();
   konumBaslat();
   kuyrukIsle();
   yenile();
   yoklamaZ = setInterval(yenile, 15000);
+  ekranAcikTut();
+  setInterval(ekranAcikTut, 30000);
   document.addEventListener("visibilitychange", () => {
+    ekranAcikTut();
     if (!document.hidden) { tik(); kuyrukIsle(); yenile(); }
   });
 })();

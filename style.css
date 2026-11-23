@@ -465,11 +465,6 @@ body.yonetici main { max-width: none; }
 .kolaj { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; border-radius: var(--r); overflow: hidden; margin: 8px 0 4px; }
 .kolaj img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; cursor: zoom-in; }
 
-/* açılış videosu */
-.acilis { position: fixed; inset: 0; z-index: 100; background: #000; transition: opacity .7s; }
-.acilis video { width: 100%; height: 100%; object-fit: cover; }
-.acilis.bitti { opacity: 0; pointer-events: none; }
-.acilis .atla { position: absolute; right: 16px; bottom: max(22px, env(safe-area-inset-bottom)); min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .35); background: rgba(0, 0, 0, .35); color: #fff; font-weight: 700; cursor: pointer; }
 
 /* yönetici: ikonlar, logo, güvenlik */
 .y-logo { height: 40px; width: auto; }
@@ -482,3 +477,13 @@ body.yonetici main { max-width: none; }
 .kurulum-log { background: var(--kart2); border-radius: 10px; padding: 10px; font-size: .8rem; white-space: pre-wrap; }
 .kurallar { width: 100%; font: .8rem ui-monospace, Menlo, monospace; border: 1px solid var(--cizgi); border-radius: 10px; padding: 10px; background: var(--bg); color: var(--yazi); }
 .hero > .marka, .final-hero > .marka { position: absolute; left: 14px; top: 10px; }
+
+/* süre doldu uyarısı */
+.sure-uyari { position: fixed; left: 12px; right: 12px; top: max(70px, calc(env(safe-area-inset-top) + 62px)); z-index: 80; display: flex; gap: 10px; align-items: center;
+  padding: 14px 16px; border-radius: 14px; background: var(--kirmizi); color: #fff; font-weight: 800; box-shadow: 0 8px 24px rgba(0,0,0,.3);
+  transform: translateY(-140%); opacity: 0; transition: transform .35s, opacity .35s; }
+.sure-uyari.acik { transform: none; opacity: 1; }
+.sure-uyari .ik { width: 26px; height: 26px; }
+.dil-btn { min-width: 46px; min-height: 44px; font-size: .85rem; }
+.geri-al { min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--kirmizi); background: none; color: var(--kirmizi); font-weight: 800; cursor: pointer; }
+.t-durum .geri-al { min-height: 34px; margin-left: 8px; }
