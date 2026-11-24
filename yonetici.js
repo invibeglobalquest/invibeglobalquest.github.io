@@ -68,7 +68,7 @@ function panelMetinleri() {
   $("konumBaslik").textContent = t("konumlar");
   $("konumAciklama").textContent = t("konumAciklama");
   $("tasiEtiket").textContent = t("tasi");
-  $("pinNot").textContent = t("pinNot");
+  $("pinNot").textContent = t(GUVEN.aktif() ? "pinNotGuvenli" : "pinNot");
   $("tumunuSilBtn").textContent = t("tumunuSifirla");
   const u = $("dbUyari");
   u.classList.toggle("gizli", DB.var());
@@ -537,9 +537,10 @@ function kurallarMetni() {
   const T = "auth != null && (auth.token.email == 'takim' + $n + '@" + a + "' || auth.token.email == 'yonetici@" + a + "')";
   const oku = "auth != null";
   return JSON.stringify({ rules: {
-    takimlar: { ".read": oku, "$n": { ".write": T } },
-    kucuk: { ".read": oku, "$n": { ".write": T } },
-    foto: { ".read": oku, "$n": { ".write": T } },
+    // yönetici her şeye (tümünü sıfırla dahil), lider yalnızca kendi takımına yazar
+    takimlar: { ".read": oku, ".write": Y, "$n": { ".write": T } },
+    kucuk: { ".read": oku, ".write": Y, "$n": { ".write": T } },
+    foto: { ".read": oku, ".write": Y, "$n": { ".write": T } },
     yonetim: { ".read": oku, ".write": Y },
     ayarlar: { ".read": oku, ".write": Y },
     gizli: { ".read": Y, ".write": Y }

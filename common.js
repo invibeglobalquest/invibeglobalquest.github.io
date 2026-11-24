@@ -1,6 +1,6 @@
 // Ortak kod: veri, dil, sunucu (Firebase Realtime Database REST), zaman, fotoğraf
 "use strict";
-const UYGULAMA_SURUM = "24.11f";
+const UYGULAMA_SURUM = "24.11g";
 
 let VERI = null;
 let DIL = ilkDil();
@@ -68,7 +68,7 @@ const METIN = {
     konumAciklama: "Встаньте у точки и нажмите «Я здесь», введите координаты или включите перетаскивание и передвиньте метку на карте. Команды получат новое место автоматически.",
     baslaOnay: "Начать квест? Таймер команды запустится сразу.", geriAl: "Отменить", geriAlOnay: "Отменить последнюю отметку команды {n}: «{x}»?",
     sureDolduUyari: "Время на эту точку вышло — заканчивайте и идите дальше.",
-    pinNot: "PIN меняется в data.json (yonetici_pin).", ozet: "Сводка", dakikaFmt: "{m} мин",
+    pinNot: "PIN меняется в data.json (yonetici_pin).", pinNotGuvenli: "PIN и коды лидеров хранятся в Firebase Authentication; чтобы изменить — напишите разработчику.", ozet: "Сводка", dakikaFmt: "{m} мин",
     izleAcik: "Выберите свою команду, чтобы следить за маршрутом, заданиями и таймером. Отмечает точки только лидер команды по своей личной ссылке.",
     liderMisin: "Вы лидер команды?", liderAcik: "Откройте личную ссылку лидера, которую дал организатор, или введите код.",
     kodGir: "Ввести код лидера", kod: "Код лидера", liderOl: "Войти как лидер", kodHata: "Неверный код для этой команды.",
@@ -140,7 +140,7 @@ const METIN = {
     konumAciklama: "Noktanın yanında durup «Bulunduğum yer»e basın, koordinat yazın ya da sürüklemeyi açıp haritadaki işareti taşıyın. Takımlar yeni konumu otomatik alır.",
     baslaOnay: "Quest başlasın mı? Takımın sayacı hemen başlar.", geriAl: "Geri al", geriAlOnay: "Takım {n} için son işaret geri alınsın mı: «{x}»?",
     sureDolduUyari: "Bu noktanın süresi doldu — bitirip devam edin.",
-    pinNot: "PIN, data.json içindeki yonetici_pin alanından değiştirilir.", ozet: "Özet", dakikaFmt: "{m} dk",
+    pinNot: "PIN, data.json içindeki yonetici_pin alanından değiştirilir.", pinNotGuvenli: "PIN ve lider kodları Firebase Authentication'da; değiştirmek için geliştiriciye yazın.", ozet: "Özet", dakikaFmt: "{m} dk",
     izleAcik: "Rotayı, görevleri ve sayacı izlemek için takımınızı seçin. Noktaları yalnızca takım lideri kendi özel linkiyle işaretler.",
     liderMisin: "Takım lideri misiniz?", liderAcik: "Organizatörün verdiği lider linkini açın veya kodu girin.",
     kodGir: "Lider kodunu gir", kod: "Lider kodu", liderOl: "Lider olarak gir", kodHata: "Bu takım için kod yanlış.",
