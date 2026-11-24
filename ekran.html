@@ -8,14 +8,14 @@
 <meta name="theme-color" content="#0d0a12">
 <title>Финал · Проклятье 1001 колонны</title>
 <link rel="icon" type="image/png" href="medya/favicon.png">
-<link rel="stylesheet" href="vendor/fonts/fonts.css?v=24.11g">
-<link rel="stylesheet" href="ekran.css?v=24.11g">
+<link rel="stylesheet" href="vendor/fonts/fonts.css?v=24.11h">
+<link rel="stylesheet" href="ekran.css?v=24.11h">
 </head>
 <body>
 <section id="kapi" class="kapi">
   <img src="medya/logo.png" alt="Invibe Global" class="kapi-logo" width="160" height="150">
   <h1 id="kapiBaslik"></h1>
-  <form id="pinForm" class="gizli">
+  <form id="pinForm" class="gizli" onsubmit="window.pinBekliyor=true;return false">
     <input id="pinGir" type="password" inputmode="numeric" autocomplete="current-password" aria-label="PIN" placeholder="PIN">
     <button type="submit" id="pinBtn">OK</button>
     <p id="pinHata" class="hata" role="alert"></p>
@@ -45,8 +45,8 @@
   <div id="eDuyuru" class="e-duyuru" aria-live="polite"></div>
 </main>
 
-<script src="ikonlar.js?v=24.11g"></script>
-<script src="common.js?v=24.11g"></script>
-<script src="ekran.js?v=24.11g"></script>
+<script src="ikonlar.js?v=24.11h"></script>
+<script src="common.js?v=24.11h"></script>
+<script src="ekran.js?v=24.11h"></script>
 </body>
 </html>

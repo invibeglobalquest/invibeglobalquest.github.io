@@ -1,6 +1,6 @@
 // Ortak kod: veri, dil, sunucu (Firebase Realtime Database REST), zaman, fotoğraf
 "use strict";
-const UYGULAMA_SURUM = "24.11g";
+const UYGULAMA_SURUM = "24.11h";
 
 let VERI = null;
 let DIL = ilkDil();
@@ -314,6 +314,18 @@ const GUVEN = {
   eposta(rol, n) { return (rol === "yonetici" ? "yonetici" : "takim" + n) + "@" + this.alan(); },
   sifre(rol, deger) { return rol === "yonetici" ? "quest#" + String(deger).trim() : String(deger).replace(/\s+/g, "").toUpperCase(); }
 };
+// PIN formu: sayfa hazır olmadan gönderilirse (yavaş bağlantı) kaybolmaz, hazır olunca işlenir;
+// doğrulama sürerken düğme kilitli kalır (çift basma yok)
+function pinFormuBagla(form, isle) {
+  const btn = form.querySelector("button");
+  form.onsubmit = async (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    if (btn && btn.disabled) return;
+    if (btn) btn.disabled = true;
+    try { await isle(); } finally { if (btn) btn.disabled = false; }
+  };
+  if (window.pinBekliyor) { window.pinBekliyor = false; form.onsubmit(); }
+}
 // Lider kodunu doğrular (güvenli modda Firebase'e giriş yaparak)
 async function liderDogrula(n, kod) {
   if (!GUVEN.aktif()) {

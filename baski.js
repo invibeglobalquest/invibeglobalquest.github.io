@@ -311,12 +311,11 @@ function baslat() {
   }
   SITE = (VERI.etkinlik.site_url || location.origin + location.pathname.replace(/[^/]*$/, "")).replace(/\/?$/, "/");
   if (await yoneticiOturumu()) { baslat(); return; }
-  $("kilitForm").onsubmit = async (e) => {
-    e.preventDefault();
+  pinFormuBagla($("kilitForm"), async () => {
     let ok = false;
     try { ok = await yoneticiDogrula($("kilitPin").value); } catch (e2) { $("kilitHata").textContent = "Bağlantı hatası"; return; }
     if (!ok) { $("kilitHata").textContent = "PIN yanlış"; return; }
     baslat();
-  };
+  });
   $("kilitPin").focus();
 })();

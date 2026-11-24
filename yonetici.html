@@ -8,9 +8,9 @@
 <title>Yönetici · 1001 Direk Quest</title>
 <link rel="icon" type="image/png" href="medya/favicon.png">
 <link rel="apple-touch-icon" href="medya/apple-touch-icon.png">
-<link rel="stylesheet" href="vendor/fonts/fonts.css?v=24.11g">
-<link rel="stylesheet" href="vendor/leaflet/leaflet.css?v=24.11g">
-<link rel="stylesheet" href="style.css?v=24.11g">
+<link rel="stylesheet" href="vendor/fonts/fonts.css?v=24.11h">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css?v=24.11h">
+<link rel="stylesheet" href="style.css?v=24.11h">
 </head>
 <body class="yonetici">
 <section id="pinEkran" class="pin-ekran">
@@ -20,7 +20,7 @@
     <h1 class="hero-baslik" id="pinBaslik"></h1>
     <div class="altin-cizgi"></div>
   </div>
-  <form id="pinForm" class="kart pin-kart">
+  <form id="pinForm" class="kart pin-kart" onsubmit="window.pinBekliyor=true;return false">
     <label class="alan"><span>PIN</span><input id="pinGir" type="password" inputmode="numeric" autocomplete="current-password" required></label>
     <p id="pinHata" class="hata" role="alert"></p>
     <button class="btn ana" id="pinBtn" type="submit"></button>
@@ -82,10 +82,10 @@
   </div>
 </div>
 
-<script src="vendor/leaflet/leaflet.js?v=24.11g"></script>
-<script src="vendor/qrcode/qrcode.js?v=24.11g"></script>
-<script src="ikonlar.js?v=24.11g"></script>
-<script src="common.js?v=24.11g"></script>
-<script src="yonetici.js?v=24.11g"></script>
+<script src="vendor/leaflet/leaflet.js?v=24.11h"></script>
+<script src="vendor/qrcode/qrcode.js?v=24.11h"></script>
+<script src="ikonlar.js?v=24.11h"></script>
+<script src="common.js?v=24.11h"></script>
+<script src="yonetici.js?v=24.11h"></script>
 </body>
 </html>

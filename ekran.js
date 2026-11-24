@@ -231,11 +231,10 @@ function hazir() {
   if (await yoneticiOturumu()) { hazir(); return; }
   $("pinForm").classList.remove("gizli");
   $("pinGir").focus();
-  $("pinForm").onsubmit = async (e) => {
-    e.preventDefault();
+  pinFormuBagla($("pinForm"), async () => {
     let ok = false;
     try { ok = await yoneticiDogrula($("pinGir").value); } catch (e2) { $("pinHata").textContent = t("girisHata"); return; }
     if (!ok) { $("pinHata").textContent = t("pinHata"); return; }
     hazir();
-  };
+  });
 })();

@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Baskı paketi · 1001 Direk Quest</title>
-<link rel="stylesheet" href="vendor/fonts/fonts.css?v=24.11g">
-<link rel="stylesheet" href="baski.css?v=24.11g">
+<link rel="stylesheet" href="vendor/fonts/fonts.css?v=24.11h">
+<link rel="stylesheet" href="baski.css?v=24.11h">
 </head>
 <body>
 <div id="kilit" class="kilit">
   <h1>Baskı paketi</h1>
   <p>Lider kodları ve cevap anahtarları içerir. Yönetici PIN'ini girin.</p>
-  <form id="kilitForm">
+  <form id="kilitForm" onsubmit="window.pinBekliyor=true;return false">
     <input id="kilitPin" type="password" inputmode="numeric" autocomplete="current-password" aria-label="PIN">
     <p id="kilitHata" class="hata" role="alert"></p>
     <button type="submit">Aç</button>
@@ -36,8 +36,8 @@
 
 <main id="sayfalar"></main>
 
-<script src="vendor/qrcode/qrcode.js?v=24.11g"></script>
-<script src="common.js?v=24.11g"></script>
-<script src="baski.js?v=24.11g"></script>
+<script src="vendor/qrcode/qrcode.js?v=24.11h"></script>
+<script src="common.js?v=24.11h"></script>
+<script src="baski.js?v=24.11h"></script>
 </body>
 </html>

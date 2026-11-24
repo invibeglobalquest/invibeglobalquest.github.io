@@ -640,12 +640,11 @@ async function konumKaydet(id, lat, lng) {
   }
   pinCiz();
   if (await yoneticiOturumu()) { girisYap(); return; }
-  $("pinForm").onsubmit = async (e) => {
-    e.preventDefault();
+  pinFormuBagla($("pinForm"), async () => {
     let ok = false;
     try { ok = await yoneticiDogrula($("pinGir").value); } catch (e2) { $("pinHata").textContent = t("girisHata"); return; }
     if (!ok) { $("pinHata").textContent = t("pinHata"); $("pinGir").select(); return; }
     girisYap();
-  };
+  });
   $("pinGir").focus();
 })();
