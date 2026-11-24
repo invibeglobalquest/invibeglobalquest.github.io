@@ -1,6 +1,6 @@
 // Ortak kod: veri, dil, sunucu (Firebase Realtime Database REST), zaman, fotoğraf
 "use strict";
-const UYGULAMA_SURUM = "24.11c";
+const UYGULAMA_SURUM = "24.11d";
 
 let VERI = null;
 let DIL = ilkDil();
@@ -318,16 +318,21 @@ const DB = {
     return u || null;
   },
   var() { return !!this.url(); },
-  async istek(method, yol, govde) {
+  // sure: zayıf şebekede asılı kalan istek kuyruğu kilitlemesin diye zaman sınırı (ms)
+  async istek(method, yol, govde, sure) {
     const u = this.url();
     if (!u) throw new Error("sunucu yok");
-    const opt = { method, headers: {} };
+    const ac = typeof AbortController === "function" ? new AbortController() : null;
+    const opt = { method, headers: {}, signal: ac ? ac.signal : undefined };
     if (govde !== undefined) { opt.body = JSON.stringify(govde); opt.headers["Content-Type"] = "application/json"; }
     const tk = await GUVEN.token();
-    const r = await fetch(u + "/" + yol + ".json" + (tk ? "?auth=" + encodeURIComponent(tk) : ""), opt);
-    if (!r.ok) throw new Error("HTTP " + r.status);
-    const txt = await r.text();
-    return txt ? JSON.parse(txt) : null;
+    const z = ac ? setTimeout(() => ac.abort(), sure || 20000) : 0;
+    try {
+      const r = await fetch(u + "/" + yol + ".json" + (tk ? "?auth=" + encodeURIComponent(tk) : ""), opt);
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      const txt = await r.text();
+      return txt ? JSON.parse(txt) : null;
+    } finally { clearTimeout(z); }
   },
   get(yol) { return this.istek("GET", yol); },
   put(yol, v) { return this.istek("PUT", yol, v); },

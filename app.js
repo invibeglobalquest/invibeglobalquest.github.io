@@ -22,6 +22,9 @@ function lider() { return durum.rol === "lider"; }
 function etiketli(ad, metin) { return ikon(ad) + '<span class="et">' + esc(metin) + "</span>"; }
 
 // ---------- Sunucu kuyruğu (internet kesilirse sonra gönderir) ----------
+// İki hat: küçük kayıtlar (varış, tamamlandı, konum) ve büyük fotoğraflar ayrı ayrı gider;
+// zayıf şebekede yavaş yüklenen bir fotoğraf, sıradaki noktanın kaydını bekletmez.
+const hat = { kucuk: false, buyuk: false };
 let isleniyor = false;
 function kuyrukEkle(m, yol, govde, buyuk, isaret) {
   if (!DB.var()) return;
@@ -32,25 +35,32 @@ function kuyrukEkle(m, yol, govde, buyuk, isaret) {
 function kuyrukYaz() {
   if (!yaz(A_KUYRUK, kuyruk)) yaz(A_KUYRUK, kuyruk.filter((k) => !k.buyuk));
 }
-async function kuyrukIsle() {
-  if (isleniyor || !DB.var()) return senkronGoster();
+function kuyrukIsle() { hatIsle(false); hatIsle(true); }
+function kuyruktanCikar(k) {
+  const i = kuyruk.indexOf(k);
+  if (i >= 0) { kuyruk.splice(i, 1); kuyrukYaz(); }
+}
+async function hatIsle(buyuk) {
+  const ad = buyuk ? "buyuk" : "kucuk";
+  if (hat[ad] || !DB.var()) return senkronGoster();
+  hat[ad] = true;
   isleniyor = true;
   senkronGoster();
+  let k = null;
   try {
-    while (kuyruk.length) {
-      const k = kuyruk[0];
-      await DB.istek(k.m, k.yol, k.govde);
+    while ((k = kuyruk.find((x) => !!x.buyuk === buyuk))) {
+      await DB.istek(k.m, k.yol, k.govde, buyuk ? 90000 : 20000);
       if (k.isaret === "basla" && durum.oturum === k.govde.oturum) { durum.sunucuda = true; durumYaz(); }
-      kuyruk.shift();
-      kuyrukYaz();
+      kuyruktanCikar(k);
       senkronGoster();
     }
   } catch (e) {
     // izin hatası (güvenli modda yetkisiz yazma) kuyruğu tıkamasın
-    if (/HTTP 40[13]/.test(e.message || "")) { kuyruk.shift(); kuyrukYaz(); setTimeout(kuyrukIsle, 100); }
-    else setTimeout(kuyrukIsle, 8000);
+    if (/HTTP 40[13]/.test(e.message || "")) { kuyruktanCikar(k); setTimeout(() => hatIsle(buyuk), 100); }
+    else setTimeout(() => hatIsle(buyuk), 8000);
   } finally {
-    isleniyor = false;
+    hat[ad] = false;
+    isleniyor = hat.kucuk || hat.buyuk;
     senkronGoster();
   }
 }
