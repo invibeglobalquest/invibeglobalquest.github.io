@@ -87,6 +87,10 @@ function ekranAc() {
   zamanlayici = setInterval(tik, 1000);
 }
 function yenidenCiz() { ekranAc(); }
+function aktifeKaydir(yumusak) {
+  const k = $("aktifKart");
+  if (k) k.scrollIntoView({ behavior: yumusak ? "smooth" : "auto", block: "start" });
+}
 document.addEventListener("click", (e) => { const b = e.target.closest && e.target.closest("[data-geri]"); if (b) geriGit(); });
 
 function geriDugme() { return '<button type="button" class="hero-geri" data-geri="1">' + ikon("ok", "ters") + "<span>" + esc(t("geri")) + "</span></button>"; }
@@ -300,10 +304,12 @@ function oyunCiz() {
   const s = $("oyun"), r = rota(), d = durumHesapla(durum, r);
   let h = lider() ? "" : izleBantHTML();
   h += koleksiyonHTML();
-
+  // Sıradaki nokta, listede kendi yerinde düğmeleriyle açık durur (ayrı üst kart yok)
+  const hOnce = h;
+  h = "";
   if (d.faz === "final") {
     const b = VERI.baslangic;
-    h += '<div class="kart aktif-kart final-kart">' +
+    h += '<div class="kart aktif-kart final-kart" id="aktifKart">' +
       '<div class="kart-ust"><span class="rozet">' + r.length + "/" + r.length + '</span><span class="faz-etiket" id="kartFaz"></span><span class="kart-sayac" id="kartSayac"></span></div>' +
       '<h2 class="nokta-baslik"><span class="emoji">' + ikon("sarnic") + "</span> " + esc(t("finalBaslik")) + "</h2>" +
       '<p class="yer">' + ikon("konum") + " " + esc(TL(b.ad)) + '<span id="kartMesafe" class="mesafe"></span></p>' +
@@ -313,7 +319,7 @@ function oyunCiz() {
   } else {
     const id = d.id, n = VERI.istasyonlar[id], a = (durum.adimlar || {})[id] || {};
     const [pb, ps] = planDilim(durum.baslangic, d.i);
-    h += '<div class="kart aktif-kart">' +
+    h += '<div class="kart aktif-kart" id="aktifKart">' +
       '<div class="kart-ust"><span class="rozet">' + (d.i + 1) + "/" + r.length + '</span><span class="faz-etiket" id="kartFaz"></span><span class="kart-sayac" id="kartSayac"></span></div>' +
       '<h2 class="nokta-baslik"><span class="emoji">' + noktaIkon(id) + "</span> " + (d.i + 1) + ". " + esc(TL(n.baslik)) + "</h2>" +
       '<p class="yer">' + ikon("konum") + " " + esc(TL(n.yer)) + '<span id="kartMesafe" class="mesafe"></span></p>' +
@@ -342,9 +348,11 @@ function oyunCiz() {
     h += "</div></div></div>";
   }
 
-  // Tüm noktalar
-  h += '<h2 class="bolum-baslik">' + esc(t("tumNoktalar")) + '</h2><div class="nokta-listesi">';
+  const aktifHTML = h;
+  h = hOnce;
+  h += '<h2 class="bolum-baslik">' + esc(t("rota")) + '</h2><div class="nokta-listesi">';
   r.forEach((id, i) => {
+    if (i === d.i && d.faz !== "final") { h += aktifHTML; return; }
     const n = VERI.istasyonlar[id], a = (durum.adimlar || {})[id] || {};
     const [pb, ps] = planDilim(durum.baslangic, i);
     const sinif = a.bitis ? "tamam" : i === d.i ? "aktif" : "sirada";
@@ -363,6 +371,7 @@ function oyunCiz() {
       noktaDetayHTML(id) + "</div></div>";
   });
   h += "</div>";
+  if (d.faz === "final") h += aktifHTML;
 
   h += bonusHTML();
   h += '<button type="button" class="btn ikincil kucuk" id="degistirBtn">' + esc(t(lider() ? "liderCikis" : "degistir")) + "</button>" + markaAlt();
@@ -472,7 +481,7 @@ async function fotoSecildi(inp, dosya, tur, id) {
     kuyrukEkle("PUT", "foto/" + n + "/" + k2, f.buyuk, true);
     gorulenBitis = bitisSayisi();
     ekranAc();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    aktifeKaydir(true);
     kutlamaGoster(id);
     return;
   } else {
@@ -509,7 +518,7 @@ function tamamla() {
   kuyrukEkle("PATCH", takimYolu(), p);
   gorulenBitis = bitisSayisi();
   ekranAc();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  aktifeKaydir(true);
   kutlamaGoster(id);
 }
 
@@ -625,7 +634,7 @@ function kutlamaGoster(id) {
     '<p class="kut-alt">' + esc(t("kutAlt", { x: TL(n.baslik), n: adet, m: r.length })) + "</p>" +
     '<button type="button" class="btn ana">' + esc(t("kutDevam")) + "</button></div>";
   document.body.appendChild(k);
-  const kapat = () => { k.classList.add("kapaniyor"); setTimeout(() => k.remove(), 250); };
+  const kapat = () => { k.classList.add("kapaniyor"); setTimeout(() => { k.remove(); aktifeKaydir(true); }, 250); };
   k.querySelector("button").onclick = kapat;
   k.querySelector("button").focus();
   if (navigator.vibrate) navigator.vibrate([60, 40, 120]);
@@ -919,6 +928,7 @@ async function yokla() {
     else ekranAc();
   } else ekranAc();
   swKaydet();
+  if (durum.baslangic) setTimeout(() => aktifeKaydir(false), 50);
   gorulenBitis = bitisSayisi();
   konumBaslat();
   kuyrukIsle();

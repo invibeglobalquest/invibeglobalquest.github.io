@@ -516,3 +516,5 @@ body.yonetici main { max-width: none; }
 .bant-form input { flex: 1; min-width: 120px; min-height: 40px; border-radius: 10px; border: 1px solid var(--altin); background: rgba(255,255,255,.08); color: var(--krem); padding: 0 12px; font: inherit; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
 .bant-hata { width: 100%; color: #ff9b93; font-size: .85rem; font-weight: 700; }
 .surum { color: var(--soluk); opacity: .7; font-size: .7rem; letter-spacing: .05em; }
+.aktif-kart { scroll-margin-top: 84px; }
+.nokta-listesi > .aktif-kart { margin: 10px 0; box-shadow: 0 6px 22px rgba(22, 18, 31, .12); }
