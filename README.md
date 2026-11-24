@@ -99,6 +99,19 @@ Adres boşsa site yine açılır ama her telefon yalnızca kendini görür (yaln
 ### 2. Yayınlama (GitHub Pages) — ✅ `https://invibeglobalquest.github.io/`
 Depo → **Settings → Pages → Deploy from a branch → main / (root)**. `main`'e giren her değişiklik 1–2 dk içinde siteye yansır.
 
+## Güncelleme (hızlı ve güvenli)
+
+| Ne değişecek | Nereden | Ne zaman görünür |
+|---|---|---|
+| Nokta konumları | Yönetici paneli → **Ayarlar** → konum → **Kaydet** (ya da noktadayken **Buradayım**) | Anında, etkinlik günü bile |
+| Metinler, görevler, başlıklar | `data.json` (GitHub'da dosya → kalem → **Commit changes**) | ~1–2 dakika |
+| Yeni nokta, rota sırası, nokta sayısı | `data.json` → `istasyonlar` + `rotalar` | ~1–2 dakika · **oyun başladıktan sonra değiştirmeyin** |
+
+- `data.json` bozuk kaydedilirse (unutulan virgül, tırnak) ya da bir rota olmayan noktayı gösterirse telefonlar **son sağlam sürümle** çalışmaya devam eder; yönetici panelinin üstünde hatanın satırını gösteren **kırmızı uyarı** çıkar. Düzeltince uyarı kalkar.
+- Siteyi hiç açmamış bir telefon bozuk dosyada açılamaz → her değişiklikten sonra yönetici panelini açıp kırmızı uyarı olmadığını kontrol edin; liderler linki etkinlikten bir gün önce bir kez açsın.
+- Geri almak için: GitHub'da dosyanın **History** sayfasından önceki sürüme dönülür.
+- Kod dosyası (`.js`, `.css`, `.html`) değişince `common.js` içindeki `UYGULAMA_SURUM`, HTML'lerdeki `?v=` ve `sw.js` içindeki `SURUM` artırılır (telefonlar yeni sürümü alsın). Yalnızca `data.json` değişirse gerekmez.
+
 ## Etkinlik öncesi kontrol listesi
 - [ ] **PIN'i değiştirin:** `data.json` → `"yonetici_pin"` (şu an `1453`).
 - [ ] **Konumları doğrulayın.** Haritada kesikli çerçeveli iki nokta internette bulunamadığı için yaklaşık girildi:

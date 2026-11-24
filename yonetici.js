@@ -628,8 +628,15 @@ async function konumKaydet(id, lat, lng) {
 // ---------- Başlat ----------
 (async function () {
   try { await veriYukle(); }
-  catch (e) { document.body.innerHTML = '<main><div class="kart"><p>' + esc(t("veriYok")) + "</p></div></main>"; return; }
+  catch (e) { document.body.innerHTML = '<main><div class="kart"><p>' + esc(t("veriYok")) + "</p><p><b>" + esc(e.message) + "</b></p></div></main>"; return; }
   dilDegistir(DIL);
+  if (VERI_SORUN) {
+    const u = $("veriUyari");
+    u.innerHTML = "<b>⚠ İçerik dosyasında (data.json) hata var.</b> " +
+      (VERI_SORUN.yedek ? "Telefonlar son sağlam sürümle çalışmaya devam ediyor; düzeltilene kadar yeni değişiklikler görünmez." : "Eksik bölümler telefonlarda boş görünebilir.") +
+      "<ul>" + VERI_SORUN.hatalar.slice(0, 8).map((x) => "<li>" + esc(x) + "</li>").join("") + "</ul>";
+    u.classList.remove("gizli");
+  }
   pinCiz();
   if (await yoneticiOturumu()) { girisYap(); return; }
   $("pinForm").onsubmit = async (e) => {

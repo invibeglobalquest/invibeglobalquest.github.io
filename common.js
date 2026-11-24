@@ -1,6 +1,6 @@
 // Ortak kod: veri, dil, sunucu (Firebase Realtime Database REST), zaman, fotoğraf
 "use strict";
-const UYGULAMA_SURUM = "24.11d";
+const UYGULAMA_SURUM = "24.11e";
 
 let VERI = null;
 let DIL = ilkDil();
@@ -183,10 +183,53 @@ function esc(s) {
 const $ = (id) => document.getElementById(id);
 
 // ---------- Veri ----------
+// İçerik güvencesi: data.json bozuk ya da eksik kaydedilirse telefonlar son sağlam sürümle
+// çalışmaya devam eder; yönetici panelinde kırmızı uyarı çıkar.
+const A_VERI = "kv_veri_saglam";
+let VERI_SORUN = null; // { hatalar: [...], yedek: true/false }
+function veriDenetle(v) {
+  const h = [];
+  if (!v || typeof v !== "object") return ["dosya boş"];
+  if (!v.etkinlik || !v.etkinlik.ad) h.push("etkinlik.ad eksik");
+  if (!v.baslangic || !isFinite(v.baslangic.lat) || !isFinite(v.baslangic.lng)) h.push("baslangic konumu eksik");
+  const ist = v.istasyonlar && typeof v.istasyonlar === "object" ? v.istasyonlar : null;
+  if (!ist || !Object.keys(ist).length) h.push("istasyonlar eksik");
+  else for (const id in ist) {
+    const n = ist[id] || {};
+    if (!isFinite(n.lat) || !isFinite(n.lng)) h.push(id + ": konum (lat/lng) hatalı");
+    for (const a of ["baslik", "gorev"]) for (const d of ["ru", "tr"]) if (!n[a] || !n[a][d] || !n[a][d].length) h.push(id + ": " + a + "." + d + " eksik");
+  }
+  const r = v.rotalar;
+  if (!r || typeof r !== "object" || !Object.keys(r).length) h.push("rotalar eksik");
+  else for (const t in r) {
+    const x = r[t];
+    if (!Array.isArray(x) || !x.length) { h.push("rota " + t + " boş"); continue; }
+    x.forEach((id) => { if (!ist || !ist[id]) h.push("rota " + t + ": \"" + id + "\" adında nokta yok"); });
+    if (new Set(x).size !== x.length) h.push("rota " + t + ": aynı nokta iki kez");
+  }
+  return h;
+}
 async function veriYukle() {
-  const r = await fetch("data.json?t=" + Date.now());
-  if (!r.ok) throw new Error("data.json");
-  VERI = await r.json();
+  let v = null, hatalar = [], icerik = false;
+  try {
+    const r = await fetch("data.json?t=" + Date.now());
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const txt = await r.text();
+    icerik = true;
+    try { v = JSON.parse(txt); hatalar = veriDenetle(v); }
+    catch (e) { v = null; hatalar = ["yazım hatası (virgül, tırnak, parantez): " + e.message]; }
+  } catch (e) { hatalar = ["indirilemedi: " + e.message]; }
+  if (v && !hatalar.length) {
+    VERI_SORUN = null;
+    try { localStorage.setItem(A_VERI, JSON.stringify(v)); } catch (e) {}
+  } else {
+    let yedek = null;
+    try { yedek = JSON.parse(localStorage.getItem(A_VERI) || "null"); } catch (e) {}
+    if (yedek && !veriDenetle(yedek).length) v = yedek;
+    if (!v) throw new Error("data.json: " + hatalar.join("; "));
+    VERI_SORUN = icerik ? { hatalar, yedek: v === yedek } : null;
+  }
+  VERI = v;
   await konumlariUygula();
   return VERI;
 }

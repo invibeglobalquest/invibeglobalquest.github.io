@@ -518,3 +518,5 @@ body.yonetici main { max-width: none; }
 .surum { color: var(--soluk); opacity: .7; font-size: .7rem; letter-spacing: .05em; }
 .aktif-kart { scroll-margin-top: 84px; }
 .nokta-listesi > .aktif-kart { margin: 10px 0; box-shadow: 0 6px 22px rgba(22, 18, 31, .12); }
+#veriUyari { background: #fde2e1; color: #7a1712; }
+#veriUyari ul { margin: 6px 0 0; padding-left: 20px; }
