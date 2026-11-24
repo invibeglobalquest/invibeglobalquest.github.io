@@ -3,10 +3,10 @@
     "ad": { "ru": "Проклятье 1001 колонны", "tr": "1001 Direğin Laneti" },
     "alt": { "ru": "Квест для 10 команд · Султанахмет", "tr": "10 takımlık quest · Sultanahmet" },
     "nokta_dk": 15,
-    "yonetici_pin": "1453",
     "senkron_url": "https://questistanbul-e7942-default-rtdb.europe-west1.firebasedatabase.app",
     "site_url": "https://invibeglobalquest.github.io/",
-    "firebase_api_key": "",
+    "firebase_api_key": "AIzaSyDmNpAMlFohCDmOWEWzY1x7nVHyFlISKPg",
+    "guvenli": true,
     "hesap_alani": "invibequest.app"
   },
 
@@ -319,10 +319,5 @@
     "8":  ["dikilitas", "ziyafet", "oyun", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar"],
     "9":  ["ziyafet", "oyun", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas"],
     "10": ["oyun", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet"]
-  },
-
-  "lider_kodlari": {
-    "1": "4E362M", "2": "HAS6Y2", "3": "KEZZP9", "4": "KZPW4C", "5": "8VPVYT",
-    "6": "YU4H4D", "7": "F59AYM", "8": "7GRB4K", "9": "DRVS7J", "10": "4MEHDT"
   }
 }

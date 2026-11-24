@@ -73,15 +73,14 @@ Lider telefon değiştirirse lider linkini yeni telefonda açar; takım kaldığ
 ## Final ekranı (`ekran.html`)
 Sarnıçtaki projeksiyon için: dizüstünü projektöre bağlayın → https://invibeglobalquest.github.io/ekran.html → PIN → **Gösterimi başlat** (tam ekran, sesli logo animasyonu; video yalnızca bu ekranda yüklenir, telefonları yavaşlatmaz). Ekranda canlı takım sıralaması, son fotoğrafların slayt gösterisi, olay şeridi ve her tamamlanan görevde büyük «artefakt kazandı» duyurusu çıkar. Yönetici panelinde **Linkler → Final ekranı** ile de açılır.
 
-## Güvenli mod (önerilir)
-Şu an lider kodları ve PIN `data.json` içinde, veritabanı da herkese açık. Güvenli modda kodları ve PIN'i Firebase kontrol eder; yalnızca o takımın lideri o takıma, yalnızca yönetici puanlara yazabilir; fotoğrafları da yalnızca uygulamayı açanlar görür.
-1. Firebase konsolu → **Authentication → Get started → Sign-in method**: **Email/Password** ve **Anonymous**'u etkinleştirin.
-2. **Proje ayarları (⚙) → Genel → Web API anahtarı**'nı kopyalayıp bana gönderin (`data.json → firebase_api_key`; bu anahtar gizli değildir).
-3. Yönetici paneli → **Ayarlar → Güvenlik → «Güvenli modu kur»**: 10 lider ve 1 yönetici hesabı mevcut kod/PIN ile oluşturulur, kodlar korumalı alana yazılır ve kurallar gösterilir.
-4. Gösterilen kuralları Firebase → Realtime Database → **Kurallar**'a yapıştırıp **Publish**.
-5. Bana haber verin: `data.json`'da `guvenli: true` yapıp PIN'i ve kodları dosyadan silerim. Yazdırılmış QR'lar aynen çalışmaya devam eder.
-
-Güvenli moddan sonra bir lider kodunu veya PIN'i değiştirmek için Firebase → Authentication'da ilgili hesabın şifresi de değişmelidir (bana yazın).
+## Güvenli mod — ✅ açık (24 Kasım 2026)
+- Lider kodlarını ve yönetici PIN'ini **Firebase Authentication** kontrol eder; ikisi de site dosyalarında yok.
+- Hesaplar: `takim1…takim10@invibequest.app` (şifre = lider kodu, büyük harf) ve `yonetici@invibequest.app` (şifre = `quest#` + PIN).
+- Lider kodları yalnızca yöneticinin okuyabildiği `gizli/kodlar` dalında; panel → **Linkler** ve baskı paketi oradan alır.
+- Takım üyeleri ve projeksiyon ekranı **Anonymous** oturumla yalnızca okur; yalnızca o takımın lideri kendi takımına, yalnızca yönetici puanlara/ayarlara yazar.
+- Veritabanı kuralları: panel → **Ayarlar → Güvenlik**'teki metin (Firebase → Realtime Database → **Rules**).
+- Kod veya PIN değiştirmek: Firebase konsolu şifreyi doğrudan değiştiremez → geliştiriciye yazın (hesap eski şifreyle güncellenir, `gizli/kodlar` da değişir; eski link/QR çalışmaz).
+- Güvenli moddan önce lider olmuş bir telefon bir kez izleme moduna düşer; **Liderim** ile kodu girince kaldığı yerden devam eder, bekleyen kayıtları kaybolmaz.
 
 ## Kurulum (bir kez)
 
@@ -113,7 +112,7 @@ Depo → **Settings → Pages → Deploy from a branch → main / (root)**. `mai
 - Kod dosyası (`.js`, `.css`, `.html`) değişince `common.js` içindeki `UYGULAMA_SURUM`, HTML'lerdeki `?v=` ve `sw.js` içindeki `SURUM` artırılır (telefonlar yeni sürümü alsın). Yalnızca `data.json` değişirse gerekmez.
 
 ## Etkinlik öncesi kontrol listesi
-- [ ] **PIN'i değiştirin:** `data.json` → `"yonetici_pin"` (şu an `1453`).
+- [x] **PIN değiştirildi** (güvenli mod; PIN Firebase'de).
 - [ ] **Konumları doğrulayın.** Haritada kesikli çerçeveli iki nokta internette bulunamadığı için yaklaşık girildi:
   - «Последний пир» — **Palude restoranı** (şimdilik Atmeydanı civarı)
   - «Игра хозяйки» — **Sarnıç veya Kapadokya Kafe** (şimdilik Sarnıç)
@@ -140,7 +139,7 @@ Depo → **Settings → Pages → Deploy from a branch → main / (root)**. `mai
 | `baski.html`, `baski.js`, `baski.css`, `materyal.json` | Baskı paketi |
 
 ### Lider kodları
-`data.json → lider_kodlari`: her takımın 6 haneli kodu. Kod değişirse o takımın eski lider linki/QR'ı çalışmaz; yeni kartı yazdırın.
+Her takımın 6 haneli kodu Firebase'de (`gizli/kodlar` + takım hesabının şifresi); panel → Linkler'de görünür. Kod değişirse o takımın eski lider linki/QR'ı çalışmaz; yeni kartı yazdırın.
 
 ### Rotalar
 `data.json → rotalar`: 10 takımın her biri aynı yürüyüş halkasını **farklı noktadan** başlar (Takım 1 amfitiyatrodan, Takım 2 Gülhane'den…). Böylece aynı anda iki takım aynı noktada olmaz. Sırayı değiştirmek için listeleri düzenleyin (istasyon anahtarlarıyla).
