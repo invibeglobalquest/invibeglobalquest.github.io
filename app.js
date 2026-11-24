@@ -42,7 +42,8 @@ function kuyruktanCikar(k) {
 }
 async function hatIsle(buyuk) {
   const ad = buyuk ? "buyuk" : "kucuk";
-  if (hat[ad] || !DB.var()) return senkronGoster();
+  // güvenli modda yalnızca oturumu olan lider gönderir (kod yeniden girilince bekleyenler gider)
+  if (hat[ad] || !DB.var() || (GUVEN.aktif() && !(lider() && liderOturumuVar(durum.takim)))) return senkronGoster();
   hat[ad] = true;
   isleniyor = true;
   senkronGoster();
@@ -146,7 +147,13 @@ function girisCiz() {
 // ---------- Bu cihazda liderlik hatırlanır (Geri'ye basmak liderliği düşürmez) ----------
 const A_LIDERLER = "kv_liderler", A_YEDEK = "kv_lider_yedek";
 function liderler() { const l = oku(A_LIDERLER, []); return Array.isArray(l) ? l : []; }
-function liderMi(n) { return liderler().includes(String(n)); }
+// Güvenli modda lider sayılmak için o takımın Firebase oturumu gerekir
+function liderOturumuVar(n) {
+  if (!GUVEN.aktif()) return true;
+  const o = GUVEN.oku();
+  return !!o && o.email === GUVEN.eposta("lider", n);
+}
+function liderMi(n) { return liderler().includes(String(n)) && liderOturumuVar(n); }
 function liderHatirla(n) { const l = liderler(); if (!l.includes(String(n))) { l.push(String(n)); yaz(A_LIDERLER, l); } }
 function liderUnut(n) { yaz(A_LIDERLER, liderler().filter((x) => x !== String(n))); try { localStorage.removeItem(A_YEDEK); } catch (e) {} }
 // Geri: seçim ekranına dön; lider ilerlemesi saklanır, aynı takım seçilince kaldığı yerden devam eder
@@ -179,6 +186,7 @@ async function liderGiris(n) {
     ekranAc();
     window.scrollTo(0, 0);
     yokla();
+    kuyrukIsle();
     return;
   }
   let k = null;
@@ -925,6 +933,14 @@ async function yokla() {
   }
   dilDegistir(DIL);
   if (durum.takim && (!VERI.rotalar[durum.takim] || !durum.rol)) durum = {};
+  // Güvenli moda geçmeden önce lider olmuş telefon: oturumu yoksa izlemeye geçer, ilerlemesi saklanır;
+  // "Liderim" ile kodu girince kaldığı yerden devam eder
+  if (lider() && !liderOturumuVar(durum.takim)) {
+    yaz(A_YEDEK, { durum, kucukler });
+    durum = { takim: durum.takim, rol: "izleyici" };
+    kucukler = {};
+    durumYaz(); kucukYaz();
+  }
   // Lider linki: ?t=3&k=KOD  ·  Takım izleme linki: ?t=3
   const q = new URLSearchParams(location.search);
   const qn = q.get("t"), qk = q.get("k");
