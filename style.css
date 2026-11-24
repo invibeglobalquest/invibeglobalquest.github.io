@@ -507,3 +507,12 @@ body.yonetici main { max-width: none; }
 .hero > .hero-geri, .final-hero > .hero-geri { position: absolute; }
 .geri-link { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; border: 1px solid rgba(201, 163, 90, .45); color: var(--altin); }
 .foto-mini.odul { outline: 2px solid var(--altin); outline-offset: -2px; }
+
+/* izleme bandında "Liderim" */
+.izle-bant { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.izle-bant > span { flex: 1 1 160px; }
+.bant-btn { min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--altin); background: transparent; color: var(--altin); font-weight: 800; cursor: pointer; }
+.bant-form { display: flex; gap: 6px; width: 100%; align-items: center; flex-wrap: wrap; }
+.bant-form input { flex: 1; min-width: 120px; min-height: 40px; border-radius: 10px; border: 1px solid var(--altin); background: rgba(255,255,255,.08); color: var(--krem); padding: 0 12px; font: inherit; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.bant-hata { width: 100%; color: #ff9b93; font-size: .85rem; font-weight: 700; }
+.surum { color: var(--soluk); opacity: .7; font-size: .7rem; letter-spacing: .05em; }

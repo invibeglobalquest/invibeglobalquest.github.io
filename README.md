@@ -45,7 +45,9 @@ Site Rusça ve Türkçe çalışır (sağ üstteki RU / TR). Derleme gerekmez; H
 7. **Yol görevleri (bonus):** «Следы исчезнувшей хозяйки» (harita parçası), «Взгляд сверху», «Стражи квартала» — istenen an fotoğraf eklenir.
 8. 10 nokta bitince final kartı: Sarnıç'a git → **🏁 Sarnıca vardık**.
 
-Her ekranın sol üstünde **Geri** düğmesi vardır (liderde lider modundan çıkmadan önce onay sorar).
+Her ekranın sol üstünde **Geri** düğmesi vardır. Geri'ye basan lider liderliği kaybetmez: aynı takımı tekrar seçince kaldığı yerden lider olarak devam eder. Liderliği bırakmak için en alttaki «Lider modundan çık» kullanılır.
+
+Lider linki başka bir tarayıcıda (ör. WhatsApp/Telegram içinden) açılırsa telefon izleme modunda açılabilir; o zaman ekrandaki **«Я лидер / Liderim»** düğmesine basıp 6 haneli kodu girmek yeterlidir, takım kaldığı noktadan devam eder. Sayfanın en altındaki küçük **sürüm** etiketi hangi sürümün açık olduğunu gösterir.
 
 İnternet kesilirse kayıtlar telefonda bekler ve bağlantı gelince otomatik gönderilir (üstte "gönderiliyor… (n)").
 Lider telefon değiştirirse lider linkini yeni telefonda açar; takım kaldığı yerden devam eder.

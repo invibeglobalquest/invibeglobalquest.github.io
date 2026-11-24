@@ -74,6 +74,8 @@ function goster(ad) {
 }
 function ekranAc() {
   clearInterval(zamanlayici);
+  // gizli ekranlarda eski içerik kalmasın (aynı kimlikli düğmeler yanlış yere bağlanıyordu)
+  ["giris", "hazir", "oyun", "bitis"].forEach((b) => { $(b).innerHTML = ""; });
   document.title = TL(VERI.etkinlik.ad) + " · Invibe Global";
   if (!durum.takim) { girisCiz(); goster("giris"); return; }
   if (!durum.baslangic) { hazirCiz(); goster("hazir"); return; }
@@ -85,7 +87,7 @@ function ekranAc() {
   zamanlayici = setInterval(tik, 1000);
 }
 function yenidenCiz() { ekranAc(); }
-document.addEventListener("click", (e) => { const b = e.target.closest && e.target.closest("[data-geri]"); if (b) takimDegistir(); });
+document.addEventListener("click", (e) => { const b = e.target.closest && e.target.closest("[data-geri]"); if (b) geriGit(); });
 
 function geriDugme() { return '<button type="button" class="hero-geri" data-geri="1">' + ikon("ok", "ters") + "<span>" + esc(t("geri")) + "</span></button>"; }
 function heroHTML(baslik, sayi, geri) {
@@ -127,7 +129,19 @@ function girisCiz() {
 }
 
 // Takım üyesi: yalnızca izler (sunucudan okur)
+// ---------- Bu cihazda liderlik hatırlanır (Geri'ye basmak liderliği düşürmez) ----------
+const A_LIDERLER = "kv_liderler", A_YEDEK = "kv_lider_yedek";
+function liderler() { const l = oku(A_LIDERLER, []); return Array.isArray(l) ? l : []; }
+function liderMi(n) { return liderler().includes(String(n)); }
+function liderHatirla(n) { const l = liderler(); if (!l.includes(String(n))) { l.push(String(n)); yaz(A_LIDERLER, l); } }
+function liderUnut(n) { yaz(A_LIDERLER, liderler().filter((x) => x !== String(n))); try { localStorage.removeItem(A_YEDEK); } catch (e) {} }
+// Geri: seçim ekranına dön; lider ilerlemesi saklanır, aynı takım seçilince kaldığı yerden devam eder
+function geriGit() {
+  if (lider() && durum.takim) yaz(A_YEDEK, { durum, kucukler });
+  sifirlaYerel(false);
+}
 function izleyiciSec(n) {
+  if (liderMi(n)) { liderGiris(n); return; }
   durum = { takim: n, rol: "izleyici" };
   kucukler = {};
   sonYenileme = 0;
@@ -139,7 +153,20 @@ function izleyiciSec(n) {
 }
 // Takım lideri: kodu doğru girildiyse işaretleme yetkisi
 async function liderGiris(n) {
+  liderHatirla(n);
   if (durum.takim === n && lider()) { ekranAc(); return; }
+  const yedek = oku(A_YEDEK, null);
+  if (yedek && yedek.durum && yedek.durum.takim === n && yedek.durum.rol === "lider") {
+    durum = yedek.durum;
+    kucukler = yedek.kucukler || {};
+    try { localStorage.removeItem(A_YEDEK); } catch (e) {}
+    durumYaz(); kucukYaz();
+    konumBaslat();
+    ekranAc();
+    window.scrollTo(0, 0);
+    yokla();
+    return;
+  }
   let k = null;
   if (DB.var()) { try { k = await DB.get("takimlar/" + n); } catch (e) {} }
   if (k && k.baslangic) { await sunucudanAl(n, k); return; }
@@ -177,7 +204,7 @@ function hazirCiz() {
   h += '<li class="uc"><span class="no">◆</span><span>' + esc(t("finalN")) + ": " + esc(TL(VERI.baslangic.ad)) + "</span></li></ol>";
   h += '<p class="not ikonlu">' + ikon("saat") + "<span>" + esc(t("kurallar", { d: noktaDk() })) + "</span></p>";
   if (!lider()) {
-    h += '<div class="kart bekle-kart ikonlu">' + ikon("oyun") + "<span>" + esc(t("bekleniyor")) + "</span></div>";
+    h += '<div class="kart bekle-kart ikonlu">' + ikon("oyun") + "<span>" + esc(t("bekleniyor")) + "</span></div>" + izleBantHTML();
     h += '<button type="button" class="btn ikincil kucuk" id="degistirBtn">' + esc(t("degistir")) + "</button>";
     s.innerHTML = h;
     dilDugmeleri($("dilKutu"), yenidenCiz);
@@ -226,6 +253,7 @@ function baslat() {
 
 function takimDegistir() {
   if (lider() && !confirm(t(DB.var() ? "liderCikisOnay" : "degistirOnay"))) return;
+  if (lider()) liderUnut(durum.takim);
   sifirlaYerel(false);
 }
 // kuyrukSil=false: gönderilmemiş kayıtlar yine de sunucuya gider
@@ -249,7 +277,7 @@ function fotoIkili(id) {
 }
 function ustCiz() {
   $("geriBtn").setAttribute("aria-label", t("geri"));
-  $("geriBtn").onclick = takimDegistir;
+  $("geriBtn").onclick = geriGit;
   $("ustTakim").textContent = (lider() ? "★ " : "") + t("takim") + " " + durum.takim + (durum.ad ? " · " + durum.ad : "");
   $("ustToplamE").textContent = t("toplam");
   senkronGoster();
@@ -270,7 +298,7 @@ function noktaDetayHTML(id) {
 
 function oyunCiz() {
   const s = $("oyun"), r = rota(), d = durumHesapla(durum, r);
-  let h = lider() ? "" : '<div class="izle-bant">' + ikon("goz") + " " + esc(t("izleyiciBant")) + "</div>";
+  let h = lider() ? "" : izleBantHTML();
   h += koleksiyonHTML();
 
   if (d.faz === "final") {
@@ -337,7 +365,7 @@ function oyunCiz() {
   h += "</div>";
 
   h += bonusHTML();
-  h += '<button type="button" class="btn ikincil kucuk" id="degistirBtn">' + esc(t(lider() ? "liderCikis" : "degistir")) + "</button>";
+  h += '<button type="button" class="btn ikincil kucuk" id="degistirBtn">' + esc(t(lider() ? "liderCikis" : "degistir")) + "</button>" + markaAlt();
   s.innerHTML = h;
   oyunBagla();
 }
@@ -535,8 +563,29 @@ function bitisCiz() {
 }
 
 // ---------- Artefakt koleksiyonu ve kutlama ----------
+function izleBantHTML() {
+  return '<div class="izle-bant">' + ikon("goz") + " <span>" + esc(t("izleyiciBant")) + "</span>" +
+    '<button type="button" class="bant-btn" data-lider-ol="1">' + esc(t("liderimBtn")) + "</button>" +
+    '<form class="bant-form" hidden><input maxlength="10" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="' + esc(t("kod")) + '" aria-label="' + esc(t("kod")) + '"><button type="submit" class="bant-btn">OK</button><span class="bant-hata" role="alert"></span></form></div>';
+}
+document.addEventListener("click", (e) => {
+  const b = e.target.closest && e.target.closest("[data-lider-ol]");
+  if (!b) return;
+  const f = b.parentElement.querySelector(".bant-form");
+  f.hidden = false; b.hidden = true; f.querySelector("input").focus();
+  f.onsubmit = async (ev) => {
+    ev.preventDefault();
+    const n = durum.takim, hata = f.querySelector(".bant-hata");
+    let ok = false;
+    try { ok = await liderDogrula(n, f.querySelector("input").value); } catch (e2) { hata.textContent = t("girisHata"); return; }
+    if (!ok) { hata.textContent = t("kodHata"); return; }
+    durum = {};
+    await liderGiris(n);
+  };
+});
 function markaAlt() {
-  return '<div class="marka-alt"><span>' + esc(t("organizator")) + '</span><span class="rozet-logo"><img src="medya/logo-kucuk.png" alt="Invibe Global" width="64" height="60"></span></div>';
+  return '<div class="marka-alt"><span>' + esc(t("organizator")) + '</span><span class="rozet-logo"><img src="medya/logo-kucuk.png" alt="Invibe Global" width="64" height="60"></span>' +
+    '<small class="surum">v ' + UYGULAMA_SURUM + "</small></div>";
 }
 function koleksiyonHTML(acik) {
   if (!durum.baslangic) return "";

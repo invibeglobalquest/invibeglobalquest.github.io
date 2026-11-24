@@ -1,5 +1,6 @@
 // Ortak kod: veri, dil, sunucu (Firebase Realtime Database REST), zaman, fotoğraf
 "use strict";
+const UYGULAMA_SURUM = "24.11b";
 
 let VERI = null;
 let DIL = ilkDil();
@@ -33,7 +34,7 @@ const METIN = {
     adimFoto: "Когда придёте, сфотографируйте точку — это отметка о прибытии.",
     adim1Baslik: "Фото точки", adim2Baslik: "Фото с наградой", adim2Acik: "Задание выполнено? Сфотографируйте команду с наградой — фото завершит точку.",
     odulFoto: "Загрузить фото с наградой", fotoYok: "Завершить без фото", fotoYokOnay: "Завершить точку без фото?", kilitli: "Откроется после точки {n}",
-    geri: "Назад", foto1: "Точка", foto2: "Награда",
+    geri: "Назад", foto1: "Точка", foto2: "Награда", liderimBtn: "Я лидер",
     fotoCek: "Загрузить фото точки", fotoDegistir: "Заменить фото", fotoHazirlaniyor: "Фото обрабатывается…",
     fotoHata: "Не удалось прочитать фото. Попробуйте ещё раз.",
     varis: "Прибытие {s}", tamamla: "Задание выполнено", tamamlaOnce: "Сначала загрузите фото точки",
@@ -106,7 +107,7 @@ const METIN = {
     adimFoto: "Noktaya varınca fotoğrafını çekin — bu varış kaydınızdır.",
     adim1Baslik: "Noktanın fotoğrafı", adim2Baslik: "Ödül fotoğrafı", adim2Acik: "Görev bitti mi? Takımı ödülle birlikte fotoğraflayın — nokta bu fotoğrafla tamamlanır.",
     odulFoto: "Ödül fotoğrafını yükle", fotoYok: "Fotoğrafsız bitir", fotoYokOnay: "Nokta fotoğrafsız tamamlansın mı?", kilitli: "{n}. noktadan sonra açılır",
-    geri: "Geri", foto1: "Nokta", foto2: "Ödül",
+    geri: "Geri", foto1: "Nokta", foto2: "Ödül", liderimBtn: "Liderim",
     fotoCek: "Noktanın fotoğrafını yükle", fotoDegistir: "Fotoğrafı değiştir", fotoHazirlaniyor: "Fotoğraf hazırlanıyor…",
     fotoHata: "Fotoğraf okunamadı. Tekrar deneyin.",
     varis: "Varış {s}", tamamla: "Görev tamamlandı", tamamlaOnce: "Önce noktanın fotoğrafını yükleyin",
