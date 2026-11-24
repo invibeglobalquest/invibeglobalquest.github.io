@@ -106,7 +106,7 @@ document.addEventListener("click", (e) => { const b = e.target.closest && e.targ
 
 function geriDugme() { return '<button type="button" class="hero-geri" data-geri="1">' + ikon("ok", "ters") + "<span>" + esc(t("geri")) + "</span></button>"; }
 function heroHTML(baslik, sayi, geri) {
-  return '<div class="hero">' + (geri ? geriDugme() : '<div class="marka"><img src="medya/logo-kucuk.png" alt="Invibe Global" width="64" height="60"></div>') + '<div class="dil" id="dilKutu"></div>' + kemerSVG() +
+  return '<div class="hero">' + (geri ? geriDugme() : '<div class="marka"><img src="medya/logo-mini.webp" alt="Invibe Global" width="64" height="60"></div>') + '<div class="dil" id="dilKutu"></div>' + kemerSVG() +
     '<p class="hero-ust">' + esc(TL(VERI.etkinlik.alt)) + "</p>" +
     '<h1 class="hero-baslik">' + esc(baslik) + (sayi ? ' <span class="sayi">' + esc(sayi) + "</span>" : "") + '</h1><div class="altin-cizgi"></div></div>';
 }
@@ -611,7 +611,7 @@ document.addEventListener("click", (e) => {
   };
 });
 function markaAlt() {
-  return '<div class="marka-alt"><span>' + esc(t("organizator")) + '</span><span class="rozet-logo"><img src="medya/logo-kucuk.png" alt="Invibe Global" width="64" height="60"></span>' +
+  return '<div class="marka-alt"><span>' + esc(t("organizator")) + '</span><span class="rozet-logo"><img src="medya/logo-mini.webp" alt="Invibe Global" width="64" height="60"></span>' +
     '<small class="surum">v ' + UYGULAMA_SURUM + "</small></div>";
 }
 function koleksiyonHTML(acik) {
@@ -932,6 +932,7 @@ async function yokla() {
     return;
   }
   dilDegistir(DIL);
+  window.konumlarDegisti = () => { if (!$("oyun").classList.contains("gizli")) yerindeCiz(); };
   if (durum.takim && (!VERI.rotalar[durum.takim] || !durum.rol)) durum = {};
   // Güvenli moda geçmeden önce lider olmuş telefon: oturumu yoksa izlemeye geçer, ilerlemesi saklanır;
   // "Liderim" ile kodu girince kaldığı yerden devam eder

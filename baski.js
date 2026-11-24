@@ -303,6 +303,7 @@ function baslat() {
 (async function () {
   try {
     await veriYukle();
+    await KONUM_TAZE; // baskıdaki harita QR'ları panelin son konumlarını kullansın
     const r = await fetch("materyal.json?t=" + Date.now());
     M = await r.json();
   } catch (e) {

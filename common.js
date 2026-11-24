@@ -1,6 +1,6 @@
 // Ortak kod: veri, dil, sunucu (Firebase Realtime Database REST), zaman, fotoğraf
 "use strict";
-const UYGULAMA_SURUM = "24.11h";
+const UYGULAMA_SURUM = "24.11i";
 
 let VERI = null;
 let DIL = ilkDil();
@@ -230,8 +230,27 @@ async function veriYukle() {
     VERI_SORUN = icerik ? { hatalar, yedek: v === yedek } : null;
   }
   VERI = v;
-  await konumlariUygula();
+  // Panelden kaydedilen konumlar: son bilinen anında (çevrimdışı da), tazesi arka planda;
+  // ilk ekran Firebase'i beklemez
+  let onceki = null;
+  try { onceki = JSON.parse(localStorage.getItem(A_KONUM) || "null"); } catch (e) {}
+  if (onceki) await konumlariUygula(onceki);
+  KONUM_TAZE = konumlariTazele();
   return VERI;
+}
+const A_KONUM = "kv_konumlar";
+let KONUM_TAZE = Promise.resolve(false);
+async function konumlariTazele() {
+  if (!DB.var()) return false;
+  let k;
+  try { k = await DB.get("ayarlar/konumlar"); } catch (e) { return false; }
+  const yeni = JSON.stringify(k || null);
+  let eski = "null";
+  try { eski = localStorage.getItem(A_KONUM) || "null"; localStorage.setItem(A_KONUM, yeni); } catch (e) {}
+  if (yeni === eski) return false;
+  await konumlariUygula(k || null);
+  if (typeof window.konumlarDegisti === "function") window.konumlarDegisti();
+  return true;
 }
 // Yöneticinin panelden kaydettiği konumlar data.json'dakileri ezer
 async function konumlariUygula(hazir) {
@@ -296,17 +315,28 @@ const GUVEN = {
   },
   async giris(email, sifre) { return this.kaydet(await this.post(this.idUrl("accounts:signInWithPassword"), { email, password: sifre, returnSecureToken: true }), email); },
   async kayit(email, sifre) { return this.post(this.idUrl("accounts:signUp"), { email, password: sifre, returnSecureToken: true }); },
-  async anonim() { return this.kaydet(await this.post(this.idUrl("accounts:signUp"), { returnSecureToken: true }), ""); },
+  // aynı anda gelen istekler tek anonim hesap paylaşır
+  anonim() {
+    if (!this._anon) this._anon = this.post(this.idUrl("accounts:signUp"), { returnSecureToken: true })
+      .then((j) => {
+        // bu arada lider/yönetici giriş yaptıysa onun oturumu korunur (anonim onu asla ezmez)
+        const o = this.oku();
+        return o && o.email ? o : this.kaydet(j, "");
+      }).finally(() => { this._anon = null; });
+    return this._anon;
+  },
   async yenile(o) {
     const url = (VERI.etkinlik.token_url || "https://securetoken.googleapis.com") + "/v1/token";
     return this.kaydet(await this.post(url, { grant_type: "refresh_token", refresh_token: o.refreshToken }, true), o.email);
   },
+  // İzleyici hesap açmadan okur (Firebase aynı IP'den saatte 100 yeni hesap sınırı koyar;
+  // 150 kişi aynı Wi-Fi'de olabilir). Kurallar okumak için giriş isterse istek() bir kez anonime düşer.
   async token() {
     if (!this.aktif()) return null;
     let o = this.oku();
-    if (!o || !o.refreshToken) o = await this.anonim();
-    else if (Date.now() > o.exp) {
-      try { o = await this.yenile(o); } catch (e) { if (!o.email) o = await this.anonim(); else throw e; }
+    if (!o || !o.refreshToken) return null;
+    if (Date.now() > o.exp) {
+      try { o = await this.yenile(o); } catch (e) { if (!o.email) { this.yaz(null); return null; } throw e; }
     }
     return o.idToken;
   },
@@ -384,6 +414,7 @@ const DB = {
     const z = ac ? setTimeout(() => ac.abort(), sure || 20000) : 0;
     try {
       const r = await fetch(u + "/" + yol + ".json" + (tk ? "?auth=" + encodeURIComponent(tk) : ""), opt);
+      if (r.status === 401 && !tk && GUVEN.aktif()) { clearTimeout(z); await GUVEN.anonim(); return this.istek(method, yol, govde, sure); }
       if (!r.ok) throw new Error("HTTP " + r.status);
       const txt = await r.text();
       return txt ? JSON.parse(txt) : null;
@@ -426,8 +457,11 @@ const DB = {
       const yeniden = () => { es.close(); const o = GUVEN.oku(); if (o) { o.exp = 0; GUVEN.yaz(o); } setTimeout(ac, 500); };
       es.addEventListener("auth_revoked", yeniden);
       es.addEventListener("cancel", yeniden);
-      es.onerror = () => {
+      let anonDenendi = false;
+      es.onerror = async () => {
         durumCb && durumCb(false);
+        // kurallar okumak için giriş istiyorsa bir kez anonim oturumla yeniden bağlan
+        if (!tk && GUVEN.aktif() && !anonDenendi) { anonDenendi = true; es.close(); try { await GUVEN.anonim(); } catch (e) {} setTimeout(ac, 300); return; }
         if (++hataSay >= 4) { es.close(); yokla(); }
       };
     };

@@ -535,7 +535,8 @@ function linklerCiz() {
 function kurallarMetni() {
   const a = GUVEN.alan(), Y = "auth != null && auth.token.email == 'yonetici@" + a + "'";
   const T = "auth != null && (auth.token.email == 'takim' + $n + '@" + a + "' || auth.token.email == 'yonetici@" + a + "')";
-  const oku = "auth != null";
+  // Okuma açık: izleyiciler hesap açmaz (Firebase aynı IP'den saatte 100 yeni hesap sınırı); yazma ve kodlar korumalı
+  const oku = true;
   return JSON.stringify({ rules: {
     // yönetici her şeye (tümünü sıfırla dahil), lider yalnızca kendi takımına yazar
     takimlar: { ".read": oku, ".write": Y, "$n": { ".write": T } },

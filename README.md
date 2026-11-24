@@ -77,7 +77,7 @@ Sarnıçtaki projeksiyon için: dizüstünü projektöre bağlayın → https://
 - Lider kodlarını ve yönetici PIN'ini **Firebase Authentication** kontrol eder; ikisi de site dosyalarında yok.
 - Hesaplar: `takim1…takim10@invibequest.app` (şifre = lider kodu, büyük harf) ve `yonetici@invibequest.app` (şifre = `quest#` + PIN).
 - Lider kodları yalnızca yöneticinin okuyabildiği `gizli/kodlar` dalında; panel → **Linkler** ve baskı paketi oradan alır.
-- Takım üyeleri ve projeksiyon ekranı **Anonymous** oturumla yalnızca okur; yalnızca o takımın lideri kendi takımına, yalnızca yönetici puanlara/ayarlara yazar.
+- Takım üyeleri hesap açmadan yalnızca **okur** (Firebase aynı IP'den saatte en fazla 100 yeni hesaba izin verir; sarnıçta herkes aynı Wi-Fi'de olabilir). Yalnızca o takımın lideri kendi takımına, yalnızca yönetici puanlara/ayarlara yazar; lider kodlarını yalnızca yönetici okur.
 - Veritabanı kuralları: panel → **Ayarlar → Güvenlik**'teki metin (Firebase → Realtime Database → **Rules**).
 - Kod veya PIN değiştirmek: Firebase konsolu şifreyi doğrudan değiştiremez → geliştiriciye yazın (hesap eski şifreyle güncellenir, `gizli/kodlar` da değişir; eski link/QR çalışmaz).
 - Güvenli moddan önce lider olmuş bir telefon bir kez izleme moduna düşer; **Liderim** ile kodu girince kaldığı yerden devam eder, bekleyen kayıtları kaybolmaz.
