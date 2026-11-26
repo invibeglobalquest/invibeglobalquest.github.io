@@ -40,6 +40,8 @@ function kuyruktanCikar(k) {
   const i = kuyruk.indexOf(k);
   if (i >= 0) { kuyruk.splice(i, 1); kuyrukYaz(); }
 }
+// iki istek aynı yeri etkiliyor mu (aynı yol ya da biri ötekinin üst dalı)
+function yolCakisir(a, b) { return a === b || a.startsWith(b + "/") || b.startsWith(a + "/"); }
 async function hatIsle(buyuk) {
   const ad = buyuk ? "buyuk" : "kucuk";
   // güvenli modda yalnızca oturumu olan lider gönderir (kod yeniden girilince bekleyenler gider)
@@ -50,10 +52,16 @@ async function hatIsle(buyuk) {
   let k = null;
   try {
     while ((k = kuyruk.find((x) => !!x.buyuk === buyuk))) {
+      // Öbür hatta daha önce sıraya girmiş ve aynı yeri etkileyen istek varsa önce o gitsin:
+      // ör. Başlat'taki "eski fotoğrafları sil" isteği, yeni fotoğraftan sonra gidip onu silmesin.
+      const sira = kuyruk.indexOf(k);
+      if (kuyruk.slice(0, sira).some((x) => !!x.buyuk !== buyuk && yolCakisir(x.yol, k.yol))) { k = null; break; }
       await DB.istek(k.m, k.yol, k.govde, buyuk ? 90000 : 20000);
       if (k.isaret === "basla" && durum.oturum === k.govde.oturum) { durum.sunucuda = true; durumYaz(); }
       kuyruktanCikar(k);
       senkronGoster();
+      // bu istek öbür hattın beklediği istek olabilir: öbür hattı uyandır
+      setTimeout(() => hatIsle(!buyuk), 0);
     }
   } catch (e) {
     // izin hatası (güvenli modda yetkisiz yazma) kuyruğu tıkamasın

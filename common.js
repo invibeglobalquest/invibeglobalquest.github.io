@@ -1,6 +1,6 @@
 // Ortak kod: veri, dil, sunucu (Firebase Realtime Database REST), zaman, fotoğraf
 "use strict";
-const UYGULAMA_SURUM = "24.11l";
+const UYGULAMA_SURUM = "24.11m";
 
 let VERI = null;
 let DIL = ilkDil();

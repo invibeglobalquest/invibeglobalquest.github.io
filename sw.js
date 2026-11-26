@@ -1,9 +1,9 @@
 // Çevrimdışı destek: önce ağ (her zaman güncel), ağ yavaş/yoksa önbellek.
 // Firebase ve diğer sitelere giden isteklere dokunmaz.
-const SURUM = "kv-13";
+const SURUM = "kv-14";
 const KABUK = [
-  "./", "index.html", "style.css?v=24.11l", "ikonlar.js?v=24.11l", "common.js?v=24.11l", "app.js?v=24.11l", "data.json", "manifest.webmanifest",
-  "medya/logo-kucuk.png", "medya/logo-mini.webp", "medya/favicon.png", "vendor/fonts/fonts.css?v=24.11l",
+  "./", "index.html", "style.css?v=24.11m", "ikonlar.js?v=24.11m", "common.js?v=24.11m", "app.js?v=24.11m", "data.json", "manifest.webmanifest",
+  "medya/logo-kucuk.png", "medya/logo-mini.webp", "medya/favicon.png", "vendor/fonts/fonts.css?v=24.11m",
   "vendor/fonts/cormorant-garamond-cyrillic-600-normal.woff2",  "vendor/fonts/cormorant-garamond-cyrillic-700-normal.woff2",  "vendor/fonts/cormorant-garamond-latin-600-normal.woff2",  "vendor/fonts/cormorant-garamond-latin-700-normal.woff2",  "vendor/fonts/cormorant-garamond-latin-ext-600-normal.woff2",  "vendor/fonts/cormorant-garamond-latin-ext-700-normal.woff2",  "vendor/fonts/nunito-cyrillic-400-normal.woff2",  "vendor/fonts/nunito-cyrillic-600-normal.woff2",  "vendor/fonts/nunito-cyrillic-700-normal.woff2",  "vendor/fonts/nunito-cyrillic-800-normal.woff2",  "vendor/fonts/nunito-latin-400-normal.woff2",  "vendor/fonts/nunito-latin-600-normal.woff2",  "vendor/fonts/nunito-latin-700-normal.woff2",  "vendor/fonts/nunito-latin-800-normal.woff2",  "vendor/fonts/nunito-latin-ext-400-normal.woff2",  "vendor/fonts/nunito-latin-ext-600-normal.woff2",  "vendor/fonts/nunito-latin-ext-700-normal.woff2",  "vendor/fonts/nunito-latin-ext-800-normal.woff2",
 ];
 self.addEventListener("install", (e) => {
