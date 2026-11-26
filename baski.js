@@ -11,6 +11,9 @@ let RU = false;
 function ik(ru, tr, ayrac) { return RU ? ru : ru + (ayrac === undefined ? " · " : ayrac) + tr; }
 function trY(html) { return RU ? "" : html; }
 function ruKisim(s) { return RU ? String(s).split(" · ")[0] : s; }
+// Zarf düzeninde her sayfanın altında hangi zarfa ait olduğu yazar
+let ZARF = null;
+function zarfIle(z, f) { ZARF = z; try { return f(); } finally { ZARF = null; } }
 function ikiSutun(ru, tr) { return RU ? '<div class="gk-iki tek"><div>' + ru + "</div></div>" : '<div class="gk-iki"><div>' + ru + "</div><div>" + tr + "</div></div>"; }
 
 function qr(metin) {
@@ -35,7 +38,7 @@ function telefon() { try { return localStorage.getItem("kv_baski_tel") || ""; } 
 
 function sayfa(ic, etiket) {
   return '<section class="sayfa">' + ic + '<div class="alt-not"><span>' + E(VERI.etkinlik.ad.ru) + trY(" · " + E(VERI.etkinlik.ad.tr)) +
-    "</span><span>" + trY(E(etiket || "")) + "</span></div></section>";
+    "</span><span>" + (ZARF ? "✉ " + E(ik(ZARF.ru, ZARF.tr)) : trY(E(etiket || ""))) + "</span></div></section>";
 }
 function yarimlar(parcalar, etiket) {
   return parcala(parcalar, 2).map((p) => sayfa('<div class="iki-yarim"><div>' + p[0] + "</div><div>" + (p[1] || "") + "</div></div>", etiket));
@@ -64,9 +67,10 @@ function afis() {
   "Ortak link afişi")];
 }
 
-function zarflar() {
+function zarflar() { return takimNolari().map(zarfKarti); }
+function zarfKarti(n) {
   const tel = telefon();
-  return takimNolari().map((n) => {
+  {
     const c = renk(n), r = VERI.rotalar[n], kod = (VERI.lider_kodlari || {})[n] || "";
     const lider = SITE + "?t=" + n + "&k=" + kod, izle = SITE + "?t=" + n;
     let rota = '<li class="uc"><span class="n">◆</span><span><b>Старт:</b> ' + E(VERI.baslangic.ad.ru) + "</span></li>";
@@ -90,16 +94,16 @@ function zarflar() {
       '<div class="telefon">Телефон организатора: ' + (tel ? E(tel) : "______________________") + "</div></div>" +
       '<div class="uye-qr"><div class="qr">' + qr(izle) + "</div>Участникам команды: смотреть маршрут</div></div>",
     "Takım zarfı " + n);
-  });
+  }
 }
 
-function yolfoto() {
+function yolfoto() { return yarimlar(takimNolari().map(yolfotoKart), "Yol görevi fotoğrafı"); }
+function yolfotoKart(n) {
   const g = VERI.yol_gorevleri.iz;
-  const kartlar = takimNolari().map((n) => '<div class="cerceve">' + yarimBaslik(g.baslik.ru, ik("Задание в пути", "Yol görevi") + "<br>Команда " + E(n)) +
+  return '<div class="cerceve">' + yarimBaslik(g.baslik.ru, ik("Задание в пути", "Yol görevi") + "<br>Команда " + E(n)) +
     '<p style="font-size:10pt">Гевхерли любила свои тайные уголки города. Найдите место с этой фотографии и повторите снимок как можно точнее: та же точка, тот же ракурс. Лидер загружает фото в разделе «Задания в пути». Награда: фрагмент старинной карты и бонусные баллы.</p>' +
     fotoAlan("yolfoto", 78) +
-    trY('<p class="tr" style="margin-top:2mm">Bu fotoğraftaki yeri bulun ve aynı açıdan yeniden çekin; lider «Yol görevleri»ne yükler. Ödül: eski harita parçası + bonus puan.</p>') + "</div>");
-  return yarimlar(kartlar, "Yol görevi fotoğrafı");
+    trY('<p class="tr" style="margin-top:2mm">Bu fotoğraftaki yeri bulun ve aynı açıdan yeniden çekin; lider «Yol görevleri»ne yükler. Ödül: eski harita parçası + bonus puan.</p>') + "</div>";
 }
 
 function metinSayfasi(baslik, trBaslik, ruEtiket, ru, tr, etiket) {
@@ -128,9 +132,10 @@ function ozelBolum(id) {
     default: return "";
   }
 }
-function gorevliler() {
+function gorevliler() { return istIdleri().reduce((a, id) => a.concat(gorevliSayfalari(id)), []); }
+function gorevliSayfalari(id) {
   const sayfalar = [];
-  istIdleri().forEach((id) => {
+  {
     const s = ist(id), g = M.gorevli[id] || {};
     const li = (a) => a.map((x) => "<li>" + E(x) + "</li>").join("");
     sayfalar.push(sayfa('<div class="gk"><div class="gk-ust"><div><div class="ust-etiket">' + ik("Карточка ведущего", "Görevli kartı") + "</div><h1>" + E(s.baslik.ru) +
@@ -153,7 +158,7 @@ function gorevliler() {
       '<table class="cizelge"><thead><tr>' + th("Команда", "Takım") + th("Ожидается", "Beklenen") + th("Прибытие", "Varış") + th("Результат", "Sonuç") + th("Артефакт ✓", "Artefakt") + th("Баллы", "Puan") + th("Подпись", "İmza") + "</tr></thead><tbody>" +
       satirlar + '</tbody></table><p class="kutu-not" style="margin-top:4mm">' + ik("Сообщайте результат организатору сразу после каждой команды.", "Her takımdan sonra sonucu yöneticiye iletin.") + "</p></div>",
     "Puan çizelgesi · " + s.baslik.tr));
-  });
+  }
   return sayfalar;
 }
 
@@ -180,74 +185,85 @@ function oyun() {
   return izgara(M.oyunlar.map(kart), "i2x3", 6, "Hanımın Oyunu kartları");
 }
 
-function sifre() {
+function sifre() { return yarimlar(takimNolari().map(sifreKart), "Şifre zarfı").concat([sifreAfisi()]); }
+function sifreParca() {
   const harita = {};
   M.sifre.alfabe.forEach((x) => (harita[x[0]] = x[1]));
   const alfabe = '<div class="alfabe">' + M.sifre.alfabe.map((x) => '<div><span class="h">' + x[1] + '</span><span class="l">' + E(x[0]) + "</span></div>").join("") + "</div>";
   const kelimeler = M.sifre.mesaj.split(/\s+/);
   const kutular = '<div class="kutular">' + kelimeler.map((k) => '<div class="kelime">' + "<span></span>".repeat(Array.from(k).length) + "</div>").join("") + "</div>";
-  const kartlar = takimNolari().map((n) => '<div class="cerceve">' + yarimBaslik("Послание из прошлого", "Египетский обелиск<br>Команда " + E(n)) +
+  return { harita, alfabe, kutular, kelimeler };
+}
+function sifreKart(n) {
+  const { alfabe, kutular } = sifreParca();
+  return '<div class="cerceve">' + yarimBaslik("Послание из прошлого", "Египетский обелиск<br>Команда " + E(n)) +
     '<p style="font-size:9.5pt">Перед смертью Гевхерли прошептала особую фразу, а доверенный человек зашифровал её древними символами. Найдите послание у обелиска и расшифруйте его по этому алфавиту. Фраза понадобится в финале.</p>' +
     alfabe + '<div class="ust-etiket">' + ik("Ваш ответ", "Cevabınız") + "</div>" + kutular +
-    trY('<p class="tr" style="margin-top:2mm">Dikilitaştaki mesajı bu alfabeyle çözün; cümle finalde gerekecek.</p>') + "</div>");
-  const afisS = sayfa('<div class="mesaj-afis cerceve"><div class="ust-etiket">' + ik("Египетский обелиск", "Dikilitaş") + "</div><h1>Послание обелиска</h1>" +
+    trY('<p class="tr" style="margin-top:2mm">Dikilitaştaki mesajı bu alfabeyle çözün; cümle finalde gerekecek.</p>') + "</div>";
+}
+function sifreAfisi() {
+  const { harita, kelimeler } = sifreParca();
+  return sayfa('<div class="mesaj-afis cerceve"><div class="ust-etiket">' + ik("Египетский обелиск", "Dikilitaş") + "</div><h1>Послание обелиска</h1>" +
     trY('<div class="tr">Dikilitaşın mesajı</div>') + '<div class="kelimeler">' +
     kelimeler.map((k) => "<div>" + Array.from(k).map((h) => harita[h] || h).join("") + "</div>").join("") + "</div>" +
     "<p>Расшифруйте послание с помощью алфавита из вашего конверта.</p>" + trY('<p class="tr">Zarfınızdaki alfabeyle mesajı çözün.</p>') + "</div>", "Dikilitaş mesajı (afiş)");
-  return yarimlar(kartlar, "Şifre zarfı").concat([afisS]);
 }
 
-function baharat() {
+function baharat() { return yarimlar(takimNolari().map(baharatKart), "Baharat listesi"); }
+function baharatKart(n) {
   const satirlar = M.baharatlar.map((b, i) => "<tr><td>" + (i + 1) + "</td><td><b>" + E(b.ru) + '</b></td><td class="tr">' + E(b.tr) + '</td><td class="g">' + b.g + ' г</td><td><span class="kare"></span></td></tr>').join("");
   // Türkçe adlar Rusça sette de kalır: oyuncular baharatçıya bu adları söyler
-  const kartlar = takimNolari().map((n) => '<div class="cerceve">' + yarimBaslik("Последний рецепт Гевхерли", ik("Лавка специй", "Baharatçı") + "<br>Команда " + E(n)) +
+  return '<div class="cerceve">' + yarimBaslik("Последний рецепт Гевхерли", ik("Лавка специй", "Baharatçı") + "<br>Команда " + E(n)) +
     '<p style="font-size:9.5pt;margin-bottom:1mm">Отмерьте каждую специю на весах и смешайте в мешочке. Общий вес — <b>ровно 30 граммов</b>.</p>' +
     '<table class="liste-tablo sik"><thead><tr><th>№</th><th>Специя</th><th>' + (RU ? "По-турецки (для продавца)" : "Baharat") + '</th><th style="text-align:right">Вес</th><th>✓</th></tr></thead><tbody>' + satirlar +
-    '<tr><td></td><td colspan="2"><b>' + ik("Итого", "Toplam") + "</b>" + trY(' <span class="tr">(her baharatı tartıp karıştırın; toplam tam 30 g)</span>') + '</td><td class="g">30 г</td><td></td></tr></tbody></table></div>');
-  return yarimlar(kartlar, "Baharat listesi");
+    '<tr><td></td><td colspan="2"><b>' + ik("Итого", "Toplam") + "</b>" + trY(' <span class="tr">(her baharatı tartıp karıştırın; toplam tam 30 g)</span>') + '</td><td class="g">30 г</td><td></td></tr></tbody></table></div>';
 }
 
-function alisveris() {
+function alisveris() { return yarimlar(takimNolari().map(alisverisKart), "Alışveriş listesi"); }
+function alisverisKart(n) {
   const satirlar = M.alisveris.kalemler.map((k) => '<tr><td><span class="kare"></span></td><td><b>' + E(k.ru) + "</b>" + trY('<br><span class="tr">' + E(k.tr) + "</span>") +
     '</td><td class="yaz" style="width:46%"></td><td class="yaz" style="width:16%"></td></tr>').join("");
-  const kartlar = takimNolari().map((n) => '<div class="cerceve">' + yarimBaslik("Торг с судьбой", ik("Базар Араста", "Arasta Çarşısı") + "<br>Команда " + E(n)) +
+  return '<div class="cerceve">' + yarimBaslik("Торг с судьбой", ik("Базар Араста", "Arasta Çarşısı") + "<br>Команда " + E(n)) +
     '<p style="font-size:10pt">Купите пять предметов-символов. Бюджет команды: <b>' + E(M.alisveris.butce) + "</b>. Торговаться можно и нужно. Сохраните чеки и объясните ведущему, почему каждый предмет подходит.</p>" +
     '<table class="liste-tablo"><thead><tr><th>✓</th><th>' + ik("Категория", "Kategori") + "</th><th>" + ik("Что купили", "Ne aldınız") + "</th><th>Цена, TL</th></tr></thead><tbody>" + satirlar + "</tbody></table>" +
-    '<p style="margin-top:3mm;font-weight:800">' + ik("Итого потрачено", "Toplam") + ": ____________ TL</p></div>");
-  return yarimlar(kartlar, "Alışveriş listesi");
+    '<p style="margin-top:3mm;font-weight:800">' + ik("Итого потрачено", "Toplam") + ": ____________ TL</p></div>";
 }
 
-function gulhane() {
+function gulhane() { return yarimlar(takimNolari().map(gulhaneKart), "Gülhane fark kartı"); }
+function gulhaneKart(n) {
   const s = ist("gulhane");
-  const kartlar = takimNolari().map((n) => '<div class="cerceve">' + yarimBaslik(s.baslik.ru, ik("Парк Гюльхане", "Gülhane") + "<br>Команда " + E(n)) +
+  return '<div class="cerceve">' + yarimBaslik(s.baslik.ru, ik("Парк Гюльхане", "Gülhane") + "<br>Команда " + E(n)) +
     '<p style="font-size:9.5pt">Найдите это место в парке. Время исказило воспоминание: на фото есть 5 деталей, которых в реальности нет. Обведите их на фото.</p>' +
     fotoAlan("gulhane", 80) +
-    '<p style="margin-top:2mm;font-weight:800">' + ik("Найдено отличий", "Bulunan fark") + ": ____ / 5</p></div>");
-  return yarimlar(kartlar, "Gülhane fark kartı");
+    '<p style="margin-top:2mm;font-weight:800">' + ik("Найдено отличий", "Bulunan fark") + ": ____ / 5</p></div>";
 }
 
-function artefakt() {
-  const turler = [
-    { s: "✦", ru: "Заклинание", tr: "Büyü sözü", satir: 2, alt: "Впишите расшифрованную фразу" },
-    { s: "❖", ru: "Фрагмент воспоминания", tr: "Hatıra parçası" },
-    { s: "◈", ru: "Фрагмент артефакта", tr: "Artefakt parçası" },
-    { s: "✧", ru: "Фрагмент старинной карты", tr: "Eski harita parçası" }
-  ];
+// Kâğıt artefaktlar ve onları veren yer: büyü sözü → Dikilitaş, hatıra parçası → Gülhane,
+// artefakt parçası → Amfitiyatro, eski harita parçası → yol görevi (fotoğraf) ödülü
+const ARTEFAKTLAR = [
+  { id: "buyu", s: "✦", ru: "Заклинание", tr: "Büyü sözü", satir: 2, alt: "Впишите расшифрованную фразу" },
+  { id: "hatira", s: "❖", ru: "Фрагмент воспоминания", tr: "Hatıra parçası" },
+  { id: "parca", s: "◈", ru: "Фрагмент артефакта", tr: "Artefakt parçası" },
+  { id: "harita", s: "✧", ru: "Фрагмент старинной карты", tr: "Eski harita parçası" }
+];
+function artefakt() { return izgara(ARTEFAKTLAR.reduce((a, t) => a.concat(artefaktKartlari(t)), []), "i2x4", 8, "Kâğıt artefaktlar"); }
+function artefaktSayfalari(id) { return izgara(artefaktKartlari(ARTEFAKTLAR.find((t) => t.id === id)), "i2x4", 8, "Kâğıt artefaktlar"); }
+function artefaktKartlari(t) {
   const kartlar = [];
-  turler.forEach((t) => {
+  {
     for (let i = 0; i < 12; i++) {
       kartlar.push('<div class="art"><div class="ic"><div class="sembol">' + t.s + '</div><div class="ust-etiket">' + ik("Артефакт", "Artefakt") + "</div><h3>" + E(t.ru) +
         "</h3>" + trY('<div class="tr">' + E(t.tr) + "</div>") + (t.satir ? '<div class="tr" style="margin-top:2mm">' + E(t.alt) + "</div>" + '<div class="satir"></div>'.repeat(t.satir) : "") + "</div></div>");
     }
-  });
-  return izgara(kartlar, "i2x4", 8, "Kâğıt artefaktlar");
+  }
+  return kartlar;
 }
 
-function mektup() {
+function mektup() { return yarimlar(takimNolari().map(mektupKart), "Gevherli'nin mektubu"); }
+function mektupKart() {
   const m = M.mektup;
-  const kart = '<div class="cerceve"><div class="mektup"><div class="ust-etiket" style="text-align:center;margin-bottom:3mm">' + ik("Запечатанное письмо", "Mühürlü mektup") + "</div>" +
+  return '<div class="cerceve"><div class="mektup"><div class="ust-etiket" style="text-align:center;margin-bottom:3mm">' + ik("Запечатанное письмо", "Mühürlü mektup") + "</div>" +
     '<div class="hitap">' + E(m.hitap) + "</div>" + m.paragraflar.map((p) => "<p>" + E(p) + "</p>").join("") + '<div class="imza">— ' + E(m.imza) + "</div></div></div>";
-  return yarimlar(takimNolari().map(() => kart), "Gevherli'nin mektubu");
 }
 
 const BOLUMLER = [
@@ -268,19 +284,80 @@ const BOLUMLER = [
   { id: "final", ad: "Final metni", f: final }
 ];
 
+// ---------- Zarf düzeni: her takıma bir zarf + yönetici zarfı ----------
+function zarfEtiketi(n) {
+  const c = renk(n);
+  const sat = (ru, tr) => '<li><span class="kare"></span><span>' + ik(ru, tr) + "</span></li>";
+  return '<div class="cerceve zarf-etiket"><div class="zarf-ust" style="background:' + c.hex + '"><div class="no">' + E(n) + "</div><div>" +
+    '<div class="ze-ad">' + ik("Конверт команды", "Takım zarfı") + "</div><h1>Команда " + E(n) + trY(" · Takım " + E(n)) + "</h1><small>" + (RU ? E(c.ru) : E(c.ru) + " / " + E(c.tr)) + "</small></div></div>" +
+    '<div class="ust-etiket" style="margin-top:5mm">' + ik("Содержимое конверта", "İçindekiler") + '</div><ul class="ze-liste">' +
+    sat("Карточка команды: ссылка лидера, маршрут, правила", "Takım kartı: lider linki, rota, kurallar") +
+    sat("Фото задания в пути", "Yol görevi fotoğrafı") +
+    sat("Шифр-карточка (обелиск)", "Şifre kartı (Dikilitaş)") +
+    sat("Список специй", "Baharat listesi") +
+    sat("Список покупок (базар Араста)", "Alışveriş listesi (Arasta)") +
+    sat("Карточка «Найдите отличия» (Гюльхане)", "Gülhane fark kartı") +
+    '</ul><p class="tr" style="margin-top:3mm">' + ik("Конверт выдаётся лидеру команды на старте. Эту этикетку можно вырезать и наклеить на конверт.",
+      "Zarf başlangıçta takım liderine verilir. Bu etiket kesilip zarfın üstüne yapıştırılabilir.") + "</p></div>";
+}
+function takimZarfi(n) {
+  return yarimlar([zarfEtiketi(n), yolfotoKart(n), sifreKart(n), baharatKart(n), alisverisKart(n), gulhaneKart(n)], "").concat([zarfKarti(n)]);
+}
+// Yönetici zarfında her noktanın görevlisine verilecek ek kartlar
+const NOKTA_EKLERI = {
+  amfi: { f: () => atasozu().concat(artefaktSayfalari("parca")), ru: "карточки пословиц (" + "{a}" + "), фрагменты артефакта (12)", tr: "atasözü kartları ({a}), artefakt parçası (12)" },
+  gulhane: { f: () => artefaktSayfalari("hatira"), ru: "фрагменты воспоминания (12)", tr: "hatıra parçası (12)" },
+  simit: { f: () => tekerleme().concat(mektup()), ru: "карточки скороговорок (2 набора), запечатанные письма (10)", tr: "tekerleme kartları (2 takım), mühürlü mektup (10)" },
+  dikilitas: { f: () => [sifreAfisi()].concat(artefaktSayfalari("buyu")), ru: "плакат «Послание обелиска», карточки «Заклинание» (12)", tr: "Dikilitaş mesaj afişi, büyü sözü kartı (12)" },
+  oyun: { f: () => oyun(), ru: "карточки игр ({o})", tr: "Hanımın Oyunu kartları ({o})" }
+};
+function halkaSirasi() { return VERI.rotalar[takimNolari()[0]] || istIdleri(); }
+function ekMetin(x) { return x.replace("{a}", M.atasozleri.length).replace("{o}", M.oyunlar.length); }
+function yoneticiKapak() {
+  // Organizatörün paketleme listesi: her iki dilde (oyunculara gitmez)
+  const sat = (ru, tr) => '<li><span class="kare"></span><span><b>' + E(tr) + '</b><span class="ru-alt">' + E(ru) + "</span></span></li>";
+  let h = '<div class="yz"><div class="ust-etiket">Yönetici zarfı · Конверт организатора</div><h1>İçindekiler <span>· Содержимое</span></h1>' +
+    '<p class="tr">Sayfalar bu sırayla basılır; her sayfanın sağ altında ✉ işaretiyle zarfın adı yazar. · Страницы напечатаны в этом порядке; внизу справа — ✉ и название конверта.</p>' +
+    '<h3>Genel · Общее</h3><ul class="ze-liste">' +
+    sat("Афиша с общей ссылкой — место сбора", "Ortak link afişi — toplanma yeri") +
+    sat("Слово ведущего на старте", "Başlangıç sunucusu metni") +
+    sat("Финальный текст — роль Гевхерли Ханым", "Final metni — Gevherli Hanım oyuncusu") + "</ul>" +
+    '<h3>Noktalar (rota sırasıyla) — her biri o noktanın görevlisine · Точки — ведущему каждой точки</h3><ul class="ze-liste">';
+  halkaSirasi().forEach((id, i) => {
+    const s = ist(id), ek = NOKTA_EKLERI[id];
+    h += sat((i + 1) + ". " + s.baslik.ru + " (" + s.yer.ru + "): карточка ведущего, лист баллов" + (ek ? ", " + ekMetin(ek.ru) : ""),
+      (i + 1) + ". " + s.baslik.tr + " (" + s.yer.tr + "): görevli kartı, puan çizelgesi" + (ek ? ", " + ekMetin(ek.tr) : ""));
+  });
+  h += "</ul><h3>Yol görevi ödülü · Награда за задание в пути</h3><ul class=\"ze-liste\">" +
+    sat("Фрагменты старинной карты (12) — командам, загрузившим фото задания в пути", "Eski harita parçası (12) — yol görevi fotoğrafını yükleyen takımlara") + "</ul>" +
+    '<p class="kutu-not" style="margin-top:4mm">Fiziksel ödüller (altın yüzük, baharat kesesi, aynalı kolye, inci, gümüş kutu) basılmaz; görevli kartlarındaki malzeme listesine bakın. · Физические награды не печатаются — см. реквизит в карточках ведущих.</p></div>';
+  return sayfa(h, "");
+}
+function yoneticiZarfi() {
+  let s = [yoneticiKapak()].concat(afis(), sunucu(), final());
+  halkaSirasi().forEach((id) => { s = s.concat(gorevliSayfalari(id), NOKTA_EKLERI[id] ? NOKTA_EKLERI[id].f() : []); });
+  return s.concat(artefaktSayfalari("harita"));
+}
+function zarfBirimleri() {
+  return takimNolari().map((n) => ({ id: "t" + n, ad: "Takım " + n + " zarfı", f: () => zarfIle({ ru: n + " · Команда " + n, tr: "Takım " + n }, () => takimZarfi(n)) }))
+    .concat([{ id: "yonetici", ad: "Yönetici zarfı", f: () => zarfIle({ ru: "Организатор", tr: "Yönetici" }, yoneticiZarfi) }]);
+}
+
 // ---------- Arayüz ----------
-let secili = null;
+let DUZEN = "zarf";
+const SECIM = { zarf: null, bolum: null };
+function birimler() { return DUZEN === "zarf" ? zarfBirimleri() : BOLUMLER; }
 function ciz() {
   let h = "";
-  const sayilar = {};
-  BOLUMLER.forEach((b) => {
+  const sayilar = {}, B = birimler(), secili = SECIM[DUZEN];
+  B.forEach((b) => {
     const sayfalar = b.f();
     sayilar[b.id] = sayfalar.length;
     h += '<div class="bolum' + (secili.has(b.id) ? "" : " gizli") + '" data-bolum="' + b.id + '">' + sayfalar.join("") + "</div>";
   });
   $("sayfalar").innerHTML = h;
-  const toplam = BOLUMLER.filter((b) => secili.has(b.id)).reduce((s, b) => s + sayilar[b.id], 0);
-  $("secim").innerHTML = BOLUMLER.map((b) => '<label><input type="checkbox" data-id="' + b.id + '"' + (secili.has(b.id) ? " checked" : "") + "> " +
+  const toplam = B.filter((b) => secili.has(b.id)).reduce((s, b) => s + sayilar[b.id], 0);
+  $("secim").innerHTML = B.map((b) => '<label><input type="checkbox" data-id="' + b.id + '"' + (secili.has(b.id) ? " checked" : "") + "> " +
     E(b.ad) + " <small>(" + sayilar[b.id] + ")</small></label>").join("") + '<label><b>Seçili: ' + toplam + " sayfa</b></label>";
   $("secim").querySelectorAll("input").forEach((i) => (i.onchange = () => { i.checked ? secili.add(i.dataset.id) : secili.delete(i.dataset.id); ciz(); }));
 }
@@ -296,8 +373,12 @@ function fotoOku(inp, tur) {
 function baslat() {
   $("kilit").classList.add("gizli");
   $("arac").classList.remove("gizli");
-  const q = new URLSearchParams(location.search).get("bolum");
-  secili = new Set(q ? q.split(",") : BOLUMLER.map((b) => b.id));
+  const q = new URLSearchParams(location.search).get("bolum"), qd = new URLSearchParams(location.search).get("duzen");
+  SECIM.bolum = new Set(q ? q.split(",") : BOLUMLER.map((b) => b.id));
+  SECIM.zarf = new Set(zarfBirimleri().map((b) => b.id));
+  DUZEN = q || qd === "bolum" ? "bolum" : "zarf";
+  $("duzen").value = DUZEN;
+  $("duzen").onchange = () => { DUZEN = $("duzen").value; ciz(); };
   let dil = new URLSearchParams(location.search).get("dil");
   if (!dil) { try { dil = localStorage.getItem("kv_baski_dil"); } catch (e) {} }
   RU = dil === "ru";
@@ -309,8 +390,8 @@ function baslat() {
   fotoOku($("fotoGulhane"), "gulhane");
   fotoOku($("fotoYol"), "yolfoto");
   $("yazdirBtn").onclick = () => window.print();
-  $("hepsi").onclick = () => { secili = new Set(BOLUMLER.map((b) => b.id)); ciz(); };
-  $("hicbiri").onclick = () => { secili = new Set(); ciz(); };
+  $("hepsi").onclick = () => { SECIM[DUZEN] = new Set(birimler().map((b) => b.id)); ciz(); };
+  $("hicbiri").onclick = () => { SECIM[DUZEN] = new Set(); ciz(); };
   ciz();
   document.body.dataset.hazir = "1";
 }

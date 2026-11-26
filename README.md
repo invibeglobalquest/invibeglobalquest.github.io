@@ -13,6 +13,8 @@ Lider linkleri ve QR kodları yönetici panelinde **Linkler** sekmesinde. Etkinl
 ## Baskı paketi (`baski.html`)
 A4, 76 sayfa; bölüm bölüm seçilip yazdırılır (Yazdır penceresi: kenar boşluğu «Yok», arka plan grafikleri açık, üstbilgi/altbilgi kapalı).
 
+**Düzen:** varsayılan **zarf zarf**: her takıma bir zarf (4 sayfa: kesilip zarfa yapıştırılacak etiket + içindekiler, yol görevi fotoğrafı, şifre kartı, baharat listesi, alışveriş listesi, Gülhane kartı, takım kartı) ve bir **yönetici zarfı** (44 sayfa: içindekiler listesi, afiş, sunucu ve final metni, ardından rota sırasıyla her noktanın görevlisine verilecekler: görevli kartı, puan çizelgesi, o noktanın kartları ve kâğıt ödülleri; en sonda yol görevi ödülü harita parçaları). Her sayfanın sağ altında hangi zarfa ait olduğu yazar (✉ 1 … ✉ Yönetici). Eski «bölüm bölüm» düzeni de seçilebilir (`baski.html?duzen=bolum`).
+
 **Dil:** üstteki seçimle iki set var. **Rusça + Türkçe** organizatörün anlaması için; **Sadece Rusça** oyunculara ve görevlilere basılacak set (`baski.html?dil=ru`). Rusça sette Türkçe yalnızca oyunun kendisi olan yerlerde kalır: tekerlemeler (Kiril okunuşu ve Rusça anlamıyla), atasözlerinin aslı ve baharatçıya söylenecek baharat adları.
 
 | Bölüm | Adet | Kime |
