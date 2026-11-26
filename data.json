@@ -30,7 +30,7 @@
   "istasyonlar": {
     "amfi": {
       "emoji": "📜",
-      "lat": 41.00861, "lng": 28.97472,
+      "lat": 41.0076176, "lng": 28.9752537,
       "baslik": { "ru": "Мудрость старого Стамбула", "tr": "Eski İstanbul'un Bilgeliği" },
       "yer": { "ru": "Амфитеатр недалеко от цистерны", "tr": "Sarnıç yakınındaki amfitiyatro" },
       "hikaye": {

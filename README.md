@@ -113,7 +113,7 @@ Depo → **Settings → Pages → Deploy from a branch → main / (root)**. `mai
 
 ## Etkinlik öncesi kontrol listesi
 - [x] **PIN değiştirildi** (güvenli mod; PIN Firebase'de).
-- [x] **Konumlar kesinleşti (26 Kasım).** Organizatörün Google Maps linklerinden: Sarnıç, Gülhane noktası, Dikilitaş, Palude, Kuşbakışı Sultanahmet (Hanımın Oyunu), dondurmacı, simitçi, baharatçı, çantacı; Arasta Çarşısı Google'ın çarşı noktasından. Yalnızca **amfitiyatro** (Eski İstanbul'un Bilgeliği) PDF'teki tarife göre girildi — yerinde kontrol edin.
+- [x] **Konumlar kesinleşti (26 Kasım).** Organizatörün Google Maps linklerinden: Sarnıç, amfitiyatro alanı, Gülhane noktası, Dikilitaş, Palude, Kuşbakışı Sultanahmet (Hanımın Oyunu), dondurmacı, simitçi, baharatçı, çantacı; Arasta Çarşısı Google'ın çarşı noktasından. Amfitiyatro alanı da organizatörün linkinden — bütün noktalar kesin.
   **Düzeltme:** Yönetici paneli → **Ayarlar** → noktanın yanında durup **📍 Bulunduğum yer** → **Kaydet**; ya da koordinat / Google Maps bağlantısı yapıştırın; ya da "Noktaları haritada sürükle"yi açıp işareti taşıyın. Takımlar yeni konumu otomatik alır.
 - [ ] **Linkler** sekmesinden QR kodlarını yazdırın; her lidere yalnızca kendi kartını verin. Ortak linki herkese gönderin.
 - [ ] Bir telefonla bir takımı baştan sona deneyin, sonra panelden **Takımı sıfırla** (veya Ayarlar → tüm verileri sil).
