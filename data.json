@@ -3,6 +3,7 @@
     "ad": { "ru": "Проклятье 1001 колонны", "tr": "1001 Direğin Laneti" },
     "alt": { "ru": "Квест для 10 команд · Султанахмет", "tr": "10 takımlık quest · Sultanahmet" },
     "nokta_dk": 15,
+    "slot_bekle": true,
     "senkron_url": "https://questistanbul-e7942-default-rtdb.europe-west1.firebasedatabase.app",
     "site_url": "https://invibeglobalquest.github.io/",
     "firebase_api_key": "AIzaSyDmNpAMlFohCDmOWEWzY1x7nVHyFlISKPg",
@@ -309,15 +310,15 @@
   },
 
   "rotalar": {
-    "1":  ["amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "oyun"],
-    "2":  ["gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "amfi", "oyun"],
-    "3":  ["dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "amfi", "gulhane", "oyun"],
-    "4":  ["simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "amfi", "gulhane", "dondurma", "oyun"],
-    "5":  ["baharat", "canta", "pazar", "dikilitas", "ziyafet", "amfi", "gulhane", "dondurma", "simit", "oyun"],
-    "6":  ["canta", "pazar", "dikilitas", "ziyafet", "amfi", "gulhane", "dondurma", "simit", "baharat", "oyun"],
-    "7":  ["pazar", "dikilitas", "ziyafet", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "oyun"],
-    "8":  ["dikilitas", "ziyafet", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "oyun"],
-    "9":  ["ziyafet", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "oyun"],
-    "10": ["ziyafet", "dikilitas", "pazar", "canta", "baharat", "simit", "dondurma", "gulhane", "amfi", "oyun"]
+    "1":  ["amfi", "gulhane", "dondurma", "pazar", "ziyafet", "baharat", "dikilitas", "canta", "simit", "oyun"],
+    "2":  ["gulhane", "dondurma", "pazar", "ziyafet", "baharat", "dikilitas", "canta", "simit", "oyun", "amfi"],
+    "3":  ["dondurma", "pazar", "ziyafet", "baharat", "dikilitas", "canta", "simit", "oyun", "amfi", "gulhane"],
+    "4":  ["pazar", "ziyafet", "baharat", "dikilitas", "canta", "simit", "oyun", "amfi", "gulhane", "dondurma"],
+    "5":  ["ziyafet", "baharat", "dikilitas", "canta", "simit", "oyun", "amfi", "gulhane", "dondurma", "pazar"],
+    "6":  ["baharat", "dikilitas", "canta", "simit", "oyun", "amfi", "gulhane", "dondurma", "pazar", "ziyafet"],
+    "7":  ["dikilitas", "canta", "simit", "oyun", "amfi", "gulhane", "dondurma", "pazar", "ziyafet", "baharat"],
+    "8":  ["canta", "simit", "oyun", "amfi", "gulhane", "dondurma", "pazar", "ziyafet", "baharat", "dikilitas"],
+    "9":  ["simit", "oyun", "amfi", "gulhane", "dondurma", "pazar", "ziyafet", "baharat", "dikilitas", "canta"],
+    "10": ["oyun", "amfi", "gulhane", "dondurma", "pazar", "ziyafet", "baharat", "dikilitas", "canta", "simit"]
   }
 }

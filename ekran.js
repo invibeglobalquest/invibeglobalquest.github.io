@@ -38,6 +38,7 @@ function siraCiz() {
     switch (s.d.faz) {
       case "baslamadi": return t("dBaslamadi");
       case "yol": return ikon("ok") + " " + esc(TL(ist.baslik));
+      case "bekle": return ikon("saat") + " " + esc(TL(ist.baslik));
       case "gorev": return noktaIkon(s.d.id) + " " + esc(TL(ist.baslik));
       case "final": return ikon("sarnic") + " " + esc(t("dFinal"));
       default: return ikon("bayrak") + " " + esc(t("dBitti")) + " · " + sureYaz(s.d.toplam);

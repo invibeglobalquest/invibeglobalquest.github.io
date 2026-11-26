@@ -1,6 +1,6 @@
 // Ortak kod: veri, dil, sunucu (Firebase Realtime Database REST), zaman, fotoğraf
 "use strict";
-const UYGULAMA_SURUM = "24.11j";
+const UYGULAMA_SURUM = "24.11k";
 
 let VERI = null;
 let DIL = ilkDil();
@@ -28,7 +28,9 @@ const METIN = {
     basla: "Начать квест", degistir: "Сменить команду",
     degistirOnay: "Сменить команду? Прогресс на этом телефоне будет удалён.",
     devamOnay: "Команда {n} уже начала квест на другом телефоне. Продолжить с того же места?",
-    fazYol: "В пути", fazGorev: "Задание", fazFinal: "К финалу", fazBitti: "Финиш",
+    fazYol: "В пути", fazGorev: "Задание", fazFinal: "К финалу", fazBitti: "Финиш", fazBekle: "Ожидание",
+    bekleBaslik: "Вы справились раньше времени!", bekleAcik: "Следующая точка сейчас занята другой командой. Время выхода: {s}. Пока можно выполнить задания в пути (бонус).",
+    yolaCik: "Пора выходить к следующей точке!", dBekle: "Ждёт выхода: {x}",
     toplam: "Всего", nokta: "Точка", konumaGit: "Как дойти", hikaye: "Легенда", gorevB: "Задание",
     artefakt: "Артефакт", kosul: "Условие",
     adimFoto: "Когда придёте, сфотографируйте точку — это отметка о прибытии.",
@@ -101,7 +103,9 @@ const METIN = {
     basla: "Questi başlat", degistir: "Takımı değiştir",
     degistirOnay: "Takımı değiştirmek istiyor musunuz? Bu telefondaki ilerleme silinir.",
     devamOnay: "Takım {n} questi başka bir telefonda başlatmış. Kaldığı yerden devam edilsin mi?",
-    fazYol: "Yolda", fazGorev: "Görev", fazFinal: "Finale", fazBitti: "Bitti",
+    fazYol: "Yolda", fazGorev: "Görev", fazFinal: "Finale", fazBitti: "Bitti", fazBekle: "Bekleme",
+    bekleBaslik: "Erken bitirdiniz!", bekleAcik: "Sıradaki nokta şu an başka bir takımda. Yola çıkma saatiniz: {s}. Bu arada yol görevlerini (bonus) yapabilirsiniz.",
+    yolaCik: "Sıradaki noktaya yola çıkma zamanı!", dBekle: "Yola çıkmayı bekliyor: {x}",
     toplam: "Toplam", nokta: "Nokta", konumaGit: "Konuma git", hikaye: "Hikâye", gorevB: "Görev",
     artefakt: "Artefakt", kosul: "Koşul",
     adimFoto: "Noktaya varınca fotoğrafını çekin — bu varış kaydınızdır.",
@@ -518,6 +522,7 @@ function planDilim(baslangic, i) {
 }
 
 // Bir takımın anlık durumu (takım ekranı ve yönetici aynı hesabı kullanır)
+function slotBekle() { return !(VERI && VERI.etkinlik && VERI.etkinlik.slot_bekle === false); }
 function durumHesapla(k, rota, simdi = Date.now()) {
   if (!k || !k.baslangic) return { faz: "baslamadi", tamam: 0 };
   const ad = k.adimlar || {};
@@ -525,6 +530,14 @@ function durumHesapla(k, rota, simdi = Date.now()) {
   for (let i = 0; i < rota.length; i++) {
     const a = ad[rota[i]] || {};
     if (!a.bitis) {
+      // Erken biten takım sıradaki noktaya plan saatinden önce gitmez: o nokta o saate kadar başka
+      // takımda (rotalar her dilimde 10 takımı 10 ayrı noktaya koyar). Süresi plan saatinde başlar.
+      const plan = k.baslangic + i * noktaMs();
+      if (slotBekle() && onceki < plan) {
+        if (!a.varis && simdi < plan) return { faz: "bekle", i, id: rota[i], bas: onceki, plan, limit: plan - onceki, kalan: plan - simdi, tamam: i };
+        const bas = a.varis && a.varis < plan ? a.varis : plan;
+        return { faz: a.varis ? "gorev" : "yol", i, id: rota[i], bas, limit: noktaMs(), kalan: noktaMs() - (simdi - bas), tamam: i };
+      }
       return { faz: a.varis ? "gorev" : "yol", i, id: rota[i], bas: onceki, limit: noktaMs(), kalan: noktaMs() - (simdi - onceki), tamam: i };
     }
     onceki = a.bitis;

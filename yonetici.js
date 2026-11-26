@@ -165,6 +165,7 @@ function durumMetni(n, d, html) {
     switch (d.faz) {
       case "baslamadi": return esc(t("dBaslamadi"));
       case "yol": return ikon("ok") + " " + esc(t("dYol", { x: ad(d.id) }));
+      case "bekle": return ikon("saat") + " " + esc(t("dBekle", { x: ad(d.id) }));
       case "gorev": return noktaIkon(d.id) + " " + esc(t("dGorev", { x: ad(d.id) }));
       case "final": return ikon("sarnic") + " " + esc(t("dFinal"));
       default: return ikon("bayrak") + " " + esc(t("dBitti"));
@@ -173,6 +174,7 @@ function durumMetni(n, d, html) {
   switch (d.faz) {
     case "baslamadi": return t("dBaslamadi");
     case "yol": return t("dYol", { x: ad(d.id) });
+    case "bekle": return t("dBekle", { x: ad(d.id) });
     case "gorev": return t("dGorev", { x: ad(d.id) });
     case "final": return t("dFinal");
     default: return t("dBitti");
@@ -189,7 +191,7 @@ function kartlarCiz() {
     else if (d.faz === "bitti") sinif += " bitti";
     else if (d.kalan < 0) sinif += " gec";
     let sayac = "";
-    if (d.faz === "yol" || d.faz === "gorev" || d.faz === "final") sayac = '<span class="t-sayac' + (d.kalan < 0 ? " gec" : d.kalan < 120000 ? " az" : "") + '">' + sureYaz(d.kalan) + "</span>";
+    if (d.faz === "yol" || d.faz === "gorev" || d.faz === "final" || d.faz === "bekle") sayac = '<span class="t-sayac' + (d.kalan < 0 ? " gec" : d.kalan < 120000 ? " az" : "") + '">' + sureYaz(d.kalan) + "</span>";
     else if (d.faz === "bitti") sayac = '<span class="t-sayac">' + sureYaz(d.toplam) + "</span>";
     const gps = k.konum && k.konum.ts ? "📍 " + onceYaz(k.konum.ts, simdi) : "";
     h += '<button type="button" class="' + sinif + '" data-takim="' + esc(n) + '" style="--renk:' + renk(n) + '">' +

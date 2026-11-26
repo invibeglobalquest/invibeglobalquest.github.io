@@ -342,6 +342,7 @@ function oyunCiz() {
       '<h2 class="nokta-baslik"><span class="emoji">' + noktaIkon(id) + "</span> " + (d.i + 1) + ". " + esc(TL(n.baslik)) + "</h2>" +
       '<p class="yer">' + ikon("konum") + " " + esc(TL(n.yer)) + '<span id="kartMesafe" class="mesafe"></span></p>' +
       '<p class="plan">' + ikon("saat") + " " + esc(t("plan")) + " " + saat(pb) + "–" + saat(ps) + "</p>" +
+      (d.faz === "bekle" ? '<div class="bekle-not" role="status">' + ikon("saat") + "<div><b>" + esc(t("bekleBaslik")) + "</b><p>" + esc(t("bekleAcik", { s: saat(d.plan) })) + "</p></div></div>" : "") +
       noktaDetayHTML(id);
     // Adım 1: noktanın fotoğrafı (varış) · Adım 2: ödülle takım fotoğrafı (görev tamamlandı)
     const foto1 = kucukler[id] ? '<img class="foto-kucuk" data-foto="' + esc(id) + '" src="' + kucukler[id] + '" alt="">' : "";
@@ -755,6 +756,16 @@ function bip() {
     });
   } catch (e) {}
 }
+function yolaCikUyar() {
+  if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+  bip();
+  let u = $("sureUyari");
+  if (!u) { u = document.createElement("div"); u.id = "sureUyari"; u.className = "sure-uyari"; u.setAttribute("role", "alert"); document.body.appendChild(u); }
+  u.innerHTML = ikon("ok") + "<span>" + esc(t("yolaCik")) + "</span>";
+  u.classList.add("acik");
+  u.onclick = () => u.classList.remove("acik");
+  setTimeout(() => u.classList.remove("acik"), 8000);
+}
 function sureDolduUyar() {
   if (navigator.vibrate) navigator.vibrate([300, 150, 300, 150, 300]);
   bip();
@@ -781,9 +792,9 @@ function tik() {
     return;
   }
   $("ustToplam").textContent = sureYaz(simdi - durum.baslangic);
-  const etiket = d.faz === "yol" ? t("fazYol") : d.faz === "gorev" ? t("fazGorev") : t("fazFinal");
+  const etiket = d.faz === "yol" ? t("fazYol") : d.faz === "gorev" ? t("fazGorev") : d.faz === "bekle" ? t("fazBekle") : t("fazFinal");
   const metin = sureYaz(d.kalan);
-  faz.textContent = etiket + " · " + noktaDk() + " " + t("dk");
+  faz.textContent = d.faz === "bekle" ? etiket : etiket + " · " + noktaDk() + " " + t("dk");
   sayac.textContent = metin;
   const sinif = d.kalan < 0 ? "gec" : d.kalan < 120000 ? "az" : "";
   sayac.className = sinif;
@@ -792,6 +803,8 @@ function tik() {
   if (ks) { ks.textContent = d.kalan < 0 ? metin + " " + t("gecikme") : metin; ks.className = "kart-sayac " + sinif; }
   // süre dolduğu an titreşim
   const anahtar = d.faz + d.i;
+  // bekleme bitti → "yola çıkın" uyarısı ve kartı yenile
+  if (sonFaz === "bekle" + d.i && d.faz === "yol") { yolaCikUyar(); sonFaz = anahtar; if (!$("oyun").classList.contains("gizli")) yerindeCiz(); }
   if (d.kalan < 0 && sonFaz === anahtar + "+") { /* zaten bildirildi */ }
   else if (d.kalan < 0 && sonFaz === anahtar) { sureDolduUyar(); sonFaz = anahtar + "+"; }
   else if (d.kalan >= 0) sonFaz = anahtar;
