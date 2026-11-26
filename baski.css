@@ -196,3 +196,4 @@ p { margin: 0 0 2mm; }
 .metin .tr-b p { font-size: 9.5pt; color: var(--soluk); margin-bottom: 1.6mm; }
 .metin .sahne { font-style: italic; color: var(--soluk); }
 .alt-not { position: absolute; left: 12mm; right: 12mm; bottom: 6mm; font-size: 7.5pt; color: #9c9282; display: flex; justify-content: space-between; }
+.gk-iki.tek { grid-template-columns: 1fr; }

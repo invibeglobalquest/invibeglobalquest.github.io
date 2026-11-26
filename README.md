@@ -13,6 +13,8 @@ Lider linkleri ve QR kodları yönetici panelinde **Linkler** sekmesinde. Etkinl
 ## Baskı paketi (`baski.html`)
 A4, 76 sayfa; bölüm bölüm seçilip yazdırılır (Yazdır penceresi: kenar boşluğu «Yok», arka plan grafikleri açık, üstbilgi/altbilgi kapalı).
 
+**Dil:** üstteki seçimle iki set var. **Rusça + Türkçe** organizatörün anlaması için; **Sadece Rusça** oyunculara ve görevlilere basılacak set (`baski.html?dil=ru`). Rusça sette Türkçe yalnızca oyunun kendisi olan yerlerde kalır: tekerlemeler (Kiril okunuşu ve Rusça anlamıyla), atasözlerinin aslı ve baharatçıya söylenecek baharat adları.
+
 | Bölüm | Adet | Kime |
 |---|---|---|
 | Ortak link afişi | 1 | Toplanma yeri |
