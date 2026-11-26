@@ -1,6 +1,6 @@
 // Ortak kod: veri, dil, sunucu (Firebase Realtime Database REST), zaman, fotoğraf
 "use strict";
-const UYGULAMA_SURUM = "24.11k";
+const UYGULAMA_SURUM = "24.11l";
 
 let VERI = null;
 let DIL = ilkDil();
@@ -43,7 +43,7 @@ const METIN = {
     artefaktAldik: "Мы получили артефакт: {a}", tamamlandi: "Выполнено · {s}", plan: "План",
     tumNoktalar: "Все точки маршрута", yolGorevleri: "Задания в пути (бонус)",
     yolGorevAcik: "Можно выполнить в любой момент квеста.", fotoEkle: "Добавить фото", fotoSayisi: "Фото: {n}",
-    finalBaslik: "Все точки пройдены!", finaleVardik: "Мы в цистерне",
+    finalBaslik: "Все точки пройдены!", finaleVardik: "Мы в цистерне", bitisteSiniz: "Ваша последняя точка была в цистерне — вы уже на финише.",
     bitti: "Квест завершён!", toplamSure: "Общее время", artefaktlar: "Артефакты", puan: "Баллы",
     snkTamam: "сохранено", snkBekliyor: "отправка… ({n})", snkYok: "только на телефоне",
     sureDoldu: "Время вышло!", uzak: "{m} м от точки",
@@ -118,7 +118,7 @@ const METIN = {
     artefaktAldik: "Artefaktı aldık: {a}", tamamlandi: "Tamamlandı · {s}", plan: "Plan",
     tumNoktalar: "Rotadaki tüm noktalar", yolGorevleri: "Yol görevleri (bonus)",
     yolGorevAcik: "Quest boyunca istediğiniz an yapabilirsiniz.", fotoEkle: "Fotoğraf ekle", fotoSayisi: "{n} fotoğraf",
-    finalBaslik: "Tüm noktalar tamam!", finaleVardik: "Sarnıca vardık",
+    finalBaslik: "Tüm noktalar tamam!", finaleVardik: "Sarnıca vardık", bitisteSiniz: "Son noktanız Sarnıç'taydı; zaten bitiş noktasındasınız.",
     bitti: "Quest tamamlandı!", toplamSure: "Toplam süre", artefaktlar: "Artefaktlar", puan: "Puan",
     snkTamam: "kaydedildi", snkBekliyor: "gönderiliyor… ({n})", snkYok: "yalnızca bu telefonda",
     sureDoldu: "Süre doldu!", uzak: "noktaya {m} m",

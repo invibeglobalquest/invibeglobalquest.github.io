@@ -326,13 +326,16 @@ function oyunCiz() {
   const hOnce = h;
   h = "";
   if (d.faz === "final") {
-    const b = VERI.baslangic;
+    const b = VERI.baslangic, son = nokta(r[r.length - 1]);
+    // son noktası bitişle aynı yerde olan takım (ör. Hanımın Oyunu → Sarnıç) yürümez
+    const bitiste = !!son && mesafe(son, b) < 80;
     h += '<div class="kart aktif-kart final-kart" id="aktifKart">' +
       '<div class="kart-ust"><span class="rozet">' + r.length + "/" + r.length + '</span><span class="faz-etiket" id="kartFaz"></span><span class="kart-sayac" id="kartSayac"></span></div>' +
       '<h2 class="nokta-baslik"><span class="emoji">' + ikon("sarnic") + "</span> " + esc(t("finalBaslik")) + "</h2>" +
       '<p class="yer">' + ikon("konum") + " " + esc(TL(b.ad)) + '<span id="kartMesafe" class="mesafe"></span></p>' +
       "<p>" + esc(TL(VERI.final)) + "</p>" +
-      '<a class="btn harita" target="_blank" rel="noopener" href="' + haritaLink(b.lat, b.lng) + '">' + etiketli("konum", t("konumaGit")) + "</a>" +
+      (bitiste ? '<div class="bekle-not" role="status">' + ikon("bayrak") + "<div><b>" + esc(t("bitisteSiniz")) + "</b></div></div>"
+        : '<a class="btn harita" target="_blank" rel="noopener" href="' + haritaLink(b.lat, b.lng) + '">' + etiketli("konum", t("konumaGit")) + "</a>") +
       (lider() ? '<button type="button" class="btn ana" id="finalBtn">' + etiketli("bayrak", t("finaleVardik")) + "</button>" : "") + "</div>";
   } else {
     const id = d.id, n = VERI.istasyonlar[id], a = (durum.adimlar || {})[id] || {};
