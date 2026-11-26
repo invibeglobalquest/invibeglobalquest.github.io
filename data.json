@@ -23,8 +23,8 @@
   "baslangic": {
     "id": "sarnic",
     "ad": { "ru": "Цистерна 1001 колонны (Binbirdirek)", "tr": "Binbirdirek Sarnıcı" },
-    "lat": 41.00757,
-    "lng": 28.97433
+    "lat": 41.0075421,
+    "lng": 28.974461
   },
 
   "istasyonlar": {
@@ -55,7 +55,7 @@
 
     "gulhane": {
       "emoji": "🌳",
-      "lat": 41.01270, "lng": 28.98040,
+      "lat": 41.0117649, "lng": 28.9793671,
       "baslik": { "ru": "Последнее воспоминание", "tr": "Son Hatıra" },
       "yer": { "ru": "Парк Гюльхане", "tr": "Gülhane Parkı" },
       "hikaye": {
@@ -201,7 +201,7 @@
 
     "dikilitas": {
       "emoji": "🗿",
-      "lat": 41.00575, "lng": 28.97520,
+      "lat": 41.0058986, "lng": 28.9753726,
       "baslik": { "ru": "Послание из прошлого", "tr": "Geçmişten Mesaj" },
       "yer": { "ru": "Египетский обелиск (Ипподром)", "tr": "Dikilitaş (Sultanahmet Meydanı)" },
       "hikaye": {
@@ -226,8 +226,7 @@
 
     "ziyafet": {
       "emoji": "🍽️",
-      "lat": 41.00660, "lng": 28.97380,
-      "dogrula": true,
+      "lat": 41.0046457, "lng": 28.9794846,
       "baslik": { "ru": "Последний пир Гевхерли", "tr": "Gevherli'nin Son Ziyafeti" },
       "yer": { "ru": "Ресторан Palude", "tr": "Palude Restoran" },
       "hikaye": {
@@ -252,7 +251,7 @@
 
     "oyun": {
       "emoji": "⏳",
-      "lat": 41.00757, "lng": 28.97433,
+      "lat": 41.0075421, "lng": 28.974461,
       "dogrula": true,
       "baslik": { "ru": "Игра хозяйки", "tr": "Hanımın Oyunu" },
       "yer": { "ru": "Цистерна или кафе «Каппадокия»", "tr": "Sarnıç veya Kapadokya Kafe" },

@@ -113,8 +113,7 @@ Depo → **Settings → Pages → Deploy from a branch → main / (root)**. `mai
 
 ## Etkinlik öncesi kontrol listesi
 - [x] **PIN değiştirildi** (güvenli mod; PIN Firebase'de).
-- [ ] **Konumları doğrulayın.** Haritada kesikli çerçeveli iki nokta internette bulunamadığı için yaklaşık girildi:
-  - «Последний пир» — **Palude restoranı** (şimdilik Atmeydanı civarı)
+- [ ] **Konumları doğrulayın.** Organizatörün Google Maps linkleriyle kesinleşenler: Binbirdirek Sarnıcı, Gülhane Parkı noktası, Theodosius Dikilitaşı, **Palude** (26 Kasım). Hâlâ belirsiz (haritada kesikli çerçeveli):
   - «Игра хозяйки» — **Sarnıç veya Kapadokya Kafe** (şimdilik Sarnıç)
   
   Diğer noktalar da (dondurmacı, simitçi, baharatçı, çantacı, çarşı) tahmini: gerçek dükkânlar farklı olabilir.
