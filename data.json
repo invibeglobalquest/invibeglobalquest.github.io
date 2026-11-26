@@ -80,7 +80,7 @@
 
     "dondurma": {
       "emoji": "🍦",
-      "lat": 41.00800, "lng": 28.97600,
+      "lat": 41.0067819, "lng": 28.9766967,
       "baslik": { "ru": "Украденное украшение", "tr": "Çalınan Mücevher" },
       "yer": { "ru": "Мороженщик", "tr": "Dondurmacı" },
       "hikaye": {
@@ -105,7 +105,7 @@
 
     "simit": {
       "emoji": "🥯",
-      "lat": 41.00700, "lng": 28.97650,
+      "lat": 41.0094941, "lng": 28.9710103,
       "baslik": { "ru": "Язык Гевхерли", "tr": "Gevherli'nin Dili" },
       "yer": { "ru": "Продавец симитов", "tr": "Simitçi" },
       "hikaye": {
@@ -128,7 +128,7 @@
 
     "baharat": {
       "emoji": "🌶️",
-      "lat": 41.00445, "lng": 28.97700,
+      "lat": 41.0048449, "lng": 28.9777426,
       "baslik": { "ru": "Последний рецепт Гевхерли", "tr": "Gevherli'nin Son Tarifi" },
       "yer": { "ru": "Лавка специй", "tr": "Baharatçı" },
       "hikaye": {
@@ -151,7 +151,7 @@
 
     "canta": {
       "emoji": "👜",
-      "lat": 41.00415, "lng": 28.97735,
+      "lat": 41.0053349, "lng": 28.9734759,
       "baslik": { "ru": "Сумка с тайной", "tr": "Sırlı Çanta" },
       "yer": { "ru": "Лавка продавца сумок", "tr": "Çantacı dükkânı" },
       "hikaye": {
@@ -176,9 +176,9 @@
 
     "pazar": {
       "emoji": "🧿",
-      "lat": 41.00390, "lng": 28.97765,
+      "lat": 41.0053286, "lng": 28.9782023,
       "baslik": { "ru": "Торг с судьбой", "tr": "Kaderle Pazarlık" },
-      "yer": { "ru": "Небольшой рынок рядом с площадью Султанахмет", "tr": "Sultanahmet Meydanı yanındaki küçük çarşı" },
+      "yer": { "ru": "Базар Араста (Arasta Çarşısı)", "tr": "Arasta Çarşısı" },
       "hikaye": {
         "ru": "Чтобы успокоить дух, нужно собрать пять небольших, но важных предметов-символов. Денег и времени мало — без умения договариваться с торговцами не обойтись.",
         "tr": "Ruhu yatıştırmak için beş küçük ama önemli sembol eşya toplanmalı. Para ve zaman kısıtlı — esnafla pazarlık etmeden olmaz."
@@ -251,10 +251,9 @@
 
     "oyun": {
       "emoji": "⏳",
-      "lat": 41.0075421, "lng": 28.974461,
-      "dogrula": true,
+      "lat": 41.0055820, "lng": 28.9765358,
       "baslik": { "ru": "Игра хозяйки", "tr": "Hanımın Oyunu" },
-      "yer": { "ru": "Цистерна или кафе «Каппадокия»", "tr": "Sarnıç veya Kapadokya Kafe" },
+      "yer": { "ru": "Kuşbakışı Sultanahmet (Кушбакышы)", "tr": "Kuşbakışı Sultanahmet" },
       "hikaye": {
         "ru": "Гевхерли обожала игры: ни один гость не покидал её дом, не сыграв хотя бы в одну. Серебряную шкатулку с её символом откроет лишь тот, кто пройдёт испытание хозяйки.",
         "tr": "Gevherli oyunlara bayılırdı; hiçbir misafir en az bir oyun oynamadan evinden ayrılamazdı. Üzerinde onun simgesi olan gümüş kutuyu yalnızca hanımın sınavını geçen açabilir."
