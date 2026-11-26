@@ -251,9 +251,9 @@
 
     "oyun": {
       "emoji": "⏳",
-      "lat": 41.0055820, "lng": 28.9765358,
+      "lat": 41.0075421, "lng": 28.974461,
       "baslik": { "ru": "Игра хозяйки", "tr": "Hanımın Oyunu" },
-      "yer": { "ru": "Kuşbakışı Sultanahmet (Кушбакышы)", "tr": "Kuşbakışı Sultanahmet" },
+      "yer": { "ru": "Цистерна 1001 колонны (Binbirdirek)", "tr": "Binbirdirek Sarnıcı" },
       "hikaye": {
         "ru": "Гевхерли обожала игры: ни один гость не покидал её дом, не сыграв хотя бы в одну. Серебряную шкатулку с её символом откроет лишь тот, кто пройдёт испытание хозяйки.",
         "tr": "Gevherli oyunlara bayılırdı; hiçbir misafir en az bir oyun oynamadan evinden ayrılamazdı. Üzerinde onun simgesi olan gümüş kutuyu yalnızca hanımın sınavını geçen açabilir."
@@ -288,6 +288,8 @@
     },
     "kubbe": {
       "emoji": "🕌",
+      "lat": 41.0055820, "lng": 28.9765358,
+      "yer": { "ru": "Kuşbakışı Sultanahmet (Кушбакышы)", "tr": "Kuşbakışı Sultanahmet" },
       "baslik": { "ru": "Взгляд сверху", "tr": "Yukarıdan Bakış" },
       "aciklama": {
         "ru": "Сфотографируйте Голубую мечеть с высоты птичьего полёта — с высокой точки, террасы или необычного ракурса.",
@@ -308,14 +310,14 @@
 
   "rotalar": {
     "1":  ["amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "oyun"],
-    "2":  ["gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "oyun", "amfi"],
-    "3":  ["dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "oyun", "amfi", "gulhane"],
-    "4":  ["simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "oyun", "amfi", "gulhane", "dondurma"],
-    "5":  ["baharat", "canta", "pazar", "dikilitas", "ziyafet", "oyun", "amfi", "gulhane", "dondurma", "simit"],
-    "6":  ["canta", "pazar", "dikilitas", "ziyafet", "oyun", "amfi", "gulhane", "dondurma", "simit", "baharat"],
-    "7":  ["pazar", "dikilitas", "ziyafet", "oyun", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta"],
-    "8":  ["dikilitas", "ziyafet", "oyun", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar"],
-    "9":  ["ziyafet", "oyun", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas"],
-    "10": ["oyun", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet"]
+    "2":  ["gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "amfi", "oyun"],
+    "3":  ["dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "amfi", "gulhane", "oyun"],
+    "4":  ["simit", "baharat", "canta", "pazar", "dikilitas", "ziyafet", "amfi", "gulhane", "dondurma", "oyun"],
+    "5":  ["baharat", "canta", "pazar", "dikilitas", "ziyafet", "amfi", "gulhane", "dondurma", "simit", "oyun"],
+    "6":  ["canta", "pazar", "dikilitas", "ziyafet", "amfi", "gulhane", "dondurma", "simit", "baharat", "oyun"],
+    "7":  ["pazar", "dikilitas", "ziyafet", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "oyun"],
+    "8":  ["dikilitas", "ziyafet", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "oyun"],
+    "9":  ["ziyafet", "amfi", "gulhane", "dondurma", "simit", "baharat", "canta", "pazar", "dikilitas", "oyun"],
+    "10": ["ziyafet", "dikilitas", "pazar", "canta", "baharat", "simit", "dondurma", "gulhane", "amfi", "oyun"]
   }
 }

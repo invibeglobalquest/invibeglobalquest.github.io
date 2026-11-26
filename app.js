@@ -402,8 +402,13 @@ function bonusHTML() {
   for (const bid in VERI.yol_gorevleri) {
     const g = VERI.yol_gorevleri[bid];
     const ts = Object.keys((durum.bonus || {})[bid] || {}).sort();
-    h += '<div class="kart bonus-kart"><h3>' + noktaIkon(bid) + " " + esc(TL(g.baslik)) + "</h3><p>" + esc(TL(g.aciklama)) + "</p>" +
-      '<div class="artefakt-kutu kucuk">' + ikon("yildiz") + "<span>" + esc(TL(g.artefakt)) + "</span></div>";
+    h += '<div class="kart bonus-kart"><h3>' + noktaIkon(bid) + " " + esc(TL(g.baslik)) + "</h3><p>" + esc(TL(g.aciklama)) + "</p>";
+    // belirli bir yeri olan yol görevi (ör. Yukarıdan Bakış → Kuşbakışı Sultanahmet)
+    if (isFinite(g.lat) && isFinite(g.lng)) {
+      if (g.yer) h += '<p class="yer">' + ikon("konum") + " " + esc(TL(g.yer)) + "</p>";
+      h += '<a class="btn harita" target="_blank" rel="noopener" href="' + haritaLink(g.lat, g.lng) + '">' + etiketli("konum", t("konumaGit")) + "</a>";
+    }
+    h += '<div class="artefakt-kutu kucuk">' + ikon("yildiz") + "<span>" + esc(TL(g.artefakt)) + "</span></div>";
     if (ts.length) {
       h += '<div class="foto-izgara">';
       ts.forEach((x) => {

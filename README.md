@@ -138,7 +138,7 @@ Depo → **Settings → Pages → Deploy from a branch → main / (root)**. `mai
 Her takımın 6 haneli kodu Firebase'de (`gizli/kodlar` + takım hesabının şifresi); panel → Linkler'de görünür. Kod değişirse o takımın eski lider linki/QR'ı çalışmaz; yeni kartı yazdırın.
 
 ### Rotalar
-`data.json → rotalar`: 10 takımın her biri aynı yürüyüş halkasını **farklı noktadan** başlar (Takım 1 amfitiyatrodan, Takım 2 Gülhane'den…). Böylece aynı anda iki takım aynı noktada olmaz. Sırayı değiştirmek için listeleri düzenleyin (istasyon anahtarlarıyla).
+`data.json → rotalar`: 9 istasyonluk yürüyüş halkasını takımlar **farklı noktadan** başlar (Takım 1 amfitiyatrodan, Takım 2 Gülhane'den…); **Hanımın Oyunu herkes için son nokta** (Binbirdirek Sarnıcı, finalden hemen önce). 10 takım / 9 istasyon olduğu için Takım 10 halkayı ters yönde yürür; her zaman diliminde bir istasyonda iki takım bulunur. Son dilimde 10 takım birlikte Sarnıç'tadır. Bonus «Yukarıdan Bakış» görevinin yeri Kuşbakışı Sultanahmet (kartında «Konuma git»).
 
 ## Sınırlar (bilmeniz gerekenler)
 - Lider kodları ve PIN `data.json`'da açık yazılı (karışıklığı önler, kötü niyete karşı koruma değildir). Veritabanı kuralları da herkese açık: meraklı biri teknik olarak verileri görebilir/değiştirebilir. Etkinlik sonrası Firebase'de kuralları `false` yapın veya projeyi silin.
